@@ -1,6 +1,5 @@
 import mongoose, { Model } from "mongoose";
 import type { ProductProps } from "@/types/ProductProps";
-// Schema Products
 const { Schema } = mongoose;
 interface ProductModelProps extends Model<ProductProps> {}
 
