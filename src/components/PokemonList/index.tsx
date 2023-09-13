@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 type PokemonsProps = {
   name: string;
-  url?: string;
+  url: string;
 };
 
 type PokemonListProps = {
@@ -17,9 +17,7 @@ type ApiResponse = {
 };
 
 const PokemonList = ({ pokemonsList }: PokemonListProps) => {
-  const [showStats, setShowStats] = useState<boolean[]>(
-    Array(pokemonsList.length).fill(false)
-  );
+  const [showStats, setShowStats] = useState<boolean[]>(Array(pokemonsList.length).fill(false));
   const [pokemonsListState, setpokemonsListState] = useState(pokemonsList);
   const [offsetNumber, setOffsetNumber] = useState(0);
 
@@ -30,9 +28,7 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
   };
 
   const getNewPokemons = async () => {
-    const res = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?offset=${offsetNumber}&limit=20`
-    )
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offsetNumber}&limit=20`)
       .then((res) => res.json())
       .then((data: ApiResponse) => data.results);
     if (!res) throw new Error("Failed to Fetch Data!");
@@ -56,11 +52,7 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
               <ChevronRightIcon className="w-6 h-6" />
             </button>
           </div>
-          {showStats[index] && (
-            <PokemonStatistics
-              index={offsetNumber === 0 ? index + 1 : index + 10}
-            />
-          )}
+          {showStats[index] && <PokemonStatistics url={pokemon.url} />}
         </div>
       ))}
       <div className="w-full">

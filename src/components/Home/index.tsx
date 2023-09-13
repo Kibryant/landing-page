@@ -5,7 +5,7 @@ import { Section } from "../Section";
 
 type PokemonsProps = {
   name: string;
-  url?: string;
+  url: string;
 };
 type ApiResponse = {
   results: PokemonsProps[];
@@ -28,6 +28,7 @@ const Home = async () => {
         <Section>
           <PokemonList pokemonsList={pokemons} />
         </Section>
+        <Section>a</Section>
       </main>
       <Footer />
     </>

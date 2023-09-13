@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Pokemon = {
   height: number;
@@ -8,26 +8,38 @@ type Pokemon = {
 };
 
 type PokemonStatisticsProps = {
-  index: number;
+  url: string;
 };
 
-const PokemonStatistics = ({ index }: PokemonStatisticsProps) => {
+const PokemonStatistics = ({ url }: PokemonStatisticsProps) => {
   const [pokemonStatistics, setPokemonStatistics] = useState<Pokemon>({
     height: 0,
     weight: 0
   });
 
+  const handleFetch = useCallback(async () => {
+    // const controller = new AbortController();
+    const req = await fetch(url /*, { signal: controller.signal } */);
+    const res: Pokemon = await req.json();
+    setPokemonStatistics({ height: res.height, weight: res.weight });
+  }, [url]);
+
   useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${index}`)
-      .then((res) => res.json())
-      .then((data: Pokemon) => {
-        console.log(data);
-        setPokemonStatistics({
-          height: data.height,
-          weight: data.weight
-        });
-      });
-  }, [index]);
+    // fetch(`https://pokeapi.co/api/v2/pokemon/${index}`, { signal: controller.signal })
+    //   .then((res) => res.json())
+    //   .then((data: Pokemon) => {
+    //     console.log(data);
+    //     setPokemonStatistics({
+    //       height: data.height,
+    //       weight: data.weight
+    //     });
+    //   });
+    handleFetch();
+    // return () => {
+    // ESSE RETURN SÓ É CHAMADO QUANDO O COMPONENTE É DESMONTANDO!
+    // controller.abort();
+    // };
+  }, [url]);
 
   return (
     <div className="flex flex-col justify-between">
