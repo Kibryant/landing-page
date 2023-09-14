@@ -2,8 +2,7 @@ import Header from "@/components/Header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Landing Page",
-  description: "..."
+  title: "Landing Page | ADM"
 };
 
 export default function AdmLayout({ children }: { children: React.ReactNode }) {

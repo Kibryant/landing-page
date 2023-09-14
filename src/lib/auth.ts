@@ -6,6 +6,7 @@ interface AdmJwtPayload {
   lat: string;
 }
 
+export const fiveHoursInSeconds = 5 * 60 * 60;
 export const getSecretKey: () => string = () => {
   const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -19,6 +20,11 @@ export const verifyAuth = async (token: string) => {
     console.log("oie");
     // console.log(verify(token, getSecretKey(), (err, decoded) => console.log(decoded)));
     const verified = await jose.jwtVerify(token, new TextEncoder().encode(getSecretKey()));
+
+    // if (!!verified.payload.exp && verified.payload.exp < Math.floor(Date.now() / 1000) + fiveHoursInSeconds) {
+    //   console.log("expirou")
+    //   return null;
+    // }
     console.log(verified);
     return verified.payload;
   } catch (error) {

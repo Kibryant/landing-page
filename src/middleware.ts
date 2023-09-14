@@ -3,16 +3,21 @@ import { NextResponse } from "next/server";
 import { verifyAuth } from "./lib/auth";
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("auth-token")?.value;
+  // const token = req.cookies.get("auth-token");
+  const token = req.cookies.get("auth_token")?.value;
+  const url = req.url;
+  // console.log(token);
+  console.log("token::: " + token);
 
   const verifiedToken = !!token && (await verifyAuth(token));
-  console.log("VERIFIED TOKEN: " + verifiedToken);
-
   if (req.nextUrl.pathname.startsWith("/login-adm") && !verifiedToken) {
     return;
   }
+  if (!verifiedToken) {
+    return NextResponse.redirect(new URL("/login-adm", url));
+  }
 
-  const url = req.url;
+  console.log("VERIFIED TOKEN: " + verifiedToken);
 
   // if(!verifiedToken) {
   //   if(req.nextUrl.pathname.startsWith("/api/adm")) {
@@ -24,13 +29,13 @@ export async function middleware(req: NextRequest) {
   //   }
   // }
 
-  if (url.startsWith("/login-adm") && verifiedToken) {
+  if (req.nextUrl.pathname.startsWith("/login-adm") && verifiedToken) {
     return NextResponse.redirect(new URL("/adm", url));
   }
 
-  if (!verifiedToken) {
-    return NextResponse.redirect(new URL("/login-adm", url));
-  }
+  // if (url.startsWith("/adm/products") && !verifiedToken) {
+  //   return NextResponse.redirect(new URL("/login-adm", url));
+  // }
 }
 
 export const config = {

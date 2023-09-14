@@ -36,12 +36,13 @@ export async function POST(req: Request) {
       });
     }
 
-    const MAX_AGE = 60 * 60 * 24 * 30;
+    adm.token = "";
+    const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60;
     // const token = sign({ email }, SECRET_KEY, { expiresIn: MAX_AGE });
     const token = await new jose.SignJWT({})
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
-      .setExpirationTime(MAX_AGE)
+      .setExpirationTime(expirationTime)
       .sign(new TextEncoder().encode(SECRET_KEY));
 
     adm.token = token;
@@ -56,12 +57,19 @@ export async function POST(req: Request) {
     //     error: false,
     //     status: 201
     //   });
-    cookies().set("auth-token", token, { httpOnly: false, expires: MAX_AGE });
-    NextResponse.next().cookies.set({
-      name: "auth-token",
-      value: token,
+    // cookies().set("auth-token", token, { httpOnly: false, expires: MAX_AGE });
+    // NextResponse.next().cookies.set({
+    //   name: "auth-token",
+    //   value: token,
+    //   httpOnly: false,
+    //   maxAge: MAX_AGE
+    // });
+
+    const cookiesValue = NextResponse.next().cookies.set("auth_token", token, {
+      expires: 5 * 60 * 60,
       httpOnly: false,
-      maxAge: MAX_AGE
+      maxAge: 5 * 60 * 60,
+      path: "/"
     });
 
     return NextResponse.json(
@@ -70,7 +78,7 @@ export async function POST(req: Request) {
         error: false,
         status: 201
       },
-      { headers: { "Set-Cookie": `auth-token=${token}` } }
+      { headers: { "Set-Cookie": `${cookiesValue}` } }
     );
   } catch (error) {
     return NextResponse.json({

@@ -30,27 +30,27 @@ const RegisterComponent = () => {
     e.preventDefault();
     setFormSubmitting(true);
     if (form.email.length <= 6) {
-      setMessageErro("Email inválido!");
+      setMessageErro("Invalid Email!");
       return;
     }
 
     if (!form.email.includes("@") || !form.email.includes(".com")) {
-      setMessageErro("Email inválido!");
+      setMessageErro("Invalid Email!");
       return;
     }
 
     if (form.username.length <= 6) {
-      setMessageErro("Usuário deve ter mais de 6 caracteres!");
+      setMessageErro("The user must have more than 6 characters!");
       return;
     }
 
     if (form.password.length <= 5) {
-      setMessageErro("A seenha deve ter mais de 5 caracteres!");
+      setMessageErro("The password must haver more than 5 characters!");
       return;
     }
 
     if (form.password !== form.repeatPassword) {
-      setMessageErro("As senhas devem ser iguais!");
+      setMessageErro("The passwords is not equal!");
       return;
     }
 
