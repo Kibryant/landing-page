@@ -20,14 +20,17 @@ export async function POST(req: Request) {
     if (emailExists)
       return NextResponse.json({
         message: "E-mail already registered. Try again!",
+        error: true,
         status: 409
       });
 
     if (usernameExists)
       return NextResponse.json({
         message: "Username already exits. Try again!",
+        error: true,
         status: 409
       });
+
     const saltOrRounds = 5;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
@@ -41,12 +44,14 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       message: "User created!",
-      status: 201
+      status: 201,
+      error: false
     });
   } catch (error) {
     return NextResponse.json({
-      error: `"Error! ${error}`,
-      status: 500
+      error: true,
+      status: 500,
+      message: `Error: ${error}`
     });
   }
 }

@@ -17,11 +17,11 @@ export default function ProductsPage() {
   });
 
   const [errorMessage, setMessageErro] = useState("");
-  const [sucessMessage, setSucessMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmitForm: SubmitHandler<ProductSchemaProps> = async ({ id, product, description, price }) => {
     try {
-      await fetch("api/adm/products", {
+      await fetch("/api/adm/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -40,7 +40,8 @@ export default function ProductsPage() {
           return;
         }
 
-        setSucessMessage(res.message);
+        setSuccessMessage(res.message);
+        return;
       });
     } catch (err) {
       // handleError(`Error: ${error}`);
@@ -101,8 +102,12 @@ export default function ProductsPage() {
           />
           {!!errors.price?.message && <span className="text-red-500">{errors.price.message}</span>}
         </div>
+        {!!successMessage && <span className="text-green-500">{successMessage}</span>}
         <div className="w-full">
-          <button className="uppercase w-full font-medium tracking-widest bg-emerald-500 py-2 px-4 rounded-md text-center">
+          <button
+            type="submit"
+            className="uppercase w-full font-medium tracking-widest bg-emerald-500 py-2 px-4 rounded-md text-center"
+          >
             Add
           </button>
         </div>
