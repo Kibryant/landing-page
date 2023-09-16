@@ -9,7 +9,6 @@ type ClientProps = {
 };
 
 const Client = ({ params }: ClientProps) => {
-  const [goal, setGoal] = useState("");
   return (
     <div>
       <h1 className="text-white text-xl">Oie!!!! {params.username}</h1>
