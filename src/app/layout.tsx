@@ -1,3 +1,4 @@
+import { CartProvider } from "@/contexts/CartContext";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${inter.className} min-h-screen bg-gradient-to-b bg-no-repeat bg-brandPurple  overflow-x-hidden`}
       >
-        {children}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

@@ -4,8 +4,6 @@ import { Section } from "@/components/Section";
 import { ProductSchemaProps } from "@/schemas/productSchema";
 import { headers } from "next/headers";
 
-export const revalidate = 60;
-
 export async function generateStaticParams() {
   const productsIds = ["1", "2", "3", "4", "5"];
 
