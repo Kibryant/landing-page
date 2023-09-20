@@ -29,7 +29,7 @@ const Navbar = () => {
       <nav className="flex justify-start md:justify-end items-center">
         <ul
           className={`absolute gap-6 flex flex-col items-center justify-center duration-300 top-0 min-h-screen w-full 
-            md:static bg-gray-900 md:bg-transparent text-xl
+            md:static bg-brandPurple md:bg-transparent text-xl
             md:min-h-full md:flex-row md:text-base md:h-full md:items-center md:w-2/5 ${
               showNavbar ? "left-0" : "left-full"
             }`}
@@ -45,7 +45,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/register" className="py-2 px-4 bg-brandPink">
+            <Link href="/register" className="py-2 px-4 bg-brandPink rounded-md">
               Register
             </Link>
           </li>

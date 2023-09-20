@@ -12,8 +12,7 @@ const RegisterComponent = () => {
   const [form, setForm] = useState({
     email: "",
     username: "",
-    password: "",
-    repeatPassword: ""
+    password: ""
   });
 
   const [message, setMessageErro] = useState("");
@@ -49,15 +48,10 @@ const RegisterComponent = () => {
       return;
     }
 
-    if (form.password !== form.repeatPassword) {
-      setMessageErro("The passwords is not equal!");
-      return;
-    }
-
     setMessageErro("");
     console.log(form.username, form.email, form.password);
     try {
-      await fetch("api/auth/register", {
+      await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -72,8 +66,7 @@ const RegisterComponent = () => {
         console.log(result);
 
         if (result.status === 201) {
-          alert(result.message);
-          localStorage.setItem("arthur-system", form.username);
+          localStorage.setItem("client-system", JSON.stringify(result.data));
           router.push("/clients");
         } else {
           handleError(result.message);
@@ -145,25 +138,10 @@ const RegisterComponent = () => {
             required
           />
         </div>
-        <div className="w-full flex gap-1 justify-between">
-          <label htmlFor="repeatPassword">
-            <LockClosedIcon className="h-10 w-10 text-brandPink" />
-          </label>
-          <input
-            type="password"
-            name="repeatPassword"
-            onChange={handleChangeInputs}
-            id="repeatPassword"
-            placeholder="Repeat your password..."
-            className="text-zinc-300 bg-transparent border border-brandPink w-full p-2 rounded-md "
-            autoComplete="off"
-            required
-          />
-        </div>
         <div className="w-full flex justify-center items-center">
           <button
             type="submit"
-            className="w-full py-2 bg-emerald-500 rounded-md uppercase hover:bg-emerald-600"
+            className="w-full py-2 bg-emerald-500 rounded-md uppercase hover:bg-emerald-600 disabled:bg-emerald-900"
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? "Loading..." : "Register"}

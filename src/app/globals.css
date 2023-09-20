@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.my-custom-class {
+  @apply bg-opacity-20 hover:bg-opacity-100 backdrop-blur-md p-2 rounded-md border border-gray-300 hover:shadow-md hover:scale-105 text-white text-sm flex items-center gap-2 cursor-pointer;
+}

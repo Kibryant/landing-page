@@ -16,9 +16,7 @@ const inter = Inter({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} min-h-screen bg-gradient-to-b bg-no-repeat bg-brandPurple  overflow-x-hidden`}
-      >
+      <body className={`${inter.className} min-h-screen bg-white overflow-x-hidden`}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

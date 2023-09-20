@@ -4,6 +4,13 @@ interface UserProps extends Document {
   email: string;
   username: string;
   password: string;
+  tasks: TasksProps;
 }
 
-export type { UserProps };
+interface TasksProps {
+  task: string;
+  date: Date;
+  description: string;
+}
+
+export type { UserProps, TasksProps };

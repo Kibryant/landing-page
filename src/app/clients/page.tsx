@@ -1,23 +1,25 @@
 "use client";
+
 import { Section } from "@/components/Section";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Client() {
   const router = useRouter();
-  const auth: string | null = window.localStorage.getItem("arthur-system");
+  const auth = window.localStorage.getItem("client-system");
   if (auth === null) {
-    router.push("/signin");
+    router.push("/accounts/sign-up");
   }
+  const username = JSON.parse(auth!).username;
 
   return (
-    <main>
+    <>
       <Section>
-        <h1 className="text-white">Hi Clients!</h1>
-        <h3 className="text-zinc-300">
-          <Link href={`clients/${auth}`}>Go to your Area Client!</Link>
+        <h1 className="text-black">Hi Clients!</h1>
+        <h3 className="text-gray-600">
+          <Link href={`clients/${username}`}>Go to your Area Client!</Link>
         </h3>
       </Section>
-    </main>
+    </>
   );
 }

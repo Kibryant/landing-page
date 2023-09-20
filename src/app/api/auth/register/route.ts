@@ -37,7 +37,8 @@ export async function POST(req: Request) {
     const newUser: UserProps = new User({
       email,
       username,
-      password: hashedPassword
+      password: hashedPassword,
+      tasks: []
     });
 
     await newUser.save();
@@ -45,7 +46,12 @@ export async function POST(req: Request) {
     return NextResponse.json({
       message: "User created!",
       status: 201,
-      error: false
+      error: false,
+      data: {
+        email: newUser.email,
+        username: newUser.username,
+        tasks: newUser.tasks
+      }
     });
   } catch (error) {
     return NextResponse.json({

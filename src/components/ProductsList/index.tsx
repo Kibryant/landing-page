@@ -20,7 +20,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
 
   return (
     <>
-      <div className="bg-brandPink w-full py-2 rounded-md">
+      {/* <div className="bg-brandPink w-full py-2 rounded-md">
         <h1>Total Price R${calculateCartTotalPrice()}</h1>
         {cart.map((item) => (
           <div className="border-b flex gap-2 justify-between">
@@ -35,7 +35,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
             </button>
           </div>
         ))}
-      </div>
+      </div> */}
       {products.map((product, index) => (
         <div className="border flex flex-col gap-2" key={product.id}>
           <h2 className="text-3xl text-white">{product.product}</h2>
