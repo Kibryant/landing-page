@@ -36,27 +36,47 @@ const ProductsList = ({ products }: ProductsListProps) => {
           </div>
         ))}
       </div> */}
-      {products.map((product, index) => (
-        <div className="border flex flex-col gap-2" key={product.id}>
-          <h2 className="text-3xl text-white">{product.product}</h2>
-          <h2 className="text-3xl text-white">{product.description}</h2>
-          <h2 className="text-3xl text-white">{product.price}</h2>
-          <div className="flex w-2/4 justify-between items-center">
-            <Link
-              className="text-black bg-emerald-500 py-2 px-4 font-medium rounded-md"
-              href={`/products/${product.id}`}
-            >
-              See More
-            </Link>
-            <button
-              className="bg-emerald-500 text-black py-2 px-4 font-medium rounded-md"
-              onClick={() => addToCart(product)}
-            >
-              <ShoppingCartIcon className="w-8 h-8" />
-            </button>
-          </div>
-        </div>
-      ))}
+      <div className="flex gap-6 flex-wrap">
+        {products.map((product, index) => (
+          <label className="flex flex-col gap-2" key={product.id}>
+            <input type="checkbox" className="absolute scale-0" id="my-checkbox" />
+            <article className="relative my-perspective w-96 h-96 rounded-md shadow">
+              <div
+                id="front"
+                className="absolute top-0 left-0 right-0 bottom-0 text-center my-backface-visibility rounded-md bg-zinc-300 p-6 cursor-pointer duration-300"
+              >
+                <div className="flex flex-col justify-between items-center h-10 mb-6">
+                  <h2 className="text-3xl font-medium text-brandBlue">{product.product}</h2>
+                  <h3 className="text-3xl font-medium text-brandBlue">{product.description}</h3>
+                  <h4 className="text-3xl font-medium text-brandBlue">${product.price} USD</h4>
+                </div>
+              </div>
+              <div
+                id="back"
+                className="absolute top-0 left-0 right-0 bottom-0 text-center my-backface-visibility rounded-md bg-zinc-300 p-6 cursor-pointer duration-300 my-rotate"
+              >
+                <div>
+                  <Link
+                    className="text-black bg-emerald-500 py-2 px-4 font-medium rounded-md"
+                    href={`/products/${product.id}?color=black&size=xs`}
+                  >
+                    See More
+                  </Link>
+
+                  <div className="flex w-2/4 justify-between items-center">
+                    <button
+                      className="bg-emerald-500 text-black py-2 px-4 font-medium rounded-md"
+                      onClick={() => addToCart(product)}
+                    >
+                      <ShoppingCartIcon className="w-8 h-8" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </label>
+        ))}
+      </div>
     </>
   );
 };

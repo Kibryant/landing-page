@@ -5,3 +5,23 @@
 .my-custom-class {
   @apply bg-opacity-20 hover:bg-opacity-100 backdrop-blur-md p-2 rounded-md border border-gray-300 hover:shadow-md hover:scale-105 text-white text-sm flex items-center gap-2 cursor-pointer;
 }
+
+.my-perspective {
+  perspective: 1000px;
+}
+
+.my-backface-visibility {
+  backface-visibility: hidden;
+}
+
+.my-rotate {
+  transform: rotateY(180deg);
+}
+
+#my-checkbox:checked ~ article #back {
+  transform: rotateY(0);
+}
+
+#my-checkbox:checked ~ article #front {
+  transform: rotateY(-180deg);
+}
