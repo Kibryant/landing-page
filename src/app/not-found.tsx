@@ -12,7 +12,7 @@ const Notfound = () => {
           Please try again later or contact support if the problem persists!
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Link href="/" className="text-white font-medium bg-emerald-500">
+          <Link href="/" className="text-white font-medium px-4 py-2 rounded-md bg-emerald-500">
             Back
           </Link>
         </div>

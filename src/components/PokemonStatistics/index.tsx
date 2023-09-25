@@ -43,9 +43,9 @@ const PokemonStatistics = ({ url }: PokemonStatisticsProps) => {
 
   return (
     <div className="flex flex-col justify-between">
-      <h3 className="text-brandPink text-xl">Pokemon Statistics!</h3>
-      <p className="text-zinc-300">Height:{pokemonStatistics.height}</p>
-      <p className="text-zinc-300">Weight:{pokemonStatistics.weight}</p>
+      <h3 className="text-zinc-600 text-xl">Pokemon Statistics!</h3>
+      <p className="text-zinc-500">Height:{pokemonStatistics.height}</p>
+      <p className="text-zinc-500">Weight:{pokemonStatistics.weight}</p>
     </div>
   );
 };

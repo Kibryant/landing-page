@@ -8,7 +8,7 @@ const Logo = ({ isNavbar = true }: LogoProps) => {
   return (
     <div className="flex justify-between items-center space-x-2">
       <PuzzlePieceIcon className={`text-brandPink ${isNavbar ? "w-6 h-6" : "w-10 h-10"}`} />
-      <h1 className={`text-white ${isNavbar ? " text-xl" : "text-2xl"}`}>Arthur's</h1>
+      <h1 className={`text-black ${isNavbar ? " text-xl" : "text-2xl"}`}>Arthur's</h1>
     </div>
   );
 };

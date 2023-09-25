@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 const Tasks = () => {
-  const getLocalStorageItem = window.localStorage.getItem("client-system");
+  const getLocalStorageItem = localStorage.getItem("client-system");
   const email = JSON.parse(getLocalStorageItem!).email;
   const {
     register,

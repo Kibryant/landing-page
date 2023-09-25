@@ -42,10 +42,10 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
   return (
     <>
       {pokemonsListState.map((pokemon, index) => (
-        <div key={index} className="flex justify-between">
-          <div>
+        <div key={index} className="flex  flex-col justify-center px-4 shadow-md py-2 rounded-md mt-3 ">
+          <div className="">
             <button
-              className="text-brandPink text-2xl flex justify-between uppercase items-center"
+              className="text-brandPink text-2xl w-full flex justify-between uppercase items-center"
               onClick={() => toggleStats(index)}
             >
               {pokemon.name}
@@ -55,12 +55,12 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
           {showStats[index] && <PokemonStatistics url={pokemon.url} />}
         </div>
       ))}
-      <div className="w-full">
+      <div className="w-full flex justify-center mt-3">
         <button
-          className="py-2 px-4 bg-emerald-500 rounded-md max-w-md uppercase tracking-widest"
+          className="py-2 px-4 w-full bg-emerald-500 rounded-md max-w-md uppercase tracking-widest"
           onClick={() => setOffsetNumber(offsetNumber + 20)}
         >
-          Click Here
+          See New Pokemons
         </button>
       </div>
     </>

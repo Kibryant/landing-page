@@ -1,22 +1,23 @@
 import { CartProvider } from "@/contexts/CartContext";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Landing Page",
   description: "..."
 };
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  display: "swap"
+  display: "swap",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen bg-white overflow-x-hidden`}>
+      <body className={`${poppins.className} min-h-screen bg-white overflow-x-hidden`}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>
