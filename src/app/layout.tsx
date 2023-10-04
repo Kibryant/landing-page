@@ -17,7 +17,7 @@ const poppins = Poppins({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} min-h-screen bg-white overflow-x-hidden`}>
+      <body className={`${poppins.className} min-h-screen bg-zinc-50 overflow-x-hidden`}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

@@ -16,37 +16,34 @@ const NavbarAdm = () => {
         onClick={toggleNavbar}
       >
         <div
-          className={`w-full h-[2px] bg-white rounded duration-300  ${
-            showNavbar && "absolute -rotate-45 top-2/4 translate-y-[-50%]"
-          }`}
+          className={`w-full h-[2px] bg-brandBlue rounded duration-300  ${showNavbar && "absolute -rotate-45 top-2/4 translate-y-[-50%]"
+            }`}
         ></div>
-        <div className={`w-full h-[2px] bg-white rounded duration-300  ${showNavbar && "rotate-0 opacity-0"}`}></div>
+        <div className={`w-full h-[2px] bg-brandBlue rounded duration-300  ${showNavbar && "rotate-0 opacity-0"}`}></div>
         <div
-          className={`w-full h-[2px] bg-white rounded duration-300  ${
-            showNavbar && "absolute rotate-45 bottom-2/4 translate-y-[50%]"
-          }`}
+          className={`w-full h-[2px] bg-brandBlue rounded duration-300  ${showNavbar && "absolute rotate-45 bottom-2/4 translate-y-[50%]"
+            }`}
         ></div>
       </div>
       <nav className="flex justify-start md:justify-end items-center">
         <ul
           className={`absolute gap-6 flex flex-col items-center justify-center duration-300 top-0 min-h-screen w-full 
-            md:static bg-gray-900 md:bg-transparent text-xl
-            md:min-h-full md:flex-row md:text-base md:h-full md:items-center md:w-2/5 ${
-              showNavbar ? "left-0" : "left-full"
+            md:static bg-zinc-100 md:bg-transparent text-xl
+            md:min-h-full md:flex-row md:text-base md:h-full md:items-center md:w-2/5 ${showNavbar ? "left-0" : "left-full"
             }`}
         >
           <li>
-            <Link href="/adm" className="text-white hover:text-brandPink">
+            <Link href="/adm" className="text-zinc-600 hover:text-brandBlue">
               Dashboard
             </Link>
           </li>
           <li>
-            <Link href="/adm/products" className="text-white hover:text-brandPink">
+            <Link href="/adm/products" className="text-zinc-600 hover:text-brandBlue">
               Products
             </Link>
           </li>
           <li>
-            <Link href="/adm/configuration" className="text-white hover:text-brandPink">
+            <Link href="/adm/configuration" className="text-zinc-600 hover:text-brandBlue">
               Configuration
             </Link>
           </li>

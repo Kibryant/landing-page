@@ -28,7 +28,9 @@ const Home = async () => {
         <Section>
           <PokemonList pokemonsList={pokemons} />
         </Section>
-        <Section>a</Section>
+        <Section>
+          <div></div>
+        </Section>
       </main>
       <Footer />
     </>

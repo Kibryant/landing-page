@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeftIcon, CommandLineIcon, StarIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, CloudIcon, CommandLineIcon, HomeModernIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -14,7 +14,7 @@ const Header = () => {
           <span>
             <CommandLineIcon className="text-white w-8 h-8" />
           </span>
-          <h1 className={`text-white font-medium origin-left text-xl duration-300 ${!openMenu && "scale-0"}`}>
+          <h1 className={`text-white font-semibold origin-left text-xl duration-300 ${!openMenu && "scale-0"}`}>
             Web Developer
           </h1>
         </div>
@@ -28,26 +28,26 @@ const Header = () => {
           <ul className="pt-6 space-y-2">
             <li>
               <Link href="/" className="my-custom-class">
-                <StarIcon className="h-5 w-5 text-white" />
+                <HomeModernIcon className="h-5 w-5 text-white" />
 
                 <span className={`${!openMenu && "hidden"} origin-left duration-300`}>Menu</span>
               </Link>
             </li>
             <li>
               <Link href="/" className="my-custom-class">
-                <StarIcon className="h-5 w-5 text-white" />
-                <span className={`${!openMenu && "hidden"} origin-left duration-300`}>Special Area</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/" className="my-custom-class">
-                <StarIcon className="h-5 w-5 text-white" />
+                <CloudIcon className="h-5 w-5 text-white" />
                 <span className={`${!openMenu && "hidden"} origin-left duration-300`}>Your Tasks</span>
               </Link>
             </li>
             <li>
               <Link href="/" className="my-custom-class">
                 <StarIcon className="h-5 w-5 text-white" />
+                <span className={`${!openMenu && "hidden"} origin-left duration-300`}>You Area</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/" className="my-custom-class">
+                <ShoppingCartIcon className="h-5 w-5 text-white" />
 
                 <span className={`${!openMenu && "hidden"} origin-left duration-300`}>Products</span>
               </Link>
@@ -55,7 +55,7 @@ const Header = () => {
             <li>
               <Link href="/" className="my-custom-class">
                 <StarIcon className="h-5 w-5 text-white" />
-                <span className={`${!openMenu && "hidden"} origin-left duration-300`}>Products</span>
+                <span className={`${!openMenu && "hidden"} origin-left duration-300`}>Log Out</span>
               </Link>
             </li>
           </ul>

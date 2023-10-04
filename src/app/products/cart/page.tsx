@@ -2,9 +2,7 @@
 
 import { Section } from "@/components/Section";
 import { useCart } from "@/contexts/CartContext";
-import getStripe from "@/core/get-stripejs";
 import { GiftIcon } from "@heroicons/react/24/outline";
-import { StripeError } from "@stripe/stripe-js";
 
 interface CartProps {}
 
@@ -19,7 +17,6 @@ const Cart = ({}) => {
 
   const handlePayment = async (e: any) => {
     e.preventDefault();
-    const stripe = await getStripe();
     try {
       await fetch("/api/products/checkout", {
         method: "POST",
@@ -40,11 +37,7 @@ const Cart = ({}) => {
         }
 
         const session = res.data;
-        const result = await stripe?.redirectToCheckout({
-          sessionId: session
-        });
 
-        if (result?.error) return;
         // setFormSubmitting(false);
         // localStorage.setItem("arthur-adm-system", formAdm.email);
         // router.push("/adm");

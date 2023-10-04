@@ -9,7 +9,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <div className="flex">
       <Header />
-      <main className="p-5"> {children}</main>
+      <main className="flex flex-col w-full">
+        <div className="w-full p-2 border-b">
+          <p>Clients</p>
+        </div>
+        <div className="px-5">{children}</div>
+      </main>
     </div>
   );
 }

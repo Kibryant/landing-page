@@ -89,13 +89,13 @@ const RegisterComponent = () => {
   return (
     <>
       <form
-        className="flex flex-col justify-center items-center gap-4 w-full rounded max-w-lg p-4 border border-brandPink"
+        className="flex flex-col justify-center items-center gap-4 w-full rounded max-w-lg p-4 border border-brandBlue"
         onSubmit={handleSubmit}
       >
         {message && <span className="text-red-500">{message}</span>}
-        <div className="w-full flex gap-1 justify-between">
+        <div className="w-full flex gap-1 justify-between flex-col">
           <label htmlFor="email">
-            <EnvelopeIcon className="h-10 w-10 text-brandPink" />
+            <EnvelopeIcon className="h-10 w-10 text-brandBlue" />
           </label>
           <input
             type="email"
@@ -103,14 +103,14 @@ const RegisterComponent = () => {
             name="email"
             id="email"
             placeholder="Your email..."
-            className="text-zinc-300 bg-transparent border border-brandPink w-full rounded-md p-2 outline-none focus:border-brandCyan-400"
+            className="text-zinc-600 bg-transparent border-b border-brandBlue w-full rounded-md p-2 outline-none"
             autoComplete="off"
             required
           />
         </div>
-        <div className="w-full flex gap-1 justify-between">
+        <div className="w-full flex gap-1 justify-between flex-col">
           <label htmlFor="username">
-            <UserIcon className="h-10 w-10 text-brandPink" />
+            <UserIcon className="h-10 w-10 text-brandBlue" />
           </label>
           <input
             type="text"
@@ -118,14 +118,14 @@ const RegisterComponent = () => {
             name="username"
             onChange={handleChangeInputs}
             placeholder="Your username..."
-            className="text-zinc-300 bg-transparent border border-brandPink w-full rounded-md p-2"
+            className="text-zinc-600 bg-transparent border-b border-brandBlue  w-full rounded-md p-2"
             autoComplete="off"
             required
           />
         </div>
-        <div className="w-full flex gap-1 justify-between">
+        <div className="w-full flex gap-1 justify-between flex-col">
           <label htmlFor="password">
-            <LockClosedIcon className="h-10 w-10 text-brandPink" />
+            <LockClosedIcon className="h-10 w-10 text-brandBlue" />
           </label>
           <input
             type="password"
@@ -133,21 +133,22 @@ const RegisterComponent = () => {
             onChange={handleChangeInputs}
             id="password"
             placeholder="Your password..."
-            className="text-zinc-300 bg-transparent border border-brandPink w-full rounded-md p-2"
+            className="text-zinc-600 bg-transparent border-b border-brandBlue  w-full rounded-md p-2"
             autoComplete="off"
             required
           />
         </div>
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex flex-col justify-center items-center gap-2">
           <button
             type="submit"
-            className="w-full py-2 bg-emerald-500 rounded-md uppercase hover:bg-emerald-600 disabled:bg-emerald-900"
+            className="w-full py-2 bg-brandBlue font-bold text-white rounded-md uppercase hover:tracking-widest disabled:bg-emerald-900"
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? "Loading..." : "Register"}
           </button>
-          <span className="text-zinc-300 text-xs">
-            <Link href="/signin" className="uppercase text-zinc-700">
+          <span className="text-zinc-600 font-medium text-xs">
+            Have a account?
+            <Link href="/signin" className="uppercase ms-1 text-zinc-700">
               Sign-In
             </Link>{" "}
           </span>

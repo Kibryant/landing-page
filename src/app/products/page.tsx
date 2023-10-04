@@ -12,7 +12,7 @@ const Products = async () => {
 
   return (
     <div>
-      <h1 className="text-white text-xl">Products</h1>
+      <h2 className="text-zinc-600 text-3xl">Products</h2>
       <Section>
         <div className="flex flex-col"></div>
       </Section>
