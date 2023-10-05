@@ -17,7 +17,7 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
           <button onClick={reset} className="text-emerald-500 py-2 px-4 bg-emerald-300/50 font-medium rounded-md">
             Reset
           </button>
-          <Link href="/" className="text-white font-medium rounded-md py-2 px-4 bg-emerald-500">
+          <Link href="/" className="text-white font-medium rounded-xl py-2 px-4 bg-emerald-500">
             Back
           </Link>
         </div>
