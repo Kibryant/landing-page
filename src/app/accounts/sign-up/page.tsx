@@ -1,5 +1,5 @@
 import Logo from "@/components/Logo";
-import { RegisterComponent } from "@/components/RegisterComponent";
+import { SignUpComponent } from "@/components/SignUpComponent";
 
 const Register = async () => {
   return (
@@ -7,7 +7,7 @@ const Register = async () => {
       <div>
         <Logo isNavbar={false} />
       </div>
-      <RegisterComponent />
+      <SignUpComponent />
     </main>
   );
 };
