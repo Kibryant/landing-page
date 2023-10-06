@@ -1,38 +1,40 @@
-import { verify } from "jsonwebtoken";
-import * as jose from "jose";
+import * as jose from 'jose'
+import { headers } from 'next/headers'
 
-interface AdmJwtPayload {
-  jti: string;
-  lat: string;
+export const getSecretKey: () => string = () => {
+    const SECRET_KEY = process.env.SECRET_KEY
+
+    if (!SECRET_KEY || SECRET_KEY.length === 0) throw new Error('The enviroment variable SECRET_KEY is not set!')
+
+    return SECRET_KEY
 }
 
-export const fiveHoursInSeconds = 5 * 60 * 60;
-export const getSecretKey: () => string = () => {
-  const SECRET_KEY = process.env.SECRET_KEY;
+export const authHeader = () => {
+    const headersAuthorization = headers()
+    const auth = headersAuthorization.get('Authorization')
+    if (!auth) return false
+    return true
+}
+export const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60
 
-  if (!SECRET_KEY || SECRET_KEY.length === 0) throw new Error("The enviroment variable SECRET_KEY is not set!");
+export const verifyAuth = async (Jwt: string) => {
+    try {
+        console.log('oie')
+        // console.log(verify(Jwt, getSecretKey(), (err, decoded) => console.log(decoded)));
+        const verified = await jose.jwtVerify(Jwt, new TextEncoder().encode(getSecretKey()))
 
-  return SECRET_KEY;
-};
+        // if (!!verified.payload.exp && verified.payload.exp < Math.floor(Date.now() / 1000) + fiveHoursInSeconds) {
+        //   console.log("expirou")
+        //   return null;
+        // }
+        console.log(verified)
+        return verified.payload
+    } catch (error) {
+        throw new Error(`Your Jwt has expired ${error}`)
+    }
 
-export const verifyAuth = async (token: string) => {
-  try {
-    console.log("oie");
-    // console.log(verify(token, getSecretKey(), (err, decoded) => console.log(decoded)));
-    const verified = await jose.jwtVerify(token, new TextEncoder().encode(getSecretKey()));
+    // const verified = verify(Jwt, getSecretKey(),);
 
-    // if (!!verified.payload.exp && verified.payload.exp < Math.floor(Date.now() / 1000) + fiveHoursInSeconds) {
-    //   console.log("expirou")
-    //   return null;
-    // }
-    console.log(verified);
-    return verified.payload;
-  } catch (error) {
-    throw new Error(`Your token has expired ${error}`);
-  }
-
-  // const verified = verify(token, getSecretKey(),);
-
-  // console.log("VERIFIED: " + verified);
-  // return false;
-};
+    // console.log("VERIFIED: " + verified);
+    // return false;
+}

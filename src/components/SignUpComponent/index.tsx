@@ -1,10 +1,12 @@
 'use client'
+
 import { EnvelopeIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, UserIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useSignUp } from './hook/useSignUp'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useState } from 'react'
+import { Toaster } from 'sonner'
 
 const SignUpComponent = () => {
     const { handleChangeInputs, handleSubmit, message, isFormSubmitting } = useSignUp()
@@ -15,6 +17,7 @@ const SignUpComponent = () => {
                 className="flex flex-col justify-center items-center gap-4 w-full rounded-md max-w-lg p-8 border border-brandBlue"
                 onSubmit={handleSubmit}
             >
+                <Toaster richColors closeButton />
                 {message && <span className="text-red-500">{message}</span>}
                 <div className="w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="email">

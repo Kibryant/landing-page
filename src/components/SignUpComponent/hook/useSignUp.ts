@@ -1,10 +1,17 @@
 import { HandleChangeProps } from '@/types/HandleChangeProps'
 import { HandleSubmitProps } from '@/types/HandleSubmitProps'
-import { useRouter } from 'next/navigation'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { ResProps } from '@/types/ResProps'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import 'react-toastify/ReactToastify.css'
 
 const useSignUp = () => {
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const origin = searchParams.get('origin')
+    const notifyError = (msg: string) => toast.error(msg)
 
     const [form, setForm] = useState({
         email: '',
@@ -34,12 +41,14 @@ const useSignUp = () => {
         if (!form.email.includes('@') || !form.email.includes('.com')) {
             setMessageErro('Invalid Email!')
             setFormSubmitting(false)
+            notifyError('Invalid Email!')
             return
         }
 
         if (form.username.length <= 6) {
             setMessageErro('The user must have more than 6 characters!')
             setFormSubmitting(false)
+            notifyError('The user must have more than 6 characters!')
             return
         }
 
@@ -50,7 +59,6 @@ const useSignUp = () => {
         }
 
         setMessageErro('')
-        console.log(form.username, form.email, form.password)
         try {
             await fetch('/api/auth/register', {
                 method: 'POST',
@@ -62,29 +70,23 @@ const useSignUp = () => {
                     username: form.username,
                     password: form.password,
                 }),
-            }).then(async (res) => {
-                const result = await res.json()
-                console.log(result)
+            }).then(async (result) => {
+                const res: ResProps = await result.json()
 
-                if (result.status === 201) {
-                    localStorage.setItem('client-system', JSON.stringify(result.data))
-                    router.push('/clients')
-                } else {
-                    handleError(result.message)
+                if (res.status !== HttpStatusCode.OK) {
+                    setFormSubmitting(false)
+                    setMessageErro(res.message)
+                    return
                 }
+
+                localStorage.setItem('client-system', JSON.stringify(res.data))
+                router.push(origin ? `/${origin}` : '/clients')
                 setFormSubmitting(false)
             })
         } catch (error) {
             setFormSubmitting(false)
-            handleError(`Error: ${error}`)
+            notifyError(`Error!`)
         }
-    }
-
-    const handleError = (msg: string) => {
-        setMessageErro(msg)
-        setTimeout(() => {
-            setMessageErro('')
-        }, 3000)
     }
 
     return {

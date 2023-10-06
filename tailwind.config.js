@@ -1,18 +1,25 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
-  ],
-  theme: {
-    extend: {
-      colors: {
-        brandPink: "#ff4858",
-        brandBlue: "#0066ff",
-        brandPurple: "#00022b"
-      }
-    }
-  },
-  plugins: []
-};
+    darkMode: 'class',
+    content: [
+        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    ],
+    theme: {
+        container: {
+            center: true,
+            padding: '2rem',
+            screens: {
+                '2xl': '1400px',
+            },
+        },
+        extend: {
+            colors: {
+                border: 'hsl(var(--border))',
+                brandBlue: '#0066ff',
+            },
+        },
+    },
+    plugins: [require('tailwindcss-animate')],
+}
