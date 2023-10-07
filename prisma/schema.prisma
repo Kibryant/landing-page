@@ -12,9 +12,11 @@ datasource db {
 
 model Posts {
     id          String   @id @unique @default(uuid())
-    postName    String
-    description String?
-    created_at  DateTime
+    title       String   @default("")
+    description String
+    category    String   @default("")
+    published   Boolean  @default(false)
+    createdAt   DateTime @default(now())
     author      String
     content     String
 }

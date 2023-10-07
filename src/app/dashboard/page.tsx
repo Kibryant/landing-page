@@ -1,49 +1,13 @@
 'use client'
 
-import { Input } from '@/components/Input'
 import { Section } from '@/components/Section'
-import { useFetch } from '@/functions/useFetch'
-import { ChangeEvent, useState, useCallback } from 'react'
-// import { ToastContainer, toast } from 'react-toastify'
-import { Toaster, toast } from 'sonner'
 import 'react-toastify/ReactToastify.css'
 import Header from '@/components/Header'
 import Link from 'next/link'
-import { ArrowLongRightIcon, BoltIcon, BugAntIcon, TvIcon } from '@heroicons/react/24/outline'
+import { BoltIcon, BugAntIcon, TvIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 
-interface PeopleNameProps {
-    title: string
-    first: string
-    last: string
-}
-
-interface PeopleLocationProps {
-    street: {
-        number: number
-        name: string
-    }
-    city: string
-    state: string
-    country: string
-    postcode: string
-}
-interface PeopleProps {
-    gender: string
-    name: PeopleNameProps
-    location: PeopleLocationProps
-}
-interface Data {
-    results: PeopleProps[]
-}
-
 const Dashboard = () => {
-    const [goal, setGoal] = useState('')
-    const handleInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setGoal(e.target.value)
-    }, [])
-
-    const notify = () => toast.success('Hello world')
     return (
         <>
             <Header showContent={false} />

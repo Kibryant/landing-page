@@ -1,15 +1,33 @@
+'use client'
+
 import { Section } from '@/components/Section'
 import { PlusIcon, WalletIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { trpc } from '@/app/_trpc/client'
+import { CreatePostOutput } from '@/trpc/schema/post.schema'
 
 interface PostsProps {
-    posts: any[]
+    posts: CreatePostOutput[] | undefined
 }
 
 const Posts = ({ posts }: PostsProps) => {
+    const { data, isLoading, mutateAsync: createPosts } = trpc.createPosts.useMutation()
+
+    const handlePosts = async () => {
+        await createPosts({
+            title: 'ARTHUR É LINDO dms',
+            category: 'AAAAA',
+            content: 'AAAAAAA',
+            description: 'SEXO AO VIVassooo',
+            published: true,
+            author: 'arthu@gmail.com',
+        })
+    }
+
     return (
         <>
+            <button onClick={handlePosts}>OIE</button>
             <Section>
                 <div className="mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 sm:flex-row sm:items-center sm:gap-0">
                     <h1 className="mb-3 font-semibold text-5xl text-gray-900">Posts</h1>
@@ -44,7 +62,7 @@ const Posts = ({ posts }: PostsProps) => {
                                 <div className="mt-4 grid grid-cols-3 place-items-center py-2 gap-6 text-xs text-zinc-500">
                                     <div className="flex items-center gap-2">
                                         <PlusIcon className="h-4 w-4" />
-                                        {format(new Date(post.created_at), 'MMM yyyy')}
+                                        {/* {format(new Date(post.createdAt), 'MMM yyyy')} */}
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <WalletIcon className="h-4 w-4" />

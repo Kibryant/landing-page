@@ -1,9 +1,10 @@
+'use client'
+import { trpc } from '@/app/_trpc/client'
 import { Posts as PostsComponent } from '@/components/Clients/Posts'
-import { pg } from '@/core/pg'
 
-const Posts = async () => {
-    const posts = await pg.posts.findMany()
-    return <PostsComponent posts={posts} />
+const Posts = () => {
+    const { data } = trpc.getAllPosts.useQuery()
+    return <PostsComponent posts={data?.allPosts} />
 }
 
 export default Posts

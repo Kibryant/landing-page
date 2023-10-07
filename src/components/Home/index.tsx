@@ -41,7 +41,7 @@ const Home = async () => {
                 </div>
             </div>
 
-            <Header isAdm={false} />
+            <Header showContent={true} isAdm={false} />
 
             <main>
                 <Section>

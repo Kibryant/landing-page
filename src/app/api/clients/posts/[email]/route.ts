@@ -15,7 +15,6 @@ interface PostsProps {
 export async function POST(req: Request, { params: { email } }: { params: { email: string } }) {
     const body: PostsProps = await req.json()
     const post = body
-    console.log(body)
     post.created_at = new Date()
     const pgPost = await pg.posts.create({
         data: {
