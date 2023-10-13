@@ -1,15 +1,15 @@
 import { Document } from 'mongoose'
 
 interface TasksProps {
-    task: string
-    date: Date
-    description: string
+    task?: string
+    date?: Date
+    description?: string
 }
 interface UserProps extends Document {
     email: string
     username: string
     password: string
-    tasks: TasksProps
+    tasks: TasksProps | []
 }
 
 export type { UserProps, TasksProps }

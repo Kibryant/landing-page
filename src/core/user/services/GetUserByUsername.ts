@@ -4,11 +4,11 @@ import { Response } from '@/types/class/Response'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import User from '../models/User'
 
-export class GetUserByEmail implements UseCases<string, Promise<Response<User | null>>> {
+export class GetUserByUsername implements UseCases<string, Promise<Response<User | null>>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
-    async exec(email: string): Promise<Response<User | null>> {
-        const user = await this.userRepository.getUserByEmail(email)
+    async exec(username: string): Promise<Response<User | null>> {
+        const user = await this.userRepository.getUserByUsername(username)
 
         if (!user) {
             return new Response(null, 'User not found!', HttpStatusCode.NOT_FOUND)

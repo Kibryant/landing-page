@@ -1,16 +1,8 @@
-import { UserProps } from '@/types/UserProps'
-import UserModel from '../../models/User'
+import User from '../../models/User'
 
-export class UserRepository {
-    async findByEmail(email: string) {
-        return UserModel.findOne({ email })
-    }
-
-    async createNewUser(user: UserProps) {
-        return UserModel.create({ user })
-    }
-
-    async updateUser(userId: string, updatedFields: Record<string, any>) {
-        return UserModel.findByIdAndUpdate(userId, updatedFields, { new: true })
-    }
+export abstract class UserRepository {
+    abstract getUserByEmail(email: string): Promise<User | null>
+    abstract getUserByUsername(username: string): Promise<User | null>
+    abstract createNewUser(user: User): Promise<User>
+    abstract updateUser(userId: string, updatedFields: Record<string, any>): Promise<User | null>
 }

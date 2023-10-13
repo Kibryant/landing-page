@@ -1,66 +1,90 @@
-import User from '@/core/user/models/User'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
 import bcrypt from 'bcrypt'
-import { type UserProps } from '@/types/UserProps'
 import { cookies } from 'next/headers'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { CreateNewUser } from '@/core/user/services/CreateNewUser'
+import { MongooseUserRepository } from '@/external/database/RepositoryUserMongo'
+import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
+import { GetUserByUsername } from '@/core/user/services/GetUserByUsername'
+import PasswordService from '@/external/security/PasswordHashService'
 
 export async function POST(req: Request) {
     try {
-        const { email, username, password } = await req.json()
-        await connect()
-        const emailExists = await User.findOne({ email })
-        const usernameExists = await User.findOne({ username })
+        const userRepository = new MongooseUserRepository()
+        const passwordService = new PasswordService()
 
-        if (emailExists)
+        const createNewUser = new CreateNewUser(userRepository)
+        const getUserByEmail = new GetUserByEmail(userRepository)
+        const getUserByUsername = new GetUserByUsername(userRepository)
+
+        const { email, username, password } = await req.json()
+
+        await connect()
+        // const emailExists = await User.findOne({ email })
+        const responseOfGetUserByEmail = await getUserByEmail.exec(email)
+        console.log(responseOfGetUserByEmail)
+        // const usernameExists = await User.findOne({ username })
+        const responseOfGetUserByUsername = await getUserByUsername.exec(username)
+        console.log(responseOfGetUserByUsername)
+
+        if (responseOfGetUserByEmail.data)
             return NextResponse.json({
                 message: 'E-mail already registered. Try again!',
                 error: true,
                 status: HttpStatusCode.CONFLICT,
             })
 
-        if (usernameExists)
+        if (responseOfGetUserByUsername.data)
             return NextResponse.json({
                 message: 'Username already exits. Try again!',
                 error: true,
                 status: HttpStatusCode.CONFLICT,
             })
 
-        const saltOrRounds = 5
-        const hashedPassword = await bcrypt.hash(password, saltOrRounds)
+        const hashedPassword = await passwordService.hashPassword(password)
 
-        const newUser: UserProps = new User({
+        // const newUser: UserProps = new User({
+        //     email,
+        //     username,
+        //     password: hashedPassword,
+        //     tasks: [],
+        // })
+
+        // await newUser.save()
+
+        const { data, message, status } = await createNewUser.exec({
             email,
             username,
             password: hashedPassword,
-            tasks: [],
         })
 
-        await newUser.save()
+        if (!data) {
+            return NextResponse.json({
+                data,
+                message,
+                status,
+            })
+        }
 
         cookies().set(
             'client-system',
             JSON.stringify({
-                username: newUser.username,
-                email: newUser.email,
+                username: data.username,
+                email: data.email,
             }),
         )
 
         return NextResponse.json({
-            message: 'User created!',
-            status: HttpStatusCode.CREATED,
+            message,
+            status,
             error: false,
-            data: {
-                email: newUser.email,
-                username: newUser.username,
-                tasks: newUser.tasks,
-            },
+            data,
         })
     } catch (error) {
         return NextResponse.json({
             error: true,
-            status: 500,
+            status: HttpStatusCode.INTERNAL_SERVER_ERROR,
             message: `Error: ${error}`,
         })
     }
