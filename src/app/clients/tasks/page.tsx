@@ -1,7 +1,7 @@
 'use client'
 
 import { TasksSchemaProps, tasksSchema } from '@/schemas/tasksSchema'
-import { ResProps } from '@/types/ResProps'
+import { ResProps } from '@/types/class/Response'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 

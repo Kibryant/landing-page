@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-empty-function */
 'use client'
 
 import { ProductSchemaProps } from '@/schemas/productSchema'

@@ -1,5 +1,5 @@
-import { FormEvent } from "react";
+import { FormEvent } from 'react'
 
-type HandleSubmitProps = (e: FormEvent<HTMLFormElement>) => void;
+type HandleSubmitProps = (e: FormEvent<HTMLFormElement>) => void
 
-export type { HandleSubmitProps };
+export type { HandleSubmitProps }

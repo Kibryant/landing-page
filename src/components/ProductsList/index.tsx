@@ -50,7 +50,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
                                 className="overflow-hidden absolute top-0 left-0 right-0 bottom-0 text-center my-backface-visibility rounded-[60px] shadow-lg p-6 cursor-pointer duration-300"
                             >
                                 <div className="flex flex-col gap-6 justify-between items-center h-full mb-6">
-                                    <h2 className="text-xl font-bold text-brandBlue break-all uppercase">
+                                    <h2 className="text-xl font-bold text-primary break-all uppercase">
                                         {product.product}
                                     </h2>
                                     <h3 className="text-lg font-medium text-zinc-600">{product.description}</h3>
@@ -60,7 +60,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
                                             <span className="font-semibold">{product.price} </span>
                                             <span>USD</span>
                                         </s>
-                                        <h4 className="text-2xl relative font-medium flex justify-end items-end text-brandBlue">
+                                        <h4 className="text-2xl relative font-medium flex justify-end items-end text-primary">
                                             <span className="text-xs absolute top-0 -left-[6px]">$</span>
                                             <span className="font-semibold">{product.price} </span>
                                             <span className="text-xs">USD</span>
@@ -74,7 +74,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
                             >
                                 <div className="w-full flex flex-col justify-between h-full">
                                     <Link
-                                        className="text-zinc-100 bg-brandBlue py-2 px-4 font-medium rounded-3xl"
+                                        className="text-zinc-100 bg-primary py-2 px-4 font-medium rounded-3xl"
                                         href={`/products/${product.id}?color=black&size=xs`}
                                     >
                                         See More
@@ -82,7 +82,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
 
                                     <div className="flex gap-x-2 justify-center">
                                         <button
-                                            className="bg-brandBlue text-zinc-100 rounded-full p-3"
+                                            className="bg-primary text-zinc-100 rounded-full p-3"
                                             onClick={() => addToCart(product)}
                                         >
                                             <ShoppingCartIcon className="w-8 h-8" />

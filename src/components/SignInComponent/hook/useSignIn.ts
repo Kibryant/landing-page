@@ -1,90 +1,90 @@
 'use client'
-
-import { HandleChangeProps } from '@/types/HandleChangeProps'
-import { HandleSubmitProps } from '@/types/HandleSubmitProps'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { ResProps } from '@/types/class/Response'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const useSignIn = () => {
     const router = useRouter()
-    const [isFormSubmitting, setFormSubmitting] = useState(false)
 
-    const [form, setForm] = useState({
-        email: '',
-        username: '',
-        password: '',
-        repeatPassword: '',
+    const [messageFromApi, setMessageFromApi] = useState({
+        error: '',
+        success: '',
     })
 
-    const [message, setMessageErro] = useState('')
-    const handleError = (msg: string) => {
-        setMessageErro(msg)
-        setTimeout(() => {
-            setMessageErro('')
-        }, 3000)
-    }
-    const handleChangeInputs: HandleChangeProps = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
+    const signInSchema = z
+        .object({
+            email: z.string().email(),
+            username: z.string().min(5, { message: 'The username must contain 5 digits!' }),
+            password: z
+                .string()
+                .min(1, 'Password is required')
+                .min(8, 'Password must be more than 8 characters')
+                .max(32, 'Password must be less than 32 characters'),
+            passwordConfirm: z.string().min(1, 'Please confirm your password'),
         })
-    }
+        .refine((data) => data.password === data.passwordConfirm, {
+            path: ['passwordConfirm'],
+            message: 'Passwords do not match',
+        })
 
-    const handleSubmit: HandleSubmitProps = async (e) => {
-        e.preventDefault()
-        if (form.email.length <= 6) {
-            setMessageErro('Email inválido!')
-            return
-        }
+    type SignInSchemaInput = z.input<typeof signInSchema>
 
-        if (!form.email.includes('@') || !form.email.includes('.com')) {
-            setMessageErro('Email inválido!')
-            return
-        }
+    const {
+        handleSubmit,
+        register,
+        formState: { errors, isLoading },
+    } = useForm<SignInSchemaInput>({
+        resolver: zodResolver(signInSchema),
+        mode: 'onSubmit',
+    })
 
-        if (form.username.length <= 6) {
-            setMessageErro('Usuário deve ter mais de 6 caracteres!')
-            return
-        }
-
-        if (form.password.length <= 5) {
-            setMessageErro('A senha deve ter mais de 5 caracteres!')
-            return
-        }
-        setMessageErro('')
+    const handleSignIn: SubmitHandler<SignInSchemaInput> = async ({ email, password, username }) => {
         try {
-            await fetch('api/auth/login', {
+            await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: form.email,
-                    username: form.username,
-                    password: form.password,
+                    email,
+                    username,
+                    password,
                 }),
-            }).then(async (res) => {
-                const result = await res.json()
-                if (result.status === HttpStatusCode.CREATED) {
-                    alert(result.message)
-                    localStorage.setItem('arthur-system', form.username)
-                    router.push('/clients')
-                } else {
-                    handleError(result.error)
+            }).then(async (result) => {
+                const res: ResProps = await result.json()
+                if (res.status !== HttpStatusCode.CREATED) {
+                    setMessageFromApi({
+                        error: res.message,
+                        success: '',
+                    })
+                    return
                 }
-                setFormSubmitting(false)
+                setMessageFromApi({
+                    error: '',
+                    success: res.message,
+                })
+                localStorage.setItem('arthur-system', username)
+                router.push('/clients')
             })
         } catch (error) {
-            setFormSubmitting(false)
-            handleError(`Error: ${error}`)
+            setMessageFromApi({
+                error: `Error! ${error}`,
+                success: '',
+            })
         }
     }
 
     return {
-        message,
-        handleChangeInputs,
+        errors,
+        messageFromApi,
+        isLoading,
+        register,
         handleSubmit,
+        handleSignIn,
     }
 }
 

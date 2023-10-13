@@ -1,19 +1,23 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useSession } from 'next-auth/react'
+import { useState } from 'react'
 
 type ClientProps = {
-  params: {
-    username: string;
-  };
-};
+    params: {
+        username: string
+    }
+}
 
 const Client = ({ params }: ClientProps) => {
-  return (
-    <div>
-      <h1 className="text-white text-xl">Oie!!!! {params.username}</h1>
-    </div>
-  );
-};
+    const { data, status } = useSession()
 
-export default Client;
+    return (
+        <div>
+            <h1 className="text-white text-xl">Oie!!!! {params.username}</h1>
+            <h1 className="text-white text-xl">Oie!!!! {data?.user?.email}</h1>
+        </div>
+    )
+}
+
+export default Client

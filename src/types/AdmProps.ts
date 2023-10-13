@@ -1,10 +1,10 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose'
 
 interface AdmProps extends Document {
-  token: string;
-  accessCode: string;
-  email: string;
-  password: string;
+    token: string
+    accessCode: string
+    email: string
+    password: string
 }
 
-export type { AdmProps };
+export type { AdmProps }

@@ -24,24 +24,24 @@ const Header = ({ isAdm, showContent }: HeaderProps) => {
                 <>
                     <div className="w-full items-center max-w-7xl flex flex-col gap-10">
                         <div className="flex flex-col justify-center items-center gap-2 px-2">
-                            <MiniBox text="JohnDoe" Icon={StarIcon} />
+                            <MiniBox text="Arthur's" Icon={StarIcon} />
                             <h1 className="text-5xl font-bold">
-                                This is my first <span className="text-brandBlue">Portfolio</span>
+                                This is my first <span className="text-primary">Portfolio</span>
                             </h1>
-                            <p className="text-zinc-700 text-left max-w-xl">
+                            <p className="text-center max-w-xl">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, nam similique odit, aliquam
                                 repudiandae saepe
                             </p>
-                            <div className="flex flex-col gap-2 w-full max-w-xl">
+                            <div className="flex flex-col gap-2 w-full max-w-xs">
                                 <Link
                                     href="/accounts/sign-up"
-                                    className="w-full py-2 px-3 bg-brandBlue font-bold uppercase text-white rounded-md"
+                                    className="w-full py-2 text-secondary dark:text-white px-3 bg-primary font-bold uppercase rounded-xl"
                                 >
                                     Get started
                                 </Link>
                                 <Link
                                     href="/accounts/sign-in"
-                                    className="text-brandBlue bg-white rounded-md shadow-lg py-2 px-3 flex gap-1 font-bold"
+                                    className="text-primary bg-secondary rounded-xl shadow-lg py-2 px-3 flex gap-1 font-bold"
                                 >
                                     <span>Explore</span>
                                     <ArrowLongRightIcon className="w-6 h-6" />

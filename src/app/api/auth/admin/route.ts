@@ -1,24 +1,28 @@
-import Adm from '@/models/Adm'
+import Adm from '@/core/admin/Adm'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
 import bcrypt from 'bcrypt'
 import { type AdmProps } from '@/types/AdmProps'
 import * as jose from 'jose'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { getSecretKey } from '@/lib/auth'
 
 export async function POST(req: Request) {
     try {
         await connect()
+
         const body = await req.json()
+
         const { accessCode, email, password }: AdmProps = body
-        console.log(body)
-        const SECRET_KEY = process.env.SECRET_KEY || ''
+
+        const SECRET_KEY = getSecretKey()
+
         const adm: AdmProps | null = await Adm.findOne({ email })
-        console.log(adm)
 
         if (!adm) {
             return NextResponse.json({
                 error: true,
-                status: 401,
+                status: HttpStatusCode.NOT_FOUND,
                 message: 'Credentials Invalid!',
             })
         }
@@ -35,8 +39,9 @@ export async function POST(req: Request) {
         }
 
         adm.token = ''
-        const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60
-        // const token = sign({ email }, SECRET_KEY, { expiresIn: MAX_AGE });
+
+        const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60 // 5 hours
+
         const token = await new jose.SignJWT({})
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
@@ -44,24 +49,8 @@ export async function POST(req: Request) {
             .sign(new TextEncoder().encode(SECRET_KEY))
 
         adm.token = token
-        console.log(token)
 
         await adm.save()
-        // const hasToken = cookies().has("auth-token");
-
-        // if (hasToken)
-        //   return NextResponse.json({
-        //     message: "Sucess!",
-        //     error: false,
-        //     status: 201
-        //   });
-        // cookies().set("auth-token", token, { httpOnly: false, expires: MAX_AGE });
-        // NextResponse.next().cookies.set({
-        //   name: "auth-token",
-        //   value: token,
-        //   httpOnly: false,
-        //   maxAge: MAX_AGE
-        // });
 
         const cookiesValue = NextResponse.next().cookies.set('auth_token', token, {
             expires: 5 * 60 * 60,

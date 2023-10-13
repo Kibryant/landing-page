@@ -1,5 +1,5 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react'
 
-type HandleChangeProps = (e: ChangeEvent<HTMLInputElement>) => void;
+type HandleChangeProps = (e: ChangeEvent<HTMLInputElement>) => void
 
-export type { HandleChangeProps };
+export type { HandleChangeProps }

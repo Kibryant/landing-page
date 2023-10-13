@@ -1,8 +1,8 @@
 import connect from '@/core/db'
 import { authHeader } from '@/lib/auth'
-import User from '@/models/User'
+import User from '@/core/user/models/User'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { ResProps } from '@/types/ResProps'
+import { ResProps } from '@/types/class/Response'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request, { params: { email } }: { params: { email: string } }) {

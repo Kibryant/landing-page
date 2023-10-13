@@ -7,7 +7,7 @@ interface MiniBoxProps {
 
 const MiniBox = ({ Icon, text }: MiniBoxProps) => {
     return (
-        <div className="px-4 py-2 flex rounded-xl bg-brandBlue max-w-[140px] justify-center items-center gap-x-2">
+        <div className="px-3 py-1 flex rounded-xl bg-primary max-w-[140px] justify-center items-center gap-x-2">
             <Icon className="w-5 h-5 text-white" />
             <span className="font-normal uppercase tracking-widest text-xs text-white">{text}</span>
         </div>

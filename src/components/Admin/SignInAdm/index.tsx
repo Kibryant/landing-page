@@ -35,7 +35,7 @@ const SignInAdm = () => {
         setMessageError('')
 
         try {
-            await fetch('api/auth/adm', {
+            await fetch('api/auth/admin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,6 +51,7 @@ const SignInAdm = () => {
 
                 if (result.status !== HttpStatusCode.CREATED) {
                     setMessageError(result.message)
+                    setFormSubmitting(false)
                     return
                 }
 
@@ -65,57 +66,56 @@ const SignInAdm = () => {
     }
 
     return (
-        <main className="min-h-screen w-full flex justify-center items-center bg-black">
+        <main className="min-h-screen w-full flex justify-center items-center">
             <form
-                className="flex max-w-xl flex-col justify-center items-center gap-4 w-full rounded-md border border-gray-400 p-4"
+                className="flex max-w-xl flex-col justify-center items-center gap-4 w-full rounded-md border p-4"
                 onSubmit={handleSubmit}
             >
-                <h2 className="text-3xl text-white font-bold">Acessar Painel</h2>
+                <h2 className="text-3xl font-bold">Acessar Painel</h2>
                 {!!messageError && <span className="text-red-500 text-center">{messageError}</span>}
                 <div className="w-full flex gap-1 flex-col justify-start">
                     <label htmlFor="accessCode" className="flex items-end gap-2">
-                        <CommandLineIcon className="h-8 w-8 text-white" />
-                        <span className="text-xs text-zinc-100">Digite seu código de acesso...</span>
+                        <CommandLineIcon className="h-8 w-8" />
+                        <span className="text-xs">Digite seu código de acesso...</span>
                     </label>
                     <input
                         onChange={handleChangeInputs}
                         name="accessCode"
                         id="accessCode"
                         type="password"
-                        className="bg-transparent outline-none text-white p-2 rounded-md border border-zinc-200 w-full"
+                        className="bg-transparent outline-none p-2 rounded-md border w-full"
                     />
                 </div>
                 <div className="w-full flex gap-1 flex-col justify-start">
                     <label htmlFor="email" className="flex items-end gap-2">
-                        <EnvelopeIcon className="h-8 w-8 text-white" />
-                        <span className="text-xs text-zinc-100">Digite seu email..</span>
+                        <EnvelopeIcon className="h-8 w-8 " />
+                        <span className="text-xs ">Digite seu email..</span>
                     </label>
                     <input
                         onChange={handleChangeInputs}
                         type="text"
                         name="email"
                         id="email"
-                        className="bg-transparent outline-none text-white p-2 rounded-md border border-zinc-200 w-full"
+                        className="bg-transparent outline-none  p-2 rounded-md border  w-full"
                     />
                 </div>
                 <div className="w-full flex gap-1 flex-col justify-start">
                     <label htmlFor="password" className="flex items-end gap-2">
-                        <ShieldCheckIcon className="h-8 w-8 text-white" />
-                        <span className="text-xs text-zinc-100">Digite sua senha...</span>
+                        <ShieldCheckIcon className="h-8 w-8 " />
+                        <span className="text-xs ">Digite sua senha...</span>
                     </label>
                     <input
                         onChange={handleChangeInputs}
                         type="password"
                         name="password"
                         id="password"
-                        className="bg-transparent outline-none text-white p-2 rounded-md border border-zinc-200 w-full"
+                        className="bg-transparent outline-none  p-2 rounded-md border  w-full"
                     />
                 </div>
                 <div className="w-full">
                     <button
                         type="submit"
-                        className="uppercase w-full font-medium tracking-widest bg-emerald-500 py-2 px-4 rounded-md text-center"
-                        disabled={isFormSubmitting}
+                        className="uppercase w-full font-medium tracking-widest text-primary-foreground bg-primary py-2 px-4 rounded-md text-center"
                     >
                         Acessar
                     </button>

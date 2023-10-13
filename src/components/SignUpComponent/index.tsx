@@ -7,92 +7,114 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useState } from 'react'
 import { Toaster } from 'sonner'
+import { signIn } from 'next-auth/react'
 
 const SignUpComponent = () => {
-    const { handleChangeInputs, handleSubmit, message, isFormSubmitting } = useSignUp()
+    const { errors, handleSignUp, isLoading, messageFromApi, register, handleSubmit } = useSignUp()
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
     return (
         <>
             <form
-                className="flex flex-col justify-center items-center gap-4 w-full rounded-md max-w-lg p-8 border border-brandBlue"
-                onSubmit={handleSubmit}
+                className="flex flex-col justify-center items-center gap-4 w-full rounded-md max-w-lg p-8 border border-primary"
+                onSubmit={handleSubmit(handleSignUp)}
             >
+                {messageFromApi.error.length > 0 && <span>{messageFromApi.error}</span>}
                 <Toaster richColors closeButton />
-                {message && <span className="text-red-500">{message}</span>}
                 <div className="w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="email">
-                        <EnvelopeIcon className="h-8 w-8 text-brandBlue" />
+                        <EnvelopeIcon className="h-8 w-8 text-primary" />
                     </label>
                     <input
+                        {...register('email')}
                         type="email"
-                        onChange={handleChangeInputs}
-                        name="email"
                         id="email"
                         placeholder="johndoe@example.com"
-                        className="text-zinc-600 bg-transparent border-b border-brandBlue w-full rounded-md p-2 outline-none text-sm"
+                        className="bg-transparent border-b border-primary w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
                         required
                     />
                 </div>
+                {!!errors.email?.message && <span className="text-red-500 text-xs">{errors.email.message}</span>}
                 <div className="w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="username">
-                        <UserIcon className="h-8 w-8 text-brandBlue" />
+                        <UserIcon className="h-8 w-8 text-primary" />
                     </label>
                     <input
+                        {...register('username')}
                         type="text"
                         id="username"
-                        name="username"
-                        onChange={handleChangeInputs}
                         placeholder="JohnDurant"
-                        className="text-zinc-600 bg-transparent border-b border-brandBlue w-full rounded-md p-2 outline-none text-sm"
+                        className="bg-transparent border-b border-primary w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
                         required
                     />
                 </div>
+                {!!errors.username?.message && <span className="text-red-500 text-xs">{errors.username.message}</span>}
                 <div className="relative w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="password">
-                        <LockClosedIcon className="h-8 w-8 text-brandBlue" />
+                        <LockClosedIcon className="h-8 w-8 text-primary" />
                     </label>
                     <input
                         type={!isPasswordVisible ? 'password' : 'text'}
-                        name="password"
-                        onChange={handleChangeInputs}
+                        {...register('password')}
                         id="password"
                         placeholder="Secret!"
-                        className="text-zinc-600 bg-transparent border-b border-brandBlue  w-full rounded-md p-2 outline-none text-sm"
+                        className="bg-transparent border-b border-primary  w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
                         required
                     />
                     {isPasswordVisible ? (
                         <EyeIcon
-                            className="h-8 w-8 text-brandBlue absolute right-0 top-1/2 cursor-pointer"
+                            className="h-8 w-8 text-primary absolute right-0 top-1/2 cursor-pointer"
                             onClick={() => setIsPasswordVisible((prev) => !prev)}
                         />
                     ) : (
                         <EyeSlashIcon
-                            className="h-8 w-8 text-brandBlue absolute right-0 top-1/2 cursor-pointer"
+                            className="h-8 w-8 text-primary absolute right-0 top-1/2 cursor-pointer"
                             onClick={() => setIsPasswordVisible((prev) => !prev)}
                         />
                     )}
                 </div>
+                {!!errors.password?.message && <span className="text-red-500 text-xs">{errors.password.message}</span>}
+                <div className="relative w-full flex gap-1 justify-between flex-col">
+                    <label htmlFor="passwordConfirm">
+                        <LockClosedIcon className="h-8 w-8 text-primary" />
+                    </label>
+                    <input
+                        type="password"
+                        {...register('passwordConfirm')}
+                        id="passwordConfirm"
+                        placeholder="Secret!"
+                        className="bg-transparent border-b border-primary  w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
+                        autoComplete="off"
+                        required
+                    />
+                </div>
+                {!!errors.passwordConfirm?.message && (
+                    <span className="text-red-500 text-xs">{errors.passwordConfirm.message}</span>
+                )}
 
                 <div className="flex gap-2">
-                    <button className="flex group transition hover:border-brandBlue items-center justify-center rounded-full p-2 border border-zinc-500 hover:-translate-y-2">
+                    <button
+                        onClick={() => signIn('google')}
+                        className="flex group transition hover:border-primary items-center justify-center rounded-full p-2 border  hover:-translate-y-2"
+                    >
                         <FontAwesomeIcon
                             icon={faGoogle}
-                            className="w-5 h-5 text-zinc-600 group-hover:text-brandBlue transition group-hover:translate-y-[-2px]"
+                            className="w-5 h-5 group-hover:text-primary transition group-hover:translate-y-[-2px]"
                         />
                     </button>
-                    <button className="flex group transition hover:border-brandBlue items-center justify-center rounded-full p-2 border border-zinc-500 hover:-translate-y-2">
+                    <button className="flex group transition hover:border-primary items-center justify-center rounded-full p-2 border  hover:-translate-y-2">
                         <FontAwesomeIcon
                             icon={faFacebook}
-                            className="w-5 h-5 text-zinc-600 group-hover:text-brandBlue transition group-hover:translate-y-[-2px]"
+                            className="w-5 h-5 group-hover:text-primary transition group-hover:translate-y-[-2px]"
                         />
                     </button>
-                    <button className="flex group transition hover:border-brandBlue items-center justify-center rounded-full p-2 border border-zinc-500 hover:-translate-y-2">
+                    <button className="flex group transition hover:border-primary items-center justify-center rounded-full p-2 border  hover:-translate-y-2">
                         <FontAwesomeIcon
                             icon={faApple}
-                            className="w-5 h-5 text-zinc-600 group-hover:text-brandBlue transition group-hover:translate-y-[-2px]"
+                            className="w-5 h-5 group-hover:text-primary transition group-hover:translate-y-[-2px]"
                         />
                     </button>
                 </div>
@@ -100,16 +122,16 @@ const SignUpComponent = () => {
                 <div className="w-full flex flex-col justify-center items-center gap-2">
                     <button
                         type="submit"
-                        className="w-full py-2 transition bg-brandBlue font-medium text-white rounded-md uppercase hover:tracking-widest disabled:bg-blue-700"
-                        disabled={isFormSubmitting}
+                        className="w-full py-2 transition bg-primary font-medium rounded-md uppercase hover:tracking-widest disabled:bg-blue-700"
+                        disabled={isLoading}
                     >
-                        {isFormSubmitting ? 'Saving...' : 'Sign Up'}
+                        {isLoading ? 'Saving...' : 'Sign Up'}
                     </button>
-                    <span className="text-zinc-600 font-medium text-xs">
+                    <span className="font-medium text-xs">
                         Have a account?
                         <Link
                             href="/signin"
-                            className="uppercase hover:font-bold font-semibold underline text-brandBlue ms-1"
+                            className="uppercase hover:font-bold font-semibold underline text-primary ms-1"
                         >
                             Sign-In
                         </Link>{' '}

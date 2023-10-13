@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Footer from '../Footer'
 import Header from '../Header'
-import { PokemonList } from '../PokemonList'
 import { Section } from '../Section'
 
 type PokemonsProps = {
@@ -24,7 +23,7 @@ const Home = async () => {
     const pokemons = await getData()
     return (
         <>
-            <div>
+            {/* <div>
                 <div className="relative isolate">
                     <div
                         aria-hidden="true"
@@ -39,49 +38,49 @@ const Home = async () => {
                         />
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <Header showContent={true} isAdm={false} />
 
             <main>
                 <Section>
                     <div className="mx-auto sm:text-center max-w-2xl">
-                        <h2 className="font-bold text-4xl text-gray-900">Hello My Name is Arthur!</h2>
-                        <p className="mt-4  text-gray-600">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+                        <h2 className="font-bold text-4xl">
+                            Hello My Name is <span className="text-primary">Arthur!</span>
+                        </h2>
+                        <p className="mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
                     </div>
                     <ol className="my-8 space-y-4 mt-8 md:flex md:space-x-12 md:space-y-0">
                         <li className="md:flex-1 ">
-                            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-                                <span className="text-sm font-medium text-brandBlue">Step 1</span>
+                            <div className="flex flex-col space-y-2 border-l-4 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+                                <span className="text-sm font-medium text-primary">Step 1</span>
                                 <span className="text-xl font-semibold">Sign Up for account</span>
-                                <span className="mt-2 text-zinc-700">
+                                <span className="mt-2">
                                     Either Starting Out With a Free plan or choose our pro plan!
                                 </span>
                             </div>
                         </li>
                         <li className="md:flex-1 ">
-                            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-                                <span className="text-sm font-medium text-brandBlue">Step 2</span>
+                            <div className="flex flex-col space-y-2 border-l-4 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+                                <span className="text-sm font-medium text-primary">Step 2</span>
                                 <span className="text-xl font-semibold">Buy our Products!</span>
-                                <span className="mt-2 text-zinc-700">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                </span>
+                                <span className="mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
                             </div>
                         </li>
                         <li className="md:flex-1 ">
-                            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-                                <span className="text-sm font-medium text-brandBlue">Step 3</span>
+                            <div className="flex flex-col space-y-2 border-l-4 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+                                <span className="text-sm font-medium text-primary">Step 3</span>
                                 <span className="text-xl font-semibold">Start Making Money</span>
-                                <span className="mt-2 text-zinc-700">
+                                <span className="mt-2">
                                     Either Starting Out With a Free plan or choose our pro plan!
                                 </span>
                             </div>
                         </li>
                         <li className="md:flex-1 ">
-                            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-                                <span className="text-sm font-medium text-brandBlue">Step 4</span>
+                            <div className="flex flex-col space-y-2 border-l-4 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+                                <span className="text-sm font-medium text-primary">Step 4</span>
                                 <span className="text-xl font-semibold">Hello World</span>
-                                <span className="mt-2 text-zinc-700">
+                                <span className="mt-2">
                                     Either Starting Out With a Free plan or choose our pro plan!
                                 </span>
                             </div>

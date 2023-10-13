@@ -1,10 +1,13 @@
 /* eslint-disable prettier/prettier */
 'use client'
+import { ModeToggle } from '@/components/DropdownTheme'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false)
+    const userPath = usePathname()
 
     function toggleNavbar() {
         setShowNavbar(!showNavbar)
@@ -35,31 +38,40 @@ const Navbar = () => {
                         }`}
                 >
                     <li>
-                        <Link href="/" className="text-gray-900 hover:text-brandBlue">
+                        <Link href="/" className={`hover:text-primary ${userPath === "/" && "text-primary"}`}>
                             Home
                         </Link>
                     </li>
                     <li>
-                        <Link href="/dashboard" className="text-gray-900 hover:text-brandBlue">
+                        <Link href="/dashboard" className="hover:text-primary">
+                            Dashboard
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/products" className="hover:text-primary">
                             Products
                         </Link>
                     </li>
                     <li>
-                        <Link href="/register" className="text=gray=900 hover:text-brandBlue rounded-md">
-                            Register
+                        <Link href="/chat" className="text=gray=900 hover:text-primary rounded-md">
+                            ChatAi
                         </Link>
                     </li>
                 </ul>
             </div>
+            <div className='absolute right-60'>
+                <ModeToggle />
+            </div>
+
             <Link
                 href="/accounts/sign-in"
-                className="py-2 px-4 hidden md:block font-bold absolute right-28 hover:bg-zinc-200 text-gray-900 shadow-lg rounded-md"
+                className="py-2 px-4 hidden md:block font-bold absolute right-28 dark:hover:text-black hover:bg-zinc-200 shadow-lg rounded-md"
             >
                 Sign In
             </Link>
             <Link
                 href="/accounts/sign-up"
-                className="py-2 px-4 hidden md:block font-bold absolute right-0 text-white hover:bg-blue-700 transition bg-brandBlue rounded-md"
+                className="py-2 px-4 hidden md:block font-bold absolute right-0 text-white hover:bg-primary/90 transition bg-primary rounded-md"
             >
                 Sign Up
             </Link>

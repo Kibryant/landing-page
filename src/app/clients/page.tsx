@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 export default async function Client() {
     const userCookies = cookies().get('client-system')
+    const nextAuthCookies = cookies().get('next-auth.session-token')
 
     if (typeof userCookies === 'undefined') {
         redirect('/accounts/sign-up?origin=dashboard')
@@ -18,7 +19,7 @@ export default async function Client() {
             <Section>
                 <h1 className="text-black">Hi Clients!</h1>
                 <h3 className="text-gray-700">
-                    <Link href={`clients/${user?.username}`}>Go to your Area Client!</Link>
+                    {/* <Link href={`clients/${user?.username}`}>Go to your Area Client!</Link> */}
                 </h3>
             </Section>
         </>

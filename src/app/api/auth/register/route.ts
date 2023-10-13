@@ -1,11 +1,9 @@
-import User from '@/models/User'
+import User from '@/core/user/models/User'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
 import bcrypt from 'bcrypt'
 import { type UserProps } from '@/types/UserProps'
 import { cookies } from 'next/headers'
-import * as jose from 'jose'
-import { expirationTime, getSecretKey } from '@/lib/auth'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 
 export async function POST(req: Request) {
@@ -51,7 +49,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             message: 'User created!',
-            status: HttpStatusCode.OK,
+            status: HttpStatusCode.CREATED,
             error: false,
             data: {
                 email: newUser.email,

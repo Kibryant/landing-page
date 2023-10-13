@@ -1,8 +1,12 @@
+'use client'
+
 import { CartProvider } from '@/contexts/CartContext'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
-import Providers from '@/components/Providers'
+import Providers from '@/components/Providers/trcpProvider'
+import { ThemeProvider } from 'next-themes'
+import { SessionProvider } from 'next-auth/react'
 
 export const metadata: Metadata = {
     title: 'My Landing Page',
@@ -19,10 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <Providers>
-                <body
-                    className={`${poppins.className} dark:bg-zinc-900 min-h-screen antialiased grainy bg-zinc-50 overflow-x-hidden`}
-                >
-                    <CartProvider>{children}</CartProvider>
+                <body className={`${poppins.className} min-h-screen antialiased overflow-x-hidden`}>
+                    <SessionProvider>
+                        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                            <CartProvider>{children}</CartProvider>
+                        </ThemeProvider>
+                    </SessionProvider>
                 </body>
             </Providers>
         </html>

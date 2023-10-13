@@ -1,23 +1,23 @@
-import Product from "@/models/Product";
-import { NextResponse } from "next/server";
-import connect from "@/core/db";
+import Product from '@/core/product/model/Product'
+import { NextResponse } from 'next/server'
+import connect from '@/core/db'
 
 export async function GET(req: Request) {
-  await connect();
+    await connect()
 
-  const products = await Product.find();
+    const products = await Product.find()
 
-  if (!products)
+    if (!products)
+        return NextResponse.json({
+            message: 'No have products!',
+            error: true,
+            status: 401,
+        })
+
     return NextResponse.json({
-      message: "No have products!",
-      error: true,
-      status: 401
-    });
-
-  return NextResponse.json({
-    message: "Success",
-    status: 201,
-    error: false,
-    data: products
-  });
+        message: 'Success',
+        status: 201,
+        error: false,
+        data: products,
+    })
 }

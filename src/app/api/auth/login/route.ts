@@ -1,12 +1,10 @@
-import User from '@/models/User'
+import User from '@/core/user/models/User'
 import connect from '@/core/db'
 import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 import { UserProps } from '@/types/UserProps'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { cookies } from 'next/headers'
-import * as jose from 'jose'
-import { expirationTime, getSecretKey } from '@/lib/auth'
 
 export async function POST(req: Request) {
     try {
@@ -21,6 +19,7 @@ export async function POST(req: Request) {
                 error: true,
                 message: `Credentials Invalid`,
                 status: HttpStatusCode.NOT_FOUND,
+                data: null,
             })
         }
 

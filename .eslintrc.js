@@ -20,6 +20,7 @@ module.exports = {
     },
     plugins: ['jsx-a11y', '@typescript-eslint'],
     rules: {
+        'no-useless-constructor': 'off',
         'prettier/prettier': [
             'error',
             {

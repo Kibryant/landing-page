@@ -19,7 +19,7 @@ export default function ProductsLayout({ children }: { children: React.ReactNode
                         <Widgets.Template>
                             <div className="col-span-2 z-10 pe-8">
                                 <Widgets.Title>
-                                    Hello, <span className="text-brandBlue">Arthur!</span>
+                                    Hello, <span className="text-primary">Arthur!</span>
                                 </Widgets.Title>
                                 <Widgets.Subtitle
                                     subtitle="
@@ -27,7 +27,7 @@ export default function ProductsLayout({ children }: { children: React.ReactNode
                                 />
                                 <Widgets.Bottom>
                                     Ask your questions{' '}
-                                    <Link href="/dashboard" className="underline uppercase text-brandBlue">
+                                    <Link href="/dashboard" className="underline uppercase text-primary">
                                         here
                                     </Link>
                                     .
