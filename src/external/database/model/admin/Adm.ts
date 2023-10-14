@@ -4,7 +4,7 @@ import mongoose, { Model } from 'mongoose'
 const { Schema } = mongoose
 type AdminModelProps = Model<AdmProps>
 
-const admSchema = new Schema<AdmProps>(
+const adminSchema = new Schema<AdmProps>(
     {
         token: { type: String, unique: true },
         accessCode: { type: String, require: true, unique: true },
@@ -14,6 +14,6 @@ const admSchema = new Schema<AdmProps>(
     { timestamps: true },
 )
 
-const AdminModel: AdminModelProps = mongoose.models.Adm || mongoose.model('Adm', admSchema)
+const AdminModel: AdminModelProps = mongoose.models.Adm || mongoose.model('Adm', adminSchema)
 
 export default AdminModel

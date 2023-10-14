@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
-import bcrypt from 'bcrypt'
 import { cookies } from 'next/headers'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
@@ -57,6 +56,7 @@ export async function POST(req: Request) {
             email,
             username,
             password: hashedPassword,
+            tasks: [],
         })
 
         if (!data) {

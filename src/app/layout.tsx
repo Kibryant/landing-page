@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import Providers from '@/components/Providers/trcpProvider'
 import { ThemeProvider } from 'next-themes'
-import { SessionProvider } from 'next-auth/react'
+import AuthProvider from '@/components/Providers/authProvider'
 
 export const metadata: Metadata = {
     title: 'My Landing Page',
@@ -24,11 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <Providers>
                 <body className={`${poppins.className} min-h-screen antialiased overflow-x-hidden`}>
-                    <SessionProvider>
+                    <AuthProvider>
                         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                             <CartProvider>{children}</CartProvider>
                         </ThemeProvider>
-                    </SessionProvider>
+                    </AuthProvider>
                 </body>
             </Providers>
         </html>

@@ -9,7 +9,7 @@ interface UserProps extends Document {
     email: string
     username: string
     password: string
-    tasks: TasksProps | []
+    tasks: TasksProps[] | []
 }
 
 export type { UserProps, TasksProps }

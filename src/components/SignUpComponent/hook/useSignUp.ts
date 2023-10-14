@@ -1,8 +1,8 @@
+'use client'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { ResProps } from '@/types/class/Response'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import { useSession } from 'next-auth/react'
+import { ResProps } from '@/types/ResProps'
+import { useState } from 'react'
+// import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import 'react-toastify/ReactToastify.css'
@@ -12,7 +12,7 @@ import { UserProps } from '@/types/UserProps'
 
 const useSignUp = () => {
     const router = useRouter()
-    const { data: session } = useSession()
+    // const { data: session } = useSession()
 
     const [messageFromApi, setMessageFromApi] = useState({
         error: '',
@@ -27,8 +27,8 @@ const useSignUp = () => {
         resolver: zodResolver(signUpSchema),
         mode: 'onSubmit',
         defaultValues: {
-            email: session?.user?.email ? session.user.email : '',
-            username: session?.user?.name ? session.user.name : '',
+            email: '',
+            username: '',
             password: '',
             passwordConfirm: '',
         },

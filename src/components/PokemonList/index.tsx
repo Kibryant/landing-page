@@ -45,7 +45,7 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
                 <div key={index} className="flex  flex-col justify-center px-4 shadow-md py-2 rounded-md mt-3 ">
                     <div className="">
                         <button
-                            className="text-brandPink text-2xl w-full flex justify-between uppercase items-center"
+                            className="text-primary text-2xl w-full flex justify-between uppercase items-center"
                             onClick={() => toggleStats(index)}
                         >
                             {pokemon.name}

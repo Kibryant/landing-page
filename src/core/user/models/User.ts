@@ -5,7 +5,7 @@ export default interface User {
     username: string
     email: string
     password: string
-    tasks?: TasksProps | []
+    tasks: TasksProps[] | []
     createdAt?: Date
     updatedAt?: Date
 }

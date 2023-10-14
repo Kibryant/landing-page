@@ -1,7 +1,7 @@
 'use client'
 
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { ResProps } from '@/types/class/Response'
+import { ResProps } from '@/types/ResProps'
 import { useCallback, useEffect, useState } from 'react'
 interface UseFetchProps<T> {
     url: string

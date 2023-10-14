@@ -4,9 +4,10 @@
         "source.fixAll.eslint": true
     },
     "material-icon-theme.folders.associations": {
-        "core": "rules",
+        "product": "rules",
         "adapters": "pipe",
         "external": "tools",
-        "memory": "archive"
+        "memory": "archive",
+        "repository": "supabase"
     }
 }

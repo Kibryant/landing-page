@@ -1,4 +1,4 @@
-import Adm from '@/core/admin/Adm'
+import Adm from '@/external/database/model/admin/Adm'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
 import bcrypt from 'bcrypt'
@@ -6,6 +6,7 @@ import { type AdmProps } from '@/types/AdmProps'
 import * as jose from 'jose'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { getSecretKey } from '@/lib/auth'
+import Admin from '@/core/admin/model/Admin'
 
 export async function POST(req: Request) {
     try {
@@ -13,7 +14,7 @@ export async function POST(req: Request) {
 
         const body = await req.json()
 
-        const { accessCode, email, password }: AdmProps = body
+        const { accessCode, email, password }: Admin = body
 
         const SECRET_KEY = getSecretKey()
 

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Footer from '../Footer'
 import Header from '../Header'
 import { Section } from '../Section'
+import { PokemonList } from '../PokemonList'
 
 type PokemonsProps = {
     name: string
@@ -98,7 +99,9 @@ const Home = async () => {
                     </div>
                 </Section>
                 <Section>
-                    <div></div>
+                    <div>
+                        <PokemonList pokemonsList={pokemons} />
+                    </div>
                 </Section>
             </main>
             <Footer />
