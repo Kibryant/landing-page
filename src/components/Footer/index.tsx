@@ -6,9 +6,9 @@ import { DogIcon, SunIcon, TvIcon } from 'lucide-react'
 
 const Footer = () => {
     return (
-        <footer className="w-full flex items-center justify-center py-4 px-2 bg-secondary">
+        <footer className="w-full flex items-center justify-center py-4 mt-20 px-2 bg-secondary">
             <div className="flex flex-col gap-6 w-full max-w-7xl">
-                <div className="grid place-items-center grid-cols-4 w-full">
+                <div className="grid place-items-center space-y-4 sm:grid-cols-4 w-full">
                     <div className="flex flex-col justify-center gap-2">
                         <h2 className="font-bold">Arthur&apos;s</h2>
                         <p className="text-justify text-muted-foreground text-xs">
@@ -31,8 +31,8 @@ const Footer = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center gap-2">
-                        <h3 className=" font-semi-bold">Resources</h3>
+                    <div className="flex flex-col justify-start sm:w-fit w-full sm:justify-center gap-2">
+                        <h3 className="font-semi-bold">Resources</h3>
                         <div className="flex flex-col gap-2 ">
                             <Link href="" className="text-sm">
                                 Home
@@ -48,7 +48,7 @@ const Footer = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center gap-2">
+                    <div className="flex flex-col justify-start sm:w-fit w-full sm:justify-center gap-2">
                         <h3 className=" font-semibold">Useful Links</h3>
                         <div className="flex flex-col gap-2 ">
                             <Link href="" className="text-sm">
@@ -66,8 +66,8 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-center gap-2">
-                        <h2 className="">News Letter</h2>
-                        <p className="text-justify text-xs">Sign-Up with you email!</p>
+                        <h2 className="text-center">News Letter</h2>
+                        <p className="sm:text-justify text-xs text-center">Sign-Up with you email!</p>
                         <div className="flex flex-col gap-1">
                             <Input className="bg-transparent border border-secondary-foreground outline-none" />
                             <Button>Send</Button>

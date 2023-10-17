@@ -6,11 +6,12 @@ import Header from '@/components/Header'
 import Link from 'next/link'
 import { BoltIcon, BugAntIcon, TvIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
+import Footer from '@/components/Footer'
 
 const Dashboard = () => {
     return (
-        <>
-            <Header showContent={false} />
+        <div className="overflow-x-hidden px-2">
+            <Header showContent={false} isAdm={false} />
             <main>
                 <Section>
                     <div className="flex flex-col items-center justify-center gap-y-16 w-full">
@@ -24,7 +25,7 @@ const Dashboard = () => {
                             </p>
                             <Link
                                 href="/accounts/sign-up"
-                                className="w-full py-2 px-3 max-w-md bg-primary font-bold uppercase text-center rounded-md"
+                                className="w-full py-2 px-3 text-white max-w-md bg-primary font-bold uppercase text-center rounded-xl"
                             >
                                 Get started
                             </Link>
@@ -42,16 +43,16 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </Section>
-                <Section className="relative">
+                <section className="relative flex items-center justify-center">
                     <Image
-                        alt="Dashboard Picture"
+                        alt="Cloud"
                         quality={100}
                         width={751.7}
                         height={567.68}
                         src="/images/cloud.png"
                         className="-left-10 top-0 absolute"
                     />
-                    <div className="flex justify-between mt-40">
+                    <div className="flex w-full flex-col-reverse gap-y-4 sm:gap-y-0 sm:flex-row max-w-7xl items-center justify-between mt-40">
                         <Image
                             alt="Dashboard Picture"
                             quality={100}
@@ -60,9 +61,9 @@ const Dashboard = () => {
                             src="/images/dashboard-picture.png"
                             className="z-50"
                         />
-                        <div className="flex flex-col gap-y-6">
-                            <h2 className="text-3xl">I&apos;ts a Very Beautiful System</h2>
-                            <div className="flex gap-4 border rounded-xl p-4 shadow w-full">
+                        <div className="flex flex-col gap-y-6 z-50">
+                            <h2 className="text-3xl text-left">I&apos;ts a Very Beautiful System</h2>
+                            <div className="flex gap-4 border rounded-xl p-4 shadow w-full ">
                                 <div className="p-4 rounded-md flex items-center justify-center bg-gray-50">
                                     <BugAntIcon className="h-8 w-8 text-[#4C9BE8]" />
                                 </div>
@@ -91,9 +92,10 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                </Section>
+                </section>
             </main>
-        </>
+            <Footer />
+        </div>
     )
 }
 

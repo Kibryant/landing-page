@@ -1,4 +1,4 @@
-import Product from '@/core/product/model/Product'
+import Product from '@/core/product/model/Products'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
 

@@ -19,63 +19,76 @@ const Navbar = () => {
                 onClick={toggleNavbar}
             >
                 <div
-                    className={`w-full h-[2px] bg-black rounded duration-300  ${showNavbar && 'absolute -rotate-45 top-2/4 translate-y-[-50%]'
+                    className={`w-full h-[2px] bg-primary rounded duration-300  ${showNavbar && 'absolute -rotate-45 top-2/4 translate-y-[-50%]'
                         }`}
                 ></div>
                 <div
-                    className={`w-full h-[2px] bg-black rounded duration-300  ${showNavbar && 'rotate-0 opacity-0'}`}
+                    className={`w-full h-[2px] bg-primary rounded duration-300  ${showNavbar && 'rotate-0 opacity-0'}`}
                 ></div>
                 <div
-                    className={`w-full h-[2px] bg-black rounded duration-300  ${showNavbar && 'absolute rotate-45 bottom-2/4 translate-y-[50%]'
+                    className={`w-full h-[2px] bg-primary rounded duration-300  ${showNavbar && 'absolute rotate-45 bottom-2/4 translate-y-[50%]'
                         }`}
                 ></div>
-            </div>
-            <div className="flex justify-start md:justify-end items-center backdrop-blur-lg">
-                <ul
-                    className={`absolute gap-6 flex flex-col items-center justify-center duration-300 top-0 min-h-screen w-full 
-            md:static bg-white md:bg-transparent text-xl
-            md:min-h-full md:flex-row md:text-base md:h-full md:items-center md:w-2/5 ${showNavbar ? 'left-0' : 'left-full'
-                        }`}
-                >
-                    <li>
-                        <Link href="/" className={`hover:text-primary ${userPath === "/" && "text-primary"}`}>
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/dashboard" className="hover:text-primary">
-                            Dashboard
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/products" className="hover:text-primary">
-                            Products
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href="/chat" className="text=gray=900 hover:text-primary rounded-md">
-                            ChatAi
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-            <div className='absolute right-60'>
+            </div >
+            <ul
+                className={`min-h-screen bg-muted duration-300 absolute w-screen flex-col top-0 flex justify-center items-center gap-4 sm:flex-row sm:relative sm:w-full sm:bg-transparent sm:transform-none sm:min-h-full sm:justify-start sm:px-8 ${showNavbar ? "translate-x-0" : "translate-x-full"}`}
+            >
+                <li>
+                    <Link href="/" className={`hover:text-primary text-lg ${userPath === "/" && "text-primary"}`}>
+                        Home
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/dashboard" className="hover:text-primary text-lg">
+                        Dashboard
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/products" className="hover:text-primary text-lg">
+                        Products
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/chat" className="text=gray=900 hover:text-primary text-lg rounded-md">
+                        ChatAi
+                    </Link>
+                </li>
+                <li className='md:hidden py-2 px-4 hover:bg-primary/90 transition bg-primary rounded-md'>
+                    <Link
+                        href="/accounts/sign-up"
+                        className="font-bold"
+                    >
+                        Sign Up
+                    </Link>
+
+                </li>
+                <li className='md:hidden py-2 px-4 bg-primary-foreground shadow-lg rounded-md'>
+                    <Link
+                        href="/accounts/sign-in"
+                        className="font-bold"
+                    >
+                        Sign In
+                    </Link>
+                </li>
+            </ul>
+
+            <div className='hidden sm:block sm:absolute sm:right-60'>
                 <ModeToggle />
             </div>
 
             <Link
                 href="/accounts/sign-in"
-                className="py-2 px-4 hidden md:block font-bold absolute right-28 dark:hover:text-black hover:bg-zinc-200 shadow-lg rounded-md"
+                className="py-2 px-4 hidden md:block font-bold absolute right-28 shadow-lg rounded-md"
             >
                 Sign In
             </Link>
             <Link
                 href="/accounts/sign-up"
-                className="py-2 px-4 hidden md:block font-bold absolute right-0 text-white hover:bg-primary/90 transition bg-primary rounded-md"
+                className="py-2 px-4 hidden md:block font-bold absolute right-0 hover:bg-primary/90 transition bg-primary rounded-md"
             >
                 Sign Up
             </Link>
-        </nav>
+        </nav >
     )
 }
 

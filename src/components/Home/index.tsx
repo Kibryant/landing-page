@@ -2,26 +2,8 @@ import Image from 'next/image'
 import Footer from '../Footer'
 import Header from '../Header'
 import { Section } from '../Section'
-import { PokemonList } from '../PokemonList'
-
-type PokemonsProps = {
-    name: string
-    url: string
-}
-type ApiResponse = {
-    results: PokemonsProps[]
-}
-
-const getData = async (): Promise<PokemonsProps[]> => {
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon')
-        .then((res) => res.json())
-        .then((data: ApiResponse) => data.results)
-    if (!res) throw new Error('Failed to Fetch Data!')
-    return res
-}
 
 const Home = async () => {
-    const pokemons = await getData()
     return (
         <>
             {/* <div>
@@ -46,7 +28,7 @@ const Home = async () => {
             <main>
                 <Section>
                     <div className="mx-auto sm:text-center max-w-2xl">
-                        <h2 className="font-bold text-4xl">
+                        <h2 className="font-bold sm:text-center text-left text-4xl">
                             Hello My Name is <span className="text-primary">Arthur!</span>
                         </h2>
                         <p className="mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
@@ -96,11 +78,6 @@ const Home = async () => {
                             src="/images/file-upload-preview.jpg"
                             className="bg-white rounded-lg p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10"
                         />
-                    </div>
-                </Section>
-                <Section>
-                    <div>
-                        <PokemonList pokemonsList={pokemons} />
                     </div>
                 </Section>
             </main>

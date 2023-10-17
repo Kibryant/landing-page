@@ -1,26 +1,37 @@
 import Adm from '@/external/database/model/admin/Adm'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
-import bcrypt from 'bcrypt'
 import { type AdmProps } from '@/types/AdmProps'
-import * as jose from 'jose'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { getSecretKey } from '@/lib/auth'
 import Admin from '@/core/admin/model/Admin'
+import { GetAdminByEmail } from '@/core/admin/services/GetAdminByEmail'
+import { RepositoryAdminMongo } from '@/external/database/admin/RepositoryAdminMongo'
+import PasswordService from '@/external/security/PasswordHashService'
+import JwtService from '@/external/security/jwt/JwtService'
+import { expirationTime } from '@/constants'
+import { UpdateAdmin } from '@/core/admin/services/UpdateAdmin'
 
 export async function POST(req: Request) {
     try {
         await connect()
 
+        const SECRET_KEY = getSecretKey()
+
+        const repositoryAdminMongo = new RepositoryAdminMongo()
+        const passwordHashService = new PasswordService()
+        const jwtService = new JwtService(SECRET_KEY, expirationTime, 'HS256')
+
+        const getAdminByEmail = new GetAdminByEmail(repositoryAdminMongo)
+        const updateAdmin = new UpdateAdmin(repositoryAdminMongo)
+
         const body = await req.json()
 
         const { accessCode, email, password }: Admin = body
 
-        const SECRET_KEY = getSecretKey()
+        const admin = await getAdminByEmail.exec(email)
 
-        const adm: AdmProps | null = await Adm.findOne({ email })
-
-        if (!adm) {
+        if (!admin) {
             return NextResponse.json({
                 error: true,
                 status: HttpStatusCode.NOT_FOUND,
@@ -28,8 +39,8 @@ export async function POST(req: Request) {
             })
         }
 
-        const validAccessCode = await bcrypt.compare(accessCode, adm.accessCode)
-        const validPassword = await bcrypt.compare(password, adm.password)
+        const validAccessCode = await passwordHashService.comparePassword(accessCode, admin.accessCode)
+        const validPassword = await passwordHashService.comparePassword(password, admin.password)
 
         if (!validPassword || !validAccessCode) {
             return NextResponse.json({
@@ -39,19 +50,24 @@ export async function POST(req: Request) {
             })
         }
 
-        adm.token = ''
+        const token = await jwtService.createToken()
 
-        const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60 // 5 hours
+        const adminUpdated = await updateAdmin.exec({ adminId: admin.id ?? '', updateFields: { token } })
 
-        const token = await new jose.SignJWT({})
-            .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
-            .setExpirationTime(expirationTime)
-            .sign(new TextEncoder().encode(SECRET_KEY))
+        if (!adminUpdated) {
+            return NextResponse.json({
+                message: `Error!`,
+                error: true,
+                status: HttpStatusCode.INTERNAL_SERVER_ERROR,
+                data: null,
+            })
+        }
 
-        adm.token = token
-
-        await adm.save()
+        // const token = await new jose.SignJWT({})
+        //     .setProtectedHeader({ alg: 'HS256' })
+        //     .setIssuedAt()
+        //     .setExpirationTime(expirationTime)
+        //     .sign(new TextEncoder().encode(SECRET_KEY))
 
         const cookiesValue = NextResponse.next().cookies.set('auth_token', token, {
             expires: 5 * 60 * 60,
@@ -64,7 +80,7 @@ export async function POST(req: Request) {
             {
                 message: 'Sucess!',
                 error: false,
-                status: 201,
+                status: HttpStatusCode.OK,
             },
             { headers: { 'Set-Cookie': `${cookiesValue}` } },
         )
@@ -72,7 +88,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
             message: `Error: ${error}`,
             error: true,
-            status: 500,
+            status: HttpStatusCode.INTERNAL_SERVER_ERROR,
         })
     }
 }

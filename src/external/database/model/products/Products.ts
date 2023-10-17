@@ -3,7 +3,7 @@ import type { ProductProps } from '@/types/ProductProps'
 const { Schema } = mongoose
 type ProductModelProps = Model<ProductProps>
 
-const productSchema = new Schema<ProductProps>(
+const productsSchema = new Schema<ProductProps>(
     {
         id: { type: String, required: true, unique: true },
         product: { type: String, require: true, unique: true },
@@ -13,6 +13,6 @@ const productSchema = new Schema<ProductProps>(
     { timestamps: true },
 )
 
-const ProductModel: ProductModelProps = mongoose.models.Product || mongoose.model('Product', productSchema)
+const ProductsModel: ProductModelProps = mongoose.models.Product || mongoose.model('Product', productsSchema)
 
-export default ProductModel
+export default ProductsModel

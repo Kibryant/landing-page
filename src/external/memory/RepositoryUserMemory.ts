@@ -1,6 +1,5 @@
 import User from '@/core/user/models/User'
 import { UserRepository } from '@/core/user/services/repository'
-import { randomUUID } from 'node:crypto'
 
 export default class RepositoryUserMemory implements UserRepository {
     private readonly users: User[] = []

@@ -13,8 +13,8 @@ export default function MiniCard({ Icon, mainText, topText }: MiniCardProps) {
                 <Icon className="h-6 w-6 text-gray-600" />
             </div>
             <div className="flex flex-col items-start justify-center">
-                <h4 className="text-sm text-gray-600">{topText}</h4>
-                <h5 className="text-xl text-my font-bold">{mainText}</h5>
+                <h4 className="text-sm">{topText}</h4>
+                <h5 className="text-xl text-primary font-bold">{mainText}</h5>
             </div>
         </div>
     )

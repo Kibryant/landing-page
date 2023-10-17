@@ -1,25 +1,23 @@
 'use client'
-import { useCart } from '@/contexts/CartContext'
-import { type ProductSchemaProps } from '@/schemas/productSchema'
+import { type Product, useCart } from '@/contexts/CartContext'
 import { ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Toaster } from 'sonner'
 
 interface ProductsListProps {
-    products: ProductSchemaProps[]
+    products: Product[]
 }
 
 const ProductsList = ({ products }: ProductsListProps) => {
-    const { cart, addToCart, removeFromCart } = useCart()
-    console.log(cart)
+    const { cart, addProductToCart, removeProductToCart } = useCart()
 
-    const calculateCartTotalPrice = () => {
-        return cart.reduce((total, item) => {
-            const itemPrice = parseFloat(item.product.price)
-            const totalPriceItem = itemPrice * item.quantity
-            return total + totalPriceItem
-        }, 0)
-    }
+    // const calculateCartTotalPrice = () => {
+    //     return cart.reduce((total, item) => {
+    //         const itemPrice = parseFloat(item.product.price)
+    //         const totalPriceItem = itemPrice * item.quantity
+    //         return total + totalPriceItem
+    //     }, 0)
+    // }
 
     return (
         <>
@@ -40,6 +38,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
           </div>
         ))}
       </div> */}
+            <h1 className="text-primary font-bold text-2xl text-center">R${cart.totalCartPrice}</h1>
             <div className="flex justify-center gap-6 flex-wrap">
                 {products.map((product) => (
                     <label className="flex flex-col gap-2" key={product.id}>
@@ -62,7 +61,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
                                         </s>
                                         <h4 className="text-2xl relative font-medium flex justify-end items-end text-primary">
                                             <span className="text-xs absolute top-0 -left-[6px]">$</span>
-                                            <span className="font-semibold">{product.price} </span>
+                                            <span className="font-semibold">{product.price}</span>
                                             <span className="text-xs">USD</span>
                                         </h4>
                                     </div>
@@ -83,14 +82,14 @@ const ProductsList = ({ products }: ProductsListProps) => {
                                     <div className="flex gap-x-2 justify-center">
                                         <button
                                             className="bg-primary text-zinc-100 rounded-full p-3"
-                                            onClick={() => addToCart(product)}
+                                            onClick={() => addProductToCart(product)}
                                         >
                                             <ShoppingCartIcon className="w-8 h-8" />
                                         </button>
-                                        {cart.length > 0 && (
+                                        {cart.product.length > 0 && (
                                             <button
                                                 className="bg-red-500 text-zinc-100 rounded-full p-3"
-                                                onClick={() => removeFromCart(product.id)}
+                                                onClick={() => removeProductToCart(product)}
                                             >
                                                 <XMarkIcon className="w-8 h-8" />
                                             </button>

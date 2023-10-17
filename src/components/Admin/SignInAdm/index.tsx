@@ -35,7 +35,7 @@ const SignInAdm = () => {
         setMessageError('')
 
         try {
-            await fetch('api/auth/admin', {
+            await fetch('/api/auth/admin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const SignInAdm = () => {
                 const result = await res.json()
                 console.log(result)
 
-                if (result.status !== HttpStatusCode.CREATED) {
+                if (result.status !== HttpStatusCode.OK) {
                     setMessageError(result.message)
                     setFormSubmitting(false)
                     return

@@ -14,8 +14,8 @@ const Header = ({ isAdm, showContent }: HeaderProps) => {
     const Navbar = !isAdm ? dynamic(() => import('./Navbar')) : dynamic(() => import('./NavbarAdm'))
 
     return (
-        <header className="flex flex-col items-center gap-6 px-2 py-4">
-            <div className="flex sticky items-start w-full">
+        <header className="flex flex-col items-center gap-6 sm:px-2 py-4">
+            <div className="flex w-full">
                 <Logo />
                 <Navbar />
             </div>
@@ -35,13 +35,13 @@ const Header = ({ isAdm, showContent }: HeaderProps) => {
                             <div className="flex flex-col gap-2 w-full max-w-xs">
                                 <Link
                                     href="/accounts/sign-up"
-                                    className="w-full py-2 text-secondary dark:text-white px-3 bg-primary font-bold uppercase rounded-xl"
+                                    className="w-full py-2 text-secondary hover:bg-primary/90 dark:text-white px-3 bg-primary font-bold uppercase rounded-xl"
                                 >
                                     Get started
                                 </Link>
                                 <Link
                                     href="/accounts/sign-in"
-                                    className="text-primary bg-secondary rounded-xl shadow-lg py-2 px-3 flex gap-1 font-bold"
+                                    className="text-primary bg-secondary hover:bg-primary/10 rounded-xl shadow-lg py-2 px-3 flex gap-1 font-bold"
                                 >
                                     <span>Explore</span>
                                     <ArrowLongRightIcon className="w-6 h-6" />

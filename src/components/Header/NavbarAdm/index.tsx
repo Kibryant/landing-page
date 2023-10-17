@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -35,17 +36,17 @@ const NavbarAdm = () => {
                         }`}
                 >
                     <li>
-                        <Link href="/adm" className="text-zinc-600 hover:text-primary">
+                        <Link href="/adm" className="hover:text-primary">
                             Dashboard
                         </Link>
                     </li>
                     <li>
-                        <Link href="/adm/products" className="text-zinc-600 hover:text-primary">
+                        <Link href="/adm/products" className="hover:text-primary">
                             Products
                         </Link>
                     </li>
                     <li>
-                        <Link href="/adm/configuration" className="text-zinc-600 hover:text-primary">
+                        <Link href="/adm/configuration" className="hover:text-primary">
                             Configuration
                         </Link>
                     </li>

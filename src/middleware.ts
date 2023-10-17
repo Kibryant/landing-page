@@ -7,11 +7,12 @@ export async function middleware(req: NextRequest) {
     const url = req.url
 
     const verifiedToken = !!token && (await verifyAuth(token))
-    if (req.nextUrl.pathname.startsWith('/login-adm') && !verifiedToken) {
+    if (req.nextUrl.pathname.startsWith('/sign-in-adm') && !verifiedToken) {
         return
     }
+
     if (!verifiedToken) {
-        return NextResponse.redirect(new URL('/login-adm', url))
+        return NextResponse.redirect(new URL('/sign-in-adm', url))
     }
 
     // if(!verifiedToken) {
@@ -24,8 +25,8 @@ export async function middleware(req: NextRequest) {
     //   }
     // }
 
-    if (req.nextUrl.pathname.startsWith('/login-adm') && verifiedToken) {
-        return NextResponse.redirect(new URL('/adm', url))
+    if (req.nextUrl.pathname.startsWith('/sign-in-adm') && verifiedToken) {
+        return NextResponse.redirect(new URL('/admin', url))
     }
 
     // if (url.startsWith("/adm/products") && !verifiedToken) {
@@ -34,5 +35,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/login-adm', '/adm'],
+    matcher: ['/login-adm', '/admin'],
 }

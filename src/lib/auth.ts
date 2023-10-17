@@ -15,7 +15,6 @@ export const authHeader = () => {
     if (!auth) return false
     return true
 }
-export const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60
 
 export const verifyAuth = async (Jwt: string) => {
     try {

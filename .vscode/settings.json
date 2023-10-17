@@ -4,10 +4,12 @@
         "source.fixAll.eslint": true
     },
     "material-icon-theme.folders.associations": {
-        "product": "rules",
         "adapters": "pipe",
         "external": "tools",
         "memory": "archive",
-        "repository": "supabase"
+        "repository": "supabase",
+        "products": "job",
+        "dtos": "contract",
+        "clients": "base"
     }
 }

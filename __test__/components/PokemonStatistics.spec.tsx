@@ -27,7 +27,6 @@ test('PokemonStatistics component renders correctly', async () => {
 
     render(<PokemonStatistics url={url} />)
 
-    // Você pode usar waitFor para aguardar os elementos aparecerem
     await waitFor(() => {
         expect(screen.getByText('Pikachu Statistics!')).toBeInTheDocument()
         expect(screen.getByText('Height: 40')).toBeInTheDocument()
