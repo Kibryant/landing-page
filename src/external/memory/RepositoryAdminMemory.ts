@@ -24,7 +24,9 @@ export default class RepositoryAdminMemory implements AdminRepository {
         return adm
     }
 
-    updateAdmin(adminId: string, updatedFields: Record<string, any>): Promise<Admin | null> {
-        throw new Error('Method not implemented.')
+    async updateAdmin(adminId: string, updatedFields: Record<string, unknown>): Promise<Admin | null> {
+        console.log(adminId, updatedFields)
+
+        return null
     }
 }

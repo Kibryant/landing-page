@@ -1,11 +1,11 @@
-import Product from '@/core/product/model/Products'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
+import ProductsModel from '@/external/database/model/products/Products'
 
 export async function GET(req: Request, { params: { id } }: { params: { id: string } }) {
     await connect()
 
-    const product = await Product.findOne({ id })
+    const product = await ProductsModel.findOne({ id })
 
     if (!product)
         return NextResponse.json({

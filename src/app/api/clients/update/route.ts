@@ -1,8 +1,7 @@
-import { saltOrRounds } from '@/app/constants'
+import { saltOrRounds } from '@/constants'
 import connect from '@/core/db'
-import User from '@/core/user/models/User'
+import UserModel from '@/external/database/model/user/User'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { UserProps } from '@/types/UserProps'
 import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 
@@ -16,7 +15,7 @@ export async function PUT(req: Request) {
 
         const { email, newEmail, newUsername, newPassword, currentPassword } = body
 
-        const user = await User.findOne({ email })
+        const user = await UserModel.findOne({ email })
 
         if (!user) {
             return NextResponse.json({
@@ -55,7 +54,7 @@ export async function PUT(req: Request) {
 
             console.log(updatedFields)
 
-            const updatedUser = await User.findByIdAndUpdate(user.id, updatedFields, { new: true })
+            const updatedUser = await UserModel.findByIdAndUpdate(user.id, updatedFields, { new: true })
 
             console.log(updatedUser)
 
@@ -71,7 +70,7 @@ export async function PUT(req: Request) {
 
             console.log(updatedFields)
 
-            const updatedUser = await User.findByIdAndUpdate(user.id, updatedFields, { new: true })
+            const updatedUser = await UserModel.findByIdAndUpdate(user.id, updatedFields, { new: true })
             console.log(updatedUser)
 
             return NextResponse.json({

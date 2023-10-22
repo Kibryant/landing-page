@@ -2,16 +2,10 @@
 
 import { CartProvider } from '@/contexts/CartContext'
 import './globals.css'
-import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import Providers from '@/components/Providers/trcpProvider'
 import { ThemeProvider } from 'next-themes'
 import AuthProvider from '@/components/Providers/authProvider'
-
-export const metadata: Metadata = {
-    title: 'My Landing Page',
-    description: 'My first Landing Page! FULLSTACK',
-}
 
 const poppins = Poppins({
     subsets: ['latin'],

@@ -7,7 +7,5 @@ export abstract class ProductsRepository {
     abstract getProductById(id: string): Promise<Products | null>
     abstract getProductByName(id: string): Promise<Products | null>
     abstract getAllProducts(): Promise<Products[]>
-    abstract updateProducts(id: string, updates: UpdateProductDto): Promise<Products | null>
-
-    protected abstract persist(products: Products): Promise<void>
+    abstract updateProduct(id: string, updates: UpdateProductDto): Promise<Products | null>
 }

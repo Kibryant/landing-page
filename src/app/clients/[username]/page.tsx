@@ -1,7 +1,5 @@
 'use client'
-
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
 
 type ClientProps = {
     params: {
@@ -10,7 +8,7 @@ type ClientProps = {
 }
 
 const Client = ({ params }: ClientProps) => {
-    const { data, status } = useSession()
+    const { data } = useSession()
 
     return (
         <div>
