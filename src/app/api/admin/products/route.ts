@@ -1,33 +1,46 @@
 import { NextResponse } from 'next/server'
-import connect from '@/core/db'
-import { type ProductProps } from '@/types/ProductProps'
-import ProductsModel from '@/external/database/model/products/Products'
-
-type BodyPropsProduct = Pick<ProductProps, 'id' | 'product' | 'description' | 'price'>
+import { RepositoryProductsMongo } from '@/external/database/repository/products/RepositoryProductsMongo'
+import { CreateNewProduct } from '@/core/products/services/CreateNewProduct'
+import { GetProductByName } from '@/core/products/services/GetProductByName'
+import { connectMongoDb } from '@/external/database/connections'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
+import CreateProductDto from '@/core/products/dtos/CreateProduct.dto'
 
 export async function POST(req: Request) {
     try {
-        await connect()
-        const body = await req.json()
-        const { id, product, description, price }: BodyPropsProduct = body
+        await connectMongoDb()
 
-        const productExists = await ProductsModel.findOne({ product })
+        const repositoryProducts = new RepositoryProductsMongo()
+        const createNewProduct = new CreateNewProduct(repositoryProducts)
+        const getProductByName = new GetProductByName(repositoryProducts)
+
+        const body = await req.json()
+
+        const { id, product, description, price }: CreateProductDto = body
+
+        const productExists = await getProductByName.exec(product)
 
         if (productExists)
             return NextResponse.json({
                 message: 'This products already. Try another or change it.',
                 error: true,
-                status: 409,
+                status: HttpStatusCode.CONFLICT,
             })
 
-        const newProduct: ProductProps = new ProductsModel({
+        const newProduct = await createNewProduct.exec({
             id,
             product,
             description,
             price,
         })
 
-        await newProduct.save()
+        if (!newProduct) {
+            return NextResponse.json({
+                message: 'Error',
+                status: HttpStatusCode.INTERNAL_SERVER_ERROR,
+                error: true,
+            })
+        }
 
         return NextResponse.json({
             message: 'Product successfully registered!',
@@ -37,7 +50,7 @@ export async function POST(req: Request) {
     } catch (error) {
         return NextResponse.json({
             message: `Error: ${error}`,
-            status: 500,
+            status: HttpStatusCode.INTERNAL_SERVER_ERROR,
             error: true,
         })
     }

@@ -1,5 +1,5 @@
 'use client'
-import { type Product, useCart } from '@/contexts/CartContext'
+import { type Product, useCart } from '@/contexts/Cart/CartContext'
 import { ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Toaster } from 'sonner'
@@ -43,7 +43,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
                 {products.map((product) => (
                     <label className="flex flex-col gap-2" key={product.id}>
                         <input type="checkbox" className="absolute scale-0" id="my-checkbox" />
-                        <article className="relative my-perspective w-64 h-64 rounded-[60px] shadow">
+                        <article className="relative bg-primary-foreground my-perspective w-64 h-64 rounded-[60px] shadow">
                             <div
                                 id="front"
                                 className="overflow-hidden absolute top-0 left-0 right-0 bottom-0 text-center my-backface-visibility rounded-[60px] shadow-lg p-6 cursor-pointer duration-300"
@@ -54,9 +54,11 @@ const ProductsList = ({ products }: ProductsListProps) => {
                                     </h2>
                                     <h3 className="text-lg font-medium text-zinc-600">{product.description}</h3>
                                     <div className="flex w-full justify-center items-center gap-x-3">
-                                        <s className="text-base  flex justify-center">
+                                        <s className="text-base flex justify-center">
                                             <span className="text-xs">$</span>
-                                            <span className="font-semibold">{product.price} </span>
+                                            <span className="font-semibold">
+                                                {parseFloat(product.price) - (parseFloat(product.price) * 10) / 100}
+                                            </span>
                                             <span>USD</span>
                                         </s>
                                         <h4 className="text-2xl relative font-medium flex justify-end items-end text-primary">

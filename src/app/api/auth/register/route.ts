@@ -3,14 +3,14 @@ import connect from '@/core/db'
 import { cookies } from 'next/headers'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
-import { MongooseUserRepository } from '@/external/database/RepositoryUserMongo'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
 import { GetUserByUsername } from '@/core/user/services/GetUserByUsername'
-import PasswordService from '@/external/security/PasswordHashService'
+import PasswordService from '@/external/security/hash/HashService'
 
 export async function POST(req: Request) {
     try {
-        const userRepository = new MongooseUserRepository()
+        const userRepository = new RepositoryUserMongo()
         const passwordService = new PasswordService()
 
         const createNewUser = new CreateNewUser(userRepository)

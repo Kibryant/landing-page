@@ -1,7 +1,7 @@
 import mongoose, { Model } from 'mongoose'
 import type { ProductProps } from '@/types/ProductProps'
 const { Schema } = mongoose
-type ProductModelProps = Model<ProductProps>
+export type ProductModelProps = Model<ProductProps>
 
 const productsSchema = new Schema<ProductProps>(
     {

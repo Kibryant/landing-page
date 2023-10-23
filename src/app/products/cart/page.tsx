@@ -1,7 +1,7 @@
 'use client'
 
 import { Section } from '@/components/Section'
-import { useCart } from '@/contexts/CartContext'
+import { useCart } from '@/contexts/Cart/CartContext'
 import { GiftIcon } from '@heroicons/react/24/outline'
 
 interface CartProps { }

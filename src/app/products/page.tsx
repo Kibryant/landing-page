@@ -1,7 +1,7 @@
 import { Section } from '@/components/Section'
 import { headers } from 'next/headers'
 import { ProductsList } from '@/components/ProductsList'
-import { Product } from '@/contexts/CartContext'
+import { Product } from '@/contexts/Cart/CartContext'
 
 const Products = async () => {
     const host = headers().get('host')

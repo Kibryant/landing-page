@@ -10,6 +10,7 @@
         "repository": "supabase",
         "products": "job",
         "dtos": "contract",
-        "clients": "base"
+        "clients": "base",
+        "hash": "coverage"
     }
 }

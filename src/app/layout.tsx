@@ -1,6 +1,6 @@
 'use client'
 
-import { CartProvider } from '@/contexts/CartContext'
+import { CartProvider } from '@/contexts/Cart/CartContext'
 import './globals.css'
 import { Poppins } from 'next/font/google'
 import Providers from '@/components/Providers/trcpProvider'

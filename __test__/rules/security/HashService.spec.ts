@@ -1,4 +1,4 @@
-import PasswordService from '@/external/security/PasswordHashService'
+import PasswordService from '@/external/security/hash/HashService'
 
 describe('PasswordService', () => {
     const passwordService = new PasswordService()

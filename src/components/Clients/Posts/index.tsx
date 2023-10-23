@@ -3,7 +3,6 @@
 import { Section } from '@/components/Section'
 import { PlusIcon, WalletIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { format } from 'date-fns'
 import { trpc } from '@/app/_trpc/client'
 import { CreatePostOutput } from '@/trpc/schema/post.schema'
 
