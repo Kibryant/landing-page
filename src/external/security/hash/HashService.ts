@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt'
 
-export default class PasswordService {
+export default class HashService {
     private saltRounds: number =
         (process.env.SALT_OR_ROUNDS && +process.env.SALT_OR_ROUNDS) || Math.floor(Math.random() * 10) + 1
 

@@ -13,9 +13,6 @@ describe('CreateNewUser', () => {
             email: 'novousuario@example.com',
             username: 'novousuario',
             password: 'senhasegura',
-            tasks: [],
-            createdAt: new Date(),
-            updatedAt: new Date(),
         }
 
         const response = await createNewUser.exec(userToCreate)

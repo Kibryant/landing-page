@@ -83,6 +83,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
 
                                     <div className="flex gap-x-2 justify-center">
                                         <button
+                                            data-testid="add-to-cart"
                                             className="bg-primary text-zinc-100 rounded-full p-3"
                                             onClick={() => addProductToCart(product)}
                                         >
@@ -90,6 +91,7 @@ const ProductsList = ({ products }: ProductsListProps) => {
                                         </button>
                                         {cart.product.length > 0 && (
                                             <button
+                                                data-testid="remove-from-cart"
                                                 className="bg-red-500 text-zinc-100 rounded-full p-3"
                                                 onClick={() => removeProductToCart(product)}
                                             >

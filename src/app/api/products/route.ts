@@ -1,22 +1,27 @@
 import { NextResponse } from 'next/server'
-import connect from '@/core/db'
-import ProductsModel from '@/external/database/model/products/Products'
+import { RepositoryProductsMongo } from '@/external/database/repository/products/RepositoryProductsMongo'
+import { GetAllProducts } from '@/core/products/services/GetAllProducts'
+import { connectMongoDb } from '@/external/database/connections'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
 
 export async function GET() {
-    await connect()
+    await connectMongoDb()
 
-    const products = await ProductsModel.find()
+    const repositoryProducts = new RepositoryProductsMongo()
+    const getAllProducts = new GetAllProducts(repositoryProducts)
+
+    const products = await getAllProducts.exec()
 
     if (!products)
         return NextResponse.json({
             message: 'No have products!',
             error: true,
-            status: 401,
+            status: HttpStatusCode.NOT_FOUND,
         })
 
     return NextResponse.json({
         message: 'Success',
-        status: 201,
+        status: HttpStatusCode.OK,
         error: false,
         data: products,
     })

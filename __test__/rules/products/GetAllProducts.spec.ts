@@ -1,4 +1,4 @@
-import { GetAllProducts } from '@/core/product/services/GetAllProducts'
+import { GetAllProducts } from '@/core/products/services/GetAllProducts'
 import RepositoryProductsMemory from '@/external/memory/RepositoryProductsMemory'
 
 const productsRepository = new RepositoryProductsMemory()

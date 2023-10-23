@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import connect from '@/core/db'
 import { cookies } from 'next/headers'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
@@ -7,9 +6,12 @@ import { RepositoryUserMongo } from '@/external/database/repository/user/Reposit
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
 import { GetUserByUsername } from '@/core/user/services/GetUserByUsername'
 import PasswordService from '@/external/security/hash/HashService'
+import { connectMongoDb } from '@/external/database/connections'
 
 export async function POST(req: Request) {
     try {
+        await connectMongoDb()
+
         const userRepository = new RepositoryUserMongo()
         const passwordService = new PasswordService()
 
@@ -19,7 +21,6 @@ export async function POST(req: Request) {
 
         const { email, username, password } = await req.json()
 
-        await connect()
         // const emailExists = await User.findOne({ email })
         const responseOfGetUserByEmail = await getUserByEmail.exec(email)
         console.log(responseOfGetUserByEmail)

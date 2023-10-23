@@ -1,29 +1,34 @@
-import User from '@/core/user/models/User'
-import connect from '@/core/db'
-import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
-import { UserProps } from '@/types/UserProps'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { cookies } from 'next/headers'
+import { connectMongoDb } from '@/external/database/connections'
+import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import HashService from '@/external/security/hash/HashService'
 
 export async function POST(req: Request) {
     try {
-        await connect()
+        await connectMongoDb()
 
-        const { email, username, password } = await req.json()
+        const repositoryUserMongo = new RepositoryUserMongo()
+        const hashService = new HashService()
 
-        const user: UserProps | null = await User.findOne({ email, username })
+        const getUserByEmail = new GetUserByEmail(repositoryUserMongo)
+
+        const { email, password } = await req.json()
+
+        const { data: user, message, status } = await getUserByEmail.exec(email)
 
         if (!user) {
             return NextResponse.json({
                 error: true,
-                message: `Credentials Invalid`,
-                status: HttpStatusCode.NOT_FOUND,
+                message,
+                status,
                 data: null,
             })
         }
 
-        const validPassword = await bcrypt.compare(password, user.password)
+        const validPassword = await hashService.comparePassword(password, user.password)
 
         if (!validPassword) {
             return NextResponse.json({

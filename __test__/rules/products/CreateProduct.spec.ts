@@ -1,5 +1,5 @@
+import { CreateNewProduct } from '@/core/products/services/CreateNewProduct'
 import RepositoryProductsMemory from '@/external/memory/RepositoryProductsMemory'
-import { CreateNewProduct } from '@/core/product/services/CreateNewProduct'
 
 const repositoryProductsMemory = new RepositoryProductsMemory()
 const createNewProduct = new CreateNewProduct(repositoryProductsMemory)

@@ -48,7 +48,7 @@ const defaultValues = {
     }, addProductToCart: () => { }, removeProductToCart: () => { }
 }
 
-const CartContext = createContext<CartContextProps>(defaultValues)
+export const CartContext = createContext<CartContextProps>(defaultValues)
 
 const useCart = () => {
     return useContext(CartContext)

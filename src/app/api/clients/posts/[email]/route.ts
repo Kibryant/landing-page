@@ -18,15 +18,13 @@ export async function POST(req: Request, { params: { email } }: { params: { emai
     post.created_at = new Date()
     const pgPost = await pg.posts.create({
         data: {
-            postName: post.postName,
+            title: post.postName,
             description: post.description || '',
-            created_at: post.created_at,
+            createdAt: post.created_at,
             author: email,
             content: post.content,
         },
     })
-
-    console.log(pgPost)
 
     return NextResponse.json({
         status: HttpStatusCode.OK,
