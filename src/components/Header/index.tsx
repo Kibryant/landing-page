@@ -1,4 +1,4 @@
-import { ArrowLongRightIcon, BugAntIcon, StarIcon } from '@heroicons/react/24/outline'
+import { ArrowLongRightIcon, StarIcon } from '@heroicons/react/24/outline'
 import Logo from '../Logo'
 import dynamic from 'next/dynamic'
 import { MiniBox } from '../MiniBox'

@@ -2,7 +2,7 @@
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { PokemonStatistics } from '../PokemonStatistics'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 type PokemonsProps = {
     name: string
@@ -27,17 +27,17 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
         setShowStats(newShowStats)
     }
 
-    const getNewPokemons = async () => {
+    const getNewPokemons = useCallback(async () => {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offsetNumber}&limit=20`)
             .then((res) => res.json())
             .then((data: ApiResponse) => data.results)
-        if (!res) throw new Error('Failed to Fetch Data!')
+        if (res) throw new Error('Failed to Fetch Data!')
         setpokemonsListState(res)
-    }
+    }, [offsetNumber])
 
     useEffect(() => {
         getNewPokemons()
-    }, [offsetNumber])
+    }, [getNewPokemons, offsetNumber])
 
     return (
         <>

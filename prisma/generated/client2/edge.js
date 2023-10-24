@@ -134,7 +134,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/mnt/c/Users/arthu/Desktop/landing-page/prisma/generated/client2",
+      "value": "/home/arthurgustavo/Projects/landing-page/prisma/generated/client2",
       "fromEnvVar": null
     },
     "config": {

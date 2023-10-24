@@ -12,10 +12,13 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
                     Please try again later or contact support if the problem persists!
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                    <button onClick={reset} className="text-primary py-2 px-4 bg-primary/50 font-medium rounded-md">
+                    <button
+                        onClick={reset}
+                        className="text-primary-foreground py-2 px-4 bg-primary/80 font-medium rounded-md"
+                    >
                         Reset
                     </button>
-                    <Link href="/" className="text-white font-medium rounded-xl py-2 px-4 bg-emerald-500">
+                    <Link href="/" className="text-white font-medium rounded-xl py-2 px-4 bg-primary">
                         Back
                     </Link>
                 </div>
