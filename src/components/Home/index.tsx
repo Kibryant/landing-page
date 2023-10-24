@@ -28,7 +28,7 @@ const Home = async () => {
             <main>
                 <Section>
                     <div className="mx-auto sm:text-center max-w-2xl">
-                        <h2 className="font-bold sm:text-center text-left text-4xl">
+                        <h2 className="font-extrabold sm:text-center text-left text-4xl">
                             Hello My Name is <span className="text-primary">Arthur!</span>
                         </h2>
                         <p className="mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>

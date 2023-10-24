@@ -1,5 +1,5 @@
 import { SignInAdm } from '@/components/Admin/SignInAdm'
 
-export default function SignInAdmPage() {
+export default async function SignInAdmPage() {
     return <SignInAdm />
 }
