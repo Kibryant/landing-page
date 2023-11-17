@@ -23,10 +23,8 @@ export async function POST(req: Request) {
 
         // const emailExists = await User.findOne({ email })
         const responseOfGetUserByEmail = await getUserByEmail.exec(email)
-        console.log(responseOfGetUserByEmail)
         // const usernameExists = await User.findOne({ username })
         const responseOfGetUserByUsername = await getUserByUsername.exec(username)
-        console.log(responseOfGetUserByUsername)
 
         if (responseOfGetUserByEmail.data)
             return NextResponse.json({

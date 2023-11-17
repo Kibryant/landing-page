@@ -1,7 +1,7 @@
-import CreateProductDto from '@/core/product/dtos/CreateProduct.dto'
-import { UpdateProductDto } from '@/core/product/dtos/UpdateProduct.dto'
-import Products from '@/core/product/model/Products'
-import { ProductsRepository } from '@/core/product/services/repository'
+import CreateProductDto from '@/core/products/dtos/CreateProduct.dto'
+import { UpdateProductDto } from '@/core/products/dtos/UpdateProduct.dto'
+import Products from '@/core/products/model/Products'
+import { ProductsRepository } from '@/core/products/services/repository'
 
 export default class RepositoryProductsMemory implements ProductsRepository {
     private readonly products: Products[] = []

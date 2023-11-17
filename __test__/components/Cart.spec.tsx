@@ -32,14 +32,6 @@ const sampleProducts: Product[] = [
         totalQuantiyOfProduct: 0,
         totalPriceOfProduct: 0,
     },
-    {
-        id: '2',
-        product: 'Sample 2 Product',
-        description: 'Sample 2 description',
-        price: '22.0',
-        totalQuantiyOfProduct: 20,
-        totalPriceOfProduct: 44,
-    },
 ]
 
 describe('Products List', () => {

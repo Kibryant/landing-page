@@ -31,7 +31,7 @@ const PokemonList = ({ pokemonsList }: PokemonListProps) => {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offsetNumber}&limit=20`)
             .then((res) => res.json())
             .then((data: ApiResponse) => data.results)
-        if (res) throw new Error('Failed to Fetch Data!')
+        if (!res) throw new Error('Failed to Fetch Data!')
         setpokemonsListState(res)
     }, [offsetNumber])
 

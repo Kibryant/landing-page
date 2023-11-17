@@ -9,21 +9,7 @@ const userSchema = new Schema<UserProps>(
         email: { type: String, required: true, unique: true },
         username: { type: String, require: true, unique: true },
         password: { type: String, required: true },
-        tasks: [
-            {
-                task: {
-                    type: String,
-                    required: true,
-                },
-                date: {
-                    type: Date,
-                    required: true,
-                },
-                description: {
-                    type: String,
-                },
-            },
-        ],
+        tasks: [{ type: Schema.Types.Mixed }],
     },
     { timestamps: true },
 )

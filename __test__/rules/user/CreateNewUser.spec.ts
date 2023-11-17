@@ -12,6 +12,7 @@ describe('CreateNewUser', () => {
             id: '1',
             email: 'novousuario@example.com',
             username: 'novousuario',
+            tasks: [],
             password: 'senhasegura',
         }
 

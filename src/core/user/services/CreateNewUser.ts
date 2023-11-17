@@ -21,7 +21,7 @@ export class CreateNewUser implements UseCases<User, Response<User | null>> {
             return new Response(null, 'This username exists! try another or sign in!', HttpStatusCode.CONFLICT)
         }
 
-        const newUser: User = await this.userRepository.createNewUser({
+        const newUser = await this.userRepository.createNewUser({
             email,
             username,
             password,

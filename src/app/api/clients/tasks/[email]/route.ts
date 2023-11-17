@@ -1,9 +1,9 @@
 import connect from '@/core/db'
 import { authHeader } from '@/lib/auth'
-import User from '@/core/user/models/User'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { ResProps } from '@/types/class/Response'
 import { NextResponse } from 'next/server'
+import UserModel from '@/external/database/model/user/User'
+import { TasksProps } from '@/types/UserProps'
 
 export async function POST(req: Request, { params: { email } }: { params: { email: string } }) {
     const isAuth = authHeader()
@@ -19,26 +19,25 @@ export async function POST(req: Request, { params: { email } }: { params: { emai
 
     await connect()
 
-    const user = await User.findOne({ email })
+    const user = await UserModel.findOne({ email })
     const body = await req.json()
-    console.log(body)
-    const { task, description, date } = body
+    const { task, description, date }: TasksProps = body
 
     if (!user)
-        return NextResponse.json<ResProps>({
+        return NextResponse.json({
             error: true,
             message: 'Error!',
             status: 500,
             data: undefined,
         })
 
-    user.tasks = {
+    const newTask: TasksProps = {
         task,
-        description,
         date,
+        description,
     }
 
-    await user.save()
+    await UserModel.findByIdAndUpdate(user.id, { $push: { tasks: newTask } }, { new: true })
 
     return NextResponse.json({
         message: 'Task successfully registered!',

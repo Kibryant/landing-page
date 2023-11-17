@@ -27,15 +27,14 @@ const SignUpComponent = () => {
                     </label>
                     <input
                         {...register('email')}
-                        type="email"
+                        type="text"
                         id="email"
                         placeholder="johndoe@example.com"
                         className="bg-transparent border-b border-primary w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
-                        required
                     />
                 </div>
-                {!!errors.email?.message && <span className="text-red-500 text-xs">{errors.email.message}</span>}
+                {errors.email?.message && <span className="text-red-500 text-xs">{errors.email.message}</span>}
                 <div className="w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="username">
                         <UserIcon className="h-8 w-8 text-primary" />
@@ -47,10 +46,9 @@ const SignUpComponent = () => {
                         placeholder="JohnDurant"
                         className="bg-transparent border-b border-primary w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
-                        required
                     />
                 </div>
-                {!!errors.username?.message && <span className="text-red-500 text-xs">{errors.username.message}</span>}
+                {errors.username?.message && <span className="text-red-500 text-xs">{errors.username.message}</span>}
                 <div className="relative w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="password">
                         <LockClosedIcon className="h-8 w-8 text-primary" />
@@ -62,10 +60,10 @@ const SignUpComponent = () => {
                         placeholder="Secret!"
                         className="bg-transparent border-b border-primary  w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
-                        required
                     />
                     {isPasswordVisible ? (
                         <EyeIcon
+                            aria-label="eye-icon"
                             className="h-8 w-8 text-primary absolute right-0 top-1/2 cursor-pointer"
                             onClick={() => setIsPasswordVisible((prev) => !prev)}
                         />
@@ -76,7 +74,7 @@ const SignUpComponent = () => {
                         />
                     )}
                 </div>
-                {!!errors.password?.message && <span className="text-red-500 text-xs">{errors.password.message}</span>}
+                {errors.password?.message && <span className="text-red-500 text-xs">{errors.password.message}</span>}
                 <div className="relative w-full flex gap-1 justify-between flex-col">
                     <label htmlFor="passwordConfirm">
                         <LockClosedIcon className="h-8 w-8 text-primary" />
@@ -85,13 +83,12 @@ const SignUpComponent = () => {
                         type="password"
                         {...register('passwordConfirm')}
                         id="passwordConfirm"
-                        placeholder="Secret!"
+                        placeholder="Secret Confirm!"
                         className="bg-transparent border-b border-primary  w-full rounded-md p-2 outline-none text-sm placeholder:text-secondary-foreground"
                         autoComplete="off"
-                        required
                     />
                 </div>
-                {!!errors.passwordConfirm?.message && (
+                {errors.passwordConfirm?.message && (
                     <span className="text-red-500 text-xs">{errors.passwordConfirm.message}</span>
                 )}
 

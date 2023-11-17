@@ -2,6 +2,9 @@ import { UserRepository } from '@/core/user/services/repository'
 import UserModel from '../../model/user/User'
 import { UserProps } from '@/types/UserProps'
 import type User from '@/core/user/models/User'
+import CreateUserDto from '@/core/user/dtos/CreateUserDto'
+import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
+import Task from '@/core/tasks/model/Task'
 
 // Define a set of fields that can be updated in a user profile
 interface UpdateFieldsProps {
@@ -12,6 +15,18 @@ interface UpdateFieldsProps {
 
 // Create a class that extends the UserRepository
 export class RepositoryUserMongo extends UserRepository {
+    getUserById(id: string): Promise<User | null> {
+        throw new Error('Method not implemented.')
+    }
+
+    addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllTasksByUserId(userId: string): Promise<Task[] | null> {
+        throw new Error('Method not implemented.')
+    }
+
     // Retrieve a user by their email
     async getUserByEmail(email: string): Promise<User | null> {
         try {
@@ -31,7 +46,7 @@ export class RepositoryUserMongo extends UserRepository {
     }
 
     // Create a new user
-    async createNewUser({ email, password, username, tasks }: User): Promise<UserProps> {
+    async createNewUser({ email, password, username, tasks }: CreateUserDto): Promise<UserProps> {
         try {
             const newUser: UserProps = new UserModel({
                 email,

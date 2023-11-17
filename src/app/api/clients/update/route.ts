@@ -1,34 +1,36 @@
-import { saltOrRounds } from '@/constants'
-import connect from '@/core/db'
-import UserModel from '@/external/database/model/user/User'
+import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
+import { UpdateUser } from '@/core/user/services/UpdateUser'
+import { connectMongoDb } from '@/external/database/connections'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import HashService from '@/external/security/hash/HashService'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 
 export async function PUT(req: Request) {
     try {
-        await connect()
+        await connectMongoDb()
+
+        const userRepository = new RepositoryUserMongo()
+        const hashService = new HashService()
+        const getUserByEmail = new GetUserByEmail(userRepository)
+        const updateUser = new UpdateUser(userRepository)
 
         const body = await req.json()
 
-        console.log(body)
-
         const { email, newEmail, newUsername, newPassword, currentPassword } = body
 
-        const user = await UserModel.findOne({ email })
+        const { data: user, message, status } = await getUserByEmail.exec(email)
 
         if (!user) {
             return NextResponse.json({
                 erro: true,
-                message: 'Credentials Invalid',
-                status: HttpStatusCode.NOT_FOUND,
+                message,
+                status,
                 data: user,
             })
         }
 
-        const validPassword = await bcrypt.compare(currentPassword, user.password)
-
-        console.log(validPassword)
+        const validPassword = await hashService.comparePassword(currentPassword, user.password)
 
         if (!validPassword) {
             return NextResponse.json({
@@ -39,46 +41,30 @@ export async function PUT(req: Request) {
             })
         }
 
-        const updatedFields: { nome?: string; username?: string; email?: string; password?: string } = {}
+        const {
+            data,
+            message: messageFromUpdate,
+            status: statusFromUpdate,
+        } = await updateUser.exec({
+            id: user.id || '',
+            email: newEmail,
+            password: newPassword,
+            username: newUsername,
+        })
 
-        if (newEmail !== email) {
-            updatedFields.email = newEmail
-        }
-
-        if (newUsername !== user?.username) {
-            updatedFields.username = newUsername
-        }
-
-        if (newPassword.length === 0) {
-            updatedFields.password = user?.password
-
-            console.log(updatedFields)
-
-            const updatedUser = await UserModel.findByIdAndUpdate(user.id, updatedFields, { new: true })
-
-            console.log(updatedUser)
-
+        if (!data) {
             return NextResponse.json({
-                status: HttpStatusCode.OK,
-                message: 'Updated',
-                data: updatedUser,
-            })
-        } else {
-            const hashedPassword = await bcrypt.hash(newPassword, saltOrRounds)
-
-            updatedFields.password = hashedPassword
-
-            console.log(updatedFields)
-
-            const updatedUser = await UserModel.findByIdAndUpdate(user.id, updatedFields, { new: true })
-            console.log(updatedUser)
-
-            return NextResponse.json({
-                status: HttpStatusCode.OK,
-                message: 'Updated',
-                data: updatedUser,
+                messageFromUpdate,
+                statusFromUpdate,
+                data,
             })
         }
+
+        return NextResponse.json({
+            data,
+            messageFromUpdate,
+            statusFromUpdate,
+        })
     } catch {
         return NextResponse.json({
             erro: true,

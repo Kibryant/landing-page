@@ -11,28 +11,30 @@ import {
 import Link from 'next/link'
 import { useState } from 'react'
 
-const Header = () => {
+const Header = (props: { username: string }) => {
     const [openMenu, setOpenMenu] = useState(false)
 
     return (
         <header>
             <aside className={`h-screen ${openMenu ? 'w-72' : 'w-20'} p-5 duration-300 bg-primary relative`}>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-x-2">
                     <span>
                         <CommandLineIcon className="text-white w-8 h-8" />
                     </span>
                     <h1
+                        // eslint-disable-next-line prettier/prettier
                         className={`text-white font-semibold origin-left text-xl duration-300 ${!openMenu && 'scale-0'
+                            // eslint-disable-next-line prettier/prettier
                             }`}
                     >
                         Web Developer
                     </h1>
                 </div>
                 <button
-                    className="bg-black rounded-full p-2 cursor-pointer absolute -right-3 top-9"
+                    className="bg-white border-2 rounded-full p-[6px] cursor-pointer absolute -right-4 bottom-9"
                     onClick={() => setOpenMenu(!openMenu)}
                 >
-                    <ChevronLeftIcon className={`h-5 w-5 text-white duration-300 ${!openMenu && 'rotate-180'}`} />
+                    <ChevronLeftIcon className={`h-5 w-5 duration-300 ${!openMenu && 'rotate-180'}`} />
                 </button>
                 <nav>
                     <ul className="pt-6 space-y-2">
@@ -44,13 +46,13 @@ const Header = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/" className="my-custom-class">
+                            <Link href="/clients/tasks" className="my-custom-class">
                                 <CloudIcon className="h-5 w-5 text-white" />
                                 <span className={`${!openMenu && 'hidden'} origin-left duration-300`}>Your Tasks</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/" className="my-custom-class">
+                            <Link href={`/clients/${props.username}`} className="my-custom-class">
                                 <StarIcon className="h-5 w-5 text-white" />
                                 <span className={`${!openMenu && 'hidden'} origin-left duration-300`}>You Area</span>
                             </Link>

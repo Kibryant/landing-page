@@ -25,7 +25,8 @@ const useSignUp = () => {
         formState: { errors, isLoading },
     } = useForm<SignUpSchemaInput>({
         resolver: zodResolver(signUpSchema),
-        mode: 'onSubmit',
+        mode: 'all',
+        criteriaMode: 'all',
         defaultValues: {
             email: '',
             username: '',
@@ -63,6 +64,13 @@ const useSignUp = () => {
                 router.push('/clients')
             })
         } catch (error) {
+            if (error instanceof Error) {
+                setMessageFromApi({
+                    error: `Error! ${error.message}`,
+                    success: '',
+                })
+            }
+
             setMessageFromApi({
                 error: `Error! ${error}`,
                 success: '',

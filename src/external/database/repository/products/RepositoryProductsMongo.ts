@@ -36,7 +36,7 @@ export class RepositoryProductsMongo implements ProductsRepository {
      */
     async getProductById(id: string): Promise<Products | null> {
         try {
-            return (await this.productsModel.findById(id)) ?? null
+            return (await this.productsModel.findOne({ id })) ?? null
         } catch (error) {
             throw new Error('Error fetching the product by ID: ' + error)
         }

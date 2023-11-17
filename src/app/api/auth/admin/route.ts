@@ -1,7 +1,5 @@
-import Adm from '@/external/database/model/admin/Adm'
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
-import { type AdmProps } from '@/types/AdmProps'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { getSecretKey } from '@/lib/auth'
 import Admin from '@/core/admin/model/Admin'

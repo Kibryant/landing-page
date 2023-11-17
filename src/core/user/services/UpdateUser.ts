@@ -9,6 +9,10 @@ export class UpdateUser implements UseCases<UpdateUserDto, Promise<Response<User
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
     async exec({ id: userId, email, password, username }: UpdateUserDto): Promise<Response<User | null>> {
+        if (userId.length === 0) {
+            return new Response(null, 'Id not provide!', HttpStatusCode.BAD_REQUEST)
+        }
+
         const updatedFieldsUser: UpdateUserDto = {
             id: userId,
         }

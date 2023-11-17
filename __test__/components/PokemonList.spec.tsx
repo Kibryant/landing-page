@@ -36,7 +36,7 @@ test('It should render the pokemon list and show stats on click', async () => {
         json: async () => ({ results: mockPokemonsList }),
     })
 
-    const { getByRole, getByText } = render(<PokemonList pokemonsList={mockPokemonsList} />)
+    const { getByRole } = render(<PokemonList pokemonsList={mockPokemonsList} />)
 
     const pikachuButton = screen.getByText('Pikachu')
     const charizardButton = screen.getByText('Charizard')

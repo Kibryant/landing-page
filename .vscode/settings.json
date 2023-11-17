@@ -11,6 +11,7 @@
         "products": "job",
         "dtos": "contract",
         "clients": "base",
-        "hash": "coverage"
+        "hash": "coverage",
+        "user": "robot"
     }
 }

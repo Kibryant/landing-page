@@ -1,15 +1,11 @@
+import Task from '@/core/tasks/model/Task'
 import { Document } from 'mongoose'
 
-interface TasksProps {
-    task?: string
-    date?: Date
-    description?: string
-}
 interface UserProps extends Document {
     email: string
     username: string
     password: string
-    tasks: TasksProps[] | []
+    tasks: Task[]
 }
 
-export type { UserProps, TasksProps }
+export type { UserProps }

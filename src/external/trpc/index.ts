@@ -19,7 +19,7 @@ export const appRouter = router({
             createdPost,
         }
     }),
-    getAllPosts: publicProcedure.query(async ({ ctx }) => {
+    getAllPostsTrpc: publicProcedure.query(async ({ ctx }) => {
         const allPosts = await ctx.pg.posts.findMany()
 
         return {

@@ -1,27 +1,20 @@
 import { Section } from '@/components/Section'
-import { UserProps } from '@/types/UserProps'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import Link from 'next/link'
 
 export default async function Client() {
-    const userCookies = cookies().get('client-system')
-    const nextAuthCookies = cookies().get('next-auth.session-token')
-
-    if (typeof userCookies === 'undefined') {
-        redirect('/accounts/sign-up?origin=dashboard')
-    }
-
-    const user: UserProps = JSON.parse(userCookies.value)
-
     return (
-        <>
-            <Section>
-                <h1 className="text-black">Hi Clients!</h1>
-                <h3 className="text-gray-700">
-                    {/* <Link href={`clients/${user?.username}`}>Go to your Area Client!</Link> */}
-                </h3>
-            </Section>
-        </>
+        <Section>
+            <div className="p-8 border rounded-xl shadow-lg dark:shadow-none">
+                <h1 className="text-4xl font-bold text-primary mb-4">Welcome, Valued Client!</h1>
+                <p className="text-lg">
+                    We are thrilled to have you as our client. Thank you for choosing our services.
+                </p>
+                <p className="text-lg mt-3">
+                    If you have any questions or need assistance, please don&apos;t hesitate to reach out.
+                </p>
+                <p className="text-lg mt-3">
+                    We&apos;re here to serve you and make your experience with us exceptional.
+                </p>
+            </div>
+        </Section>
     )
 }

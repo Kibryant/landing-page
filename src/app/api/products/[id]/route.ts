@@ -8,10 +8,9 @@ export async function GET(req: Request, { params: { id } }: { params: { id: stri
     await connectMongoDb()
 
     const repositoryProducts = new RepositoryProductsMongo()
-    const getAllProducts = new GetProductById(repositoryProducts)
+    const getProductById = new GetProductById(repositoryProducts)
 
-    const product = await getAllProducts.exec(id)
-
+    const product = await getProductById.exec(id)
     if (!product)
         return NextResponse.json({
             message: 'This product no exists!',
