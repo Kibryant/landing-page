@@ -2,7 +2,7 @@ import UseCases from '@/core/shared/UseCases'
 import { UserRepository } from './repository'
 import { Response } from '@/types/class/Response'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import User from '../models/User'
+import User from '../entity/User'
 import UpdateUserDto from '../dtos/UpdateUserDto'
 
 export class UpdateUser implements UseCases<UpdateUserDto, Promise<Response<User | null>>> {

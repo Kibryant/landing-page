@@ -2,7 +2,7 @@ import UseCases from '@/core/shared/UseCases'
 import { UserRepository } from './repository'
 import { Response } from '@/types/class/Response'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import User from '../models/User'
+import User from '../entity/User'
 
 export class GetUserByUsername implements UseCases<string, Promise<Response<User | null>>> {
     // eslint-disable-next-line prettier/prettier

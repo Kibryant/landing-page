@@ -1,7 +1,7 @@
 import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import Task from '@/core/tasks/model/Task'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
-import User from '@/core/user/models/User'
+import User from '@/core/user/entity/User'
 import { UserRepository } from '@/core/user/services/repository'
 import { randomUUID } from 'node:crypto'
 

@@ -1,5 +1,5 @@
 import UseCases from '@/core/shared/UseCases'
-import User from '../models/User'
+import User from '../entity/User'
 import { UserRepository } from './repository'
 
 type userId = string

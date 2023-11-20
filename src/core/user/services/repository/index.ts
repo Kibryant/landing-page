@@ -1,7 +1,7 @@
 import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import CreateUserDto from '../../dtos/CreateUserDto'
 import UpdateUserDto from '../../dtos/UpdateUserDto'
-import User from '../../models/User'
+import User from '../../entity/User'
 import Task from '@/core/tasks/model/Task'
 
 export abstract class UserRepository {

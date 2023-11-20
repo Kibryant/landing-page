@@ -4,7 +4,7 @@ import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import Task from '@/core/tasks/model/Task'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
-import User from '@/core/user/models/User'
+import User from '@/core/user/entities/User'
 import { randomUUID } from 'crypto'
 
 export class RepositoryUserMongo extends UserRepository {

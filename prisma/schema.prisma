@@ -15,7 +15,7 @@ model User {
     password  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    Task      Task[]
+    tasks     Task[]
 
     @@map("users")
 }

@@ -1,7 +1,7 @@
 import { UserRepository } from '@/core/user/services/repository'
 import UserModel from '../../model/user/User'
 import { UserProps } from '@/types/UserProps'
-import type User from '@/core/user/models/User'
+import type User from '@/core/user/entities/User'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import Task from '@/core/tasks/model/Task'

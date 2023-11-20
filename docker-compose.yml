@@ -10,5 +10,18 @@ services:
       POSTGRES_DB: postgresql
     volumes:
       - pgdata:/var/lib/postgresql/data
+  postgres_tests:
+    image: postgres:latest
+    restart: always
+    container_name: test_postgres
+    ports:
+      - "5455:5432"
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    volumes:
+      - pgdata_tests:/var/lib/postgresql/data
 volumes:
   pgdata:
+  pgdata_tests:
