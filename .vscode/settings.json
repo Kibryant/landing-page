@@ -15,5 +15,7 @@
         "entity": "class",
         "hash": "coverage",
         "user": "robot",
+        "http": "serverless",
+        "ia": "robot",
     }
 }

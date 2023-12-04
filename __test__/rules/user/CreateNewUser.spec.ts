@@ -13,13 +13,36 @@ describe('CreateNewUser', () => {
             username: 'novousuario',
             tasks: [],
             password: 'senhasegura',
+            receivedMessages: [],
+            sentMessages: [],
         }
 
         const response = await createNewUser.exec(userToCreate)
 
         expect(response.status).toBe(HttpStatusCode.CREATED)
-        expect(response.data).toEqual({ ...userToCreate, id: '1' })
+        expect(response.data).toEqual(expect.objectContaining(userToCreate))
+        expect(response.data?.id).toBeDefined()
     })
 
-    it.todo('Must not create new user if email already exists')
+    it('Must return error when email already exists', async () => {
+        const userRepositoryMemory = new RepositoryUserMemory()
+        const createNewUser = new CreateNewUser(userRepositoryMemory)
+
+        const userToCreate: CreateUserDto = {
+            email: 'novousuario@example.com',
+            username: 'novousuario',
+            tasks: [],
+            password: 'senhasegura',
+            receivedMessages: [],
+            sentMessages: [],
+        }
+
+        await createNewUser.exec(userToCreate)
+
+        const response = await createNewUser.exec(userToCreate)
+
+        expect(response.status).toBe(HttpStatusCode.CONFLICT)
+        expect(response.data).toBeNull()
+        expect(response.message).toBe('This email exists! try another or sign in!')
+    })
 })

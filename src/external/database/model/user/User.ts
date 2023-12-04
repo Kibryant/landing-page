@@ -10,6 +10,8 @@ const userSchema = new Schema<UserProps>(
         username: { type: String, require: true, unique: true },
         password: { type: String, required: true },
         tasks: [{ type: Schema.Types.Mixed }],
+        sentMessages: [{ type: Schema.Types.Mixed }],
+        receivedMessages: [{ type: Schema.Types.Mixed }],
     },
     { timestamps: true },
 )

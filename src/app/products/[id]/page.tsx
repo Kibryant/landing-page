@@ -26,7 +26,6 @@ const Product = async ({
     const protocal = process.env.NODE_ENV === 'development' ? 'http' : 'https'
     const req = await fetch(`${protocal}://${host}/api/products/${params.id}`, { next: { revalidate: 100 } })
     const res = await req.json()
-    console.log(res.data)
     const product: ProductSchemaProps = res.data
 
     const selectedColor = (searchParams.color || 'black') as string

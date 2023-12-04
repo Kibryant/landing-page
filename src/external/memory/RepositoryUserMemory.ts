@@ -1,3 +1,4 @@
+import Message from '@/core/messages/entity/Message'
 import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import Task from '@/core/tasks/model/Task'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
@@ -33,7 +34,7 @@ export default class RepositoryUserMemory implements UserRepository {
     }
 
     async createNewUser(user: User): Promise<User> {
-        const newUser = { ...user, id: '1' }
+        const newUser = { ...user, id: randomUUID() }
         this.users.push(newUser)
         return newUser
     }
@@ -58,5 +59,43 @@ export default class RepositoryUserMemory implements UserRepository {
         this.users[userIndex].tasks?.push(newTask)
 
         return newTask
+    }
+
+    getAllMessagesByUserId(userId: string): Promise<Message[] | null> {
+        throw new Error('Method not implemented.')
+    }
+
+    async sentMessageToAnotherUser(senderId: string, receiverId: string, content: string): Promise<boolean> {
+        const sender = this.users.find((user) => user.id === senderId)
+        const receiver = this.users.find((user) => user.id === receiverId)
+
+        if (!sender || !receiver) {
+            return false
+        }
+
+        const message = new Message({
+            content,
+            receiverId,
+            senderId,
+            createdAt: new Date(),
+        })
+
+        sender.sentMessages?.push(message)
+
+        console.log(sender)
+
+        receiver.receivedMessages?.push(message)
+
+        return true
+    }
+
+    async receivedMessages(receiverId: string): Promise<Message[] | null> {
+        const user = this.users.find((user) => user.id === receiverId)
+        return user?.receivedMessages ?? null
+    }
+
+    async getAllUsers(): Promise<User[] | null> {
+        const users = this.users
+        return users ?? null
     }
 }

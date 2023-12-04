@@ -7,6 +7,12 @@ const Products = async () => {
     const host = headers().get('host')
     const protocal = process.env.NODE_ENV === 'development' ? 'http' : 'https'
     const req = await fetch(`${protocal}://${host}/api/products`, { next: { revalidate: 100 } })
+
+    if (req.status !== 200) {
+        console.log(req)
+        return <div>Error in Fetch products</div>
+    }
+
     const res: { data: Product[] } = await req.json()
     const products = res.data.map(({ id, description, price, product }) => {
         return {

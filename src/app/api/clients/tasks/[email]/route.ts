@@ -3,7 +3,7 @@ import { authHeader } from '@/lib/auth'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'
 import UserModel from '@/external/database/model/user/User'
-import { TasksProps } from '@/types/UserProps'
+import { TasksProps } from '@/types/TasksProps'
 
 export async function POST(req: Request, { params: { email } }: { params: { email: string } }) {
     const isAuth = authHeader()
@@ -35,6 +35,7 @@ export async function POST(req: Request, { params: { email } }: { params: { emai
         task,
         date,
         description,
+        howMuchTimeIsLeft: new Date(new Date(date).getTime() - new Date().getTime()),
     }
 
     await UserModel.findByIdAndUpdate(user.id, { $push: { tasks: newTask } }, { new: true })

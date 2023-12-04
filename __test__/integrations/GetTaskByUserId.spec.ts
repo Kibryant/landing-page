@@ -33,7 +33,7 @@ describe('Get all tasks by userId', () => {
 
         const catchTaskByUserId = await getTaskByUserId.exec(data?.id ?? '')
 
-        expect(catchTaskByUserId).toStrictEqual([{ ...newTask1, userId: '1' }])
-        expect({ ...addedTaskToUser, _id: 'fake id' }).toEqual({ ...newTask1, userId: '1' })
+        expect(catchTaskByUserId).toStrictEqual([{ ...newTask1, userId: data?.id }])
+        expect({ ...addedTaskToUser, _id: 'fake id' }).toEqual({ ...newTask1, userId: data?.id })
     })
 })

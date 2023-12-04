@@ -1,10 +1,12 @@
 import { UserRepository } from '@/core/user/services/repository'
 import UserModel from '../../model/user/User'
 import { UserProps } from '@/types/UserProps'
-import type User from '@/core/user/entities/User'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import Task from '@/core/tasks/model/Task'
+import Message from '@/core/messages/entity/Message'
+import type User from '@/core/user/entity/User'
+import { randomUUID } from 'crypto'
 
 // Define a set of fields that can be updated in a user profile
 interface UpdateFieldsProps {
@@ -15,8 +17,66 @@ interface UpdateFieldsProps {
 
 // Create a class that extends the UserRepository
 export class RepositoryUserMongo extends UserRepository {
-    getUserById(id: string): Promise<User | null> {
+    async sentMessageToAnotherUser(senderId: string, receiverId: string, content: string): Promise<boolean> {
+        try {
+            const sender = await UserModel.findById(senderId)
+
+            if (!sender) {
+                return false
+            }
+
+            const receiver = await UserModel.findById(receiverId)
+
+            if (!receiver) {
+                return false
+            }
+
+            const message = new Message({ senderId, receiverId, content, createdAt: new Date() })
+
+            sender.sentMessages.push(message)
+            receiver.receivedMessages.push(message)
+
+            await sender.updateOne(sender)
+            await receiver.updateOne(receiver)
+
+            return true
+        } catch (error) {
+            throw new Error('Error sending message to another user: ' + error)
+        }
+    }
+
+    receivedMessages(receiverId: string): Promise<Message[] | null> {
         throw new Error('Method not implemented.')
+    }
+
+    async getAllMessagesByUserId(userId: string): Promise<Message[] | null> {
+        try {
+            const user = await UserModel.findById(userId)
+
+            if (!user) {
+                return null
+            }
+
+            return user.receivedMessages
+        } catch (error) {
+            throw new Error('Error fetching all messages by user id: ' + error)
+        }
+    }
+
+    async getAllUsers(): Promise<User[] | null> {
+        try {
+            return await UserModel.find()
+        } catch (error) {
+            throw new Error('Error fetching all users: ' + error)
+        }
+    }
+
+    async getUserById(id: string): Promise<User | null> {
+        try {
+            return await UserModel.findById(id)
+        } catch (error) {
+            throw new Error('Error fetching user by id: ' + error)
+        }
     }
 
     addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {

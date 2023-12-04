@@ -1,6 +1,6 @@
 'use client'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { ResProps } from '@/types/class/Response'
+import { ResProps } from '@/types/ResProps'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -56,7 +56,8 @@ const useSignIn = () => {
                 }),
             }).then(async (result) => {
                 const res: ResProps = await result.json()
-                if (res.status !== HttpStatusCode.CREATED) {
+                console.log(res)
+                if (res.status !== HttpStatusCode.OK) {
                     setMessageFromApi({
                         error: res.message,
                         success: '',
@@ -67,7 +68,10 @@ const useSignIn = () => {
                     error: '',
                     success: res.message,
                 })
-                localStorage.setItem('arthur-system', username)
+
+                console.log('aqui')
+
+                localStorage.setItem('client-system', JSON.stringify(res.data))
                 router.push('/clients')
             })
         } catch (error) {

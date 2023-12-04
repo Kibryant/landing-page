@@ -21,6 +21,7 @@ module.exports = {
     plugins: ['jsx-a11y', '@typescript-eslint'],
     rules: {
         'no-useless-constructor': 'off',
+        'no-non-null-assertion': 'off',
         'prettier/prettier': [
             'error',
             {

@@ -1,4 +1,21 @@
 services:
+  app:
+    image: openai-demo-app
+    build:
+      context: ./
+      target: dev
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      MONGODB_URI: mongodb+srv://arthurgustavon:arthurgustavon@cluster1.mylyiaz.mongodb.net/auth?retryWrites=true&w=majority
+    env_file:
+      - .env
+      - .env.local
+    ports:
+      - "3000:3000"
   postgres:
     image: postgres:latest
     restart: always

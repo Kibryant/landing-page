@@ -1,8 +1,4 @@
 import mongoose from 'mongoose'
-declare global {
-    // eslint-disable-next-line no-var, @typescript-eslint/no-explicit-any
-    var mongoose: any // This must be a `var` and not a `let / const`
-}
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const MONGODB_URI = process.env.MONGODB_URI!
@@ -11,32 +7,16 @@ if (!MONGODB_URI) {
     throw new Error('Please define the MONGODB_URI environment variable inside .env.local')
 }
 
-let cached = global.mongoose
-
-if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null }
-}
-
 async function connectMongoDb() {
-    if (cached.conn) {
-        return cached.conn
-    }
-    if (!cached.promise) {
-        const opts = {
-            bufferCommands: false,
-        }
-        cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-            return mongoose
-        })
-    }
     try {
-        cached.conn = await cached.promise
-    } catch (e) {
-        cached.promise = null
-        throw e
-    }
+        const opts = {}
 
-    return cached.conn
+        const connection = await mongoose.connect(MONGODB_URI, opts)
+
+        return connection
+    } catch (error) {
+        throw new Error('Failed to connect to MongoDB')
+    }
 }
 
 export { connectMongoDb }

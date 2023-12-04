@@ -40,8 +40,8 @@ describe('GetAllTasksByUserId', () => {
         const tasks = await getAllTasksByUserId.exec(data?.id || '')
 
         expect(tasks).toEqual([
-            { ...task, userId: '1', _id: 'fake id' },
-            { ...task2, userId: '1', _id: 'fake id' },
+            { ...task, userId: data?.id, _id: 'fake id' },
+            { ...task2, userId: data?.id, _id: 'fake id' },
         ])
     })
 })

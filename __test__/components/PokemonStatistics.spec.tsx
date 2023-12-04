@@ -15,12 +15,12 @@ beforeAll(() => {
     ) as jest.Mock
 })
 
-afterAll(() => {
-    // @ts-expect-error i dont know why
-    global.fetch.mockClear()
-    // @ts-expect-error i dont know why
-    delete global.fetch
-})
+// afterAll(() => {
+//     // @ts-expect-error i dont know why
+//     global.fetch.mockClear()
+//     // @ts-expect-error i dont know why
+//     delete global.fetch
+// })
 
 test('PokemonStatistics component renders correctly', async () => {
     const url = 'https://pokeapi.co/api/v2/pokemon/25/'

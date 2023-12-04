@@ -26,6 +26,8 @@ export class CreateNewUser implements UseCases<User, Response<User | null>> {
             username,
             password,
             tasks: [],
+            sentMessages: [],
+            receivedMessages: [],
         })
 
         return new Response(newUser, 'User Created!', HttpStatusCode.CREATED)

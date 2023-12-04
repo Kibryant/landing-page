@@ -1,3 +1,4 @@
+import Message from '@/core/messages/entity/Message'
 import Task from '@/core/tasks/model/Task'
 
 export default interface CreateUserDto {
@@ -5,4 +6,6 @@ export default interface CreateUserDto {
     username: string
     password: string
     tasks?: Task[]
+    sentMessages?: Message[]
+    receivedMessages?: Message[]
 }
