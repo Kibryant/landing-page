@@ -1,13 +1,12 @@
 import Message from '@/core/messages/entity/Message'
 import GetAllMessagesByUserId from '@/core/user/services/GetAllMessagesByUserId'
 import { connectMongoDb } from '@/external/database/connections'
-import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'
-import UserModel from '@/external/database/model/user/User'
+import UserModel from '@/external/database/model/user/UserModel'
 import { pusherServer } from '@/lib/pusher'
 import { toPusherKey } from '@/utils/toPusherKey'
-import { Console } from 'console'
 
 export async function POST(req: Request) {
     // await connectMongoDb()

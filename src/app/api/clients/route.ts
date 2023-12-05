@@ -1,6 +1,6 @@
 import { GetAllUsers } from '@/core/user/services/GetAllUsers'
 import { connectMongoDb } from '@/external/database/connections'
-import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'
 

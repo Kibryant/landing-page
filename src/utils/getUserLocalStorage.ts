@@ -1,11 +1,11 @@
 'use client'
 
-import { UserProps } from '@/types/UserProps'
+import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 
 export const getUserLocalStorage = () => {
     const userStorage = localStorage.getItem('client-system')
 
-    let user: UserProps | null = null
+    let user: UserMongooseDocument | null = null
 
     if (userStorage) {
         user = JSON.parse(userStorage)

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
-import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
 import { GetUserByUsername } from '@/core/user/services/GetUserByUsername'
 import PasswordService from '@/external/security/hash/HashService'
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
         const hashedPassword = await passwordService.hashPassword(password)
 
-        // const newUser: UserProps = new User({
+        // const newUser: UserMongooseDocument = new User({
         //     email,
         //     username,
         //     password: hashedPassword,
@@ -69,9 +69,11 @@ export async function POST(req: Request) {
         cookies().set(
             'client-system',
             JSON.stringify({
-                username: data.username,
-                email: data.email,
+                ...data,
             }),
+            {
+                httpOnly: true,
+            },
         )
 
         return NextResponse.json({

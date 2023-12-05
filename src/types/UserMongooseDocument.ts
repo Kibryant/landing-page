@@ -1,8 +1,9 @@
 import Message from '@/core/messages/entity/Message'
 import Task from '@/core/tasks/model/Task'
+import User, { UserFriend } from '@/core/user/entity/User'
 import { Document } from 'mongoose'
 
-interface UserProps extends Document {
+interface UserMongooseDocument extends Document {
     _id?: string
     email: string
     username: string
@@ -10,6 +11,8 @@ interface UserProps extends Document {
     tasks: Task[]
     sentMessages: Message[]
     receivedMessages: Message[]
+    friends: UserFriend[]
+    friendsRequests: UserFriend[]
 }
 
-export type { UserProps }
+export type { UserMongooseDocument }

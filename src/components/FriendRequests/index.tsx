@@ -13,16 +13,17 @@ interface IncomingFriendRequest {
 }
 
 interface FriendRequestsProps {
-    sessionId: string
+    currentUserEmail: string
+    currentUserId: string
 }
 
-const FriendRequests: FC<FriendRequestsProps> = ({ sessionId }) => {
+const FriendRequests: FC<FriendRequestsProps> = ({ currentUserEmail, currentUserId }) => {
     const router = useRouter()
     const [friendRequests, setFriendRequests] = useState<IncomingFriendRequest[]>([])
-
+    console.log('friendRequests', friendRequests)
     useEffect(() => {
-        pusherClient.subscribe(toPusherKey(`user:${sessionId}:incoming_friend_requests`))
-        console.log('listening to ', `user:${sessionId}:incoming_friend_requests`)
+        pusherClient.subscribe(toPusherKey(`user:${currentUserEmail}:incoming_friend_requests`))
+        console.log('listening to ', `user:${currentUserEmail}:incoming_friend_requests`)
 
         const friendRequestHandler = ({ senderId, senderEmail }: IncomingFriendRequest) => {
             console.log('function got called')
@@ -32,13 +33,13 @@ const FriendRequests: FC<FriendRequestsProps> = ({ sessionId }) => {
         pusherClient.bind('incoming_friend_requests', friendRequestHandler)
 
         return () => {
-            pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:incoming_friend_requests`))
+            pusherClient.unsubscribe(toPusherKey(`user:${currentUserEmail}:incoming_friend_requests`))
             pusherClient.unbind('incoming_friend_requests', friendRequestHandler)
         }
-    }, [sessionId])
+    }, [currentUserEmail])
 
     const acceptFriend = async (senderId: string) => {
-        await axios.post('/api/friends/accept', { id: senderId })
+        await axios.post('/api/clients/friends/accept', { id: senderId, currentUserId })
 
         setFriendRequests((prev) => prev.filter((request) => request.senderId !== senderId))
 
@@ -46,7 +47,7 @@ const FriendRequests: FC<FriendRequestsProps> = ({ sessionId }) => {
     }
 
     const denyFriend = async (senderId: string) => {
-        await axios.post('/api/friends/deny', { id: senderId })
+        await axios.post('/api/clients/friends/deny', { id: senderId })
 
         setFriendRequests((prev) => prev.filter((request) => request.senderId !== senderId))
 
@@ -65,7 +66,7 @@ const FriendRequests: FC<FriendRequestsProps> = ({ sessionId }) => {
                         <button
                             onClick={() => acceptFriend(request.senderId)}
                             aria-label="accept friend"
-                            className="w-8 h-8 bg-indigo-600 hover:bg-indigo-700 grid place-items-center rounded-full transition hover:shadow-md"
+                            className="w-8 h-8 bg-primary hover:bg-primary/80 grid place-items-center rounded-full transition hover:shadow-md"
                         >
                             <Check className="font-semibold text-white w-3/4 h-3/4" />
                         </button>

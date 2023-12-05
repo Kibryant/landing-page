@@ -4,6 +4,7 @@ import UpdateUserDto from '../../dtos/UpdateUserDto'
 import User from '../../entity/User'
 import Task from '@/core/tasks/model/Task'
 import Message from '@/core/messages/entity/Message'
+import { FriendOperationResult } from '@/types/res/FriendOperation'
 
 export abstract class UserRepository {
     abstract getUserByEmail(email: string): Promise<User | null>
@@ -17,4 +18,8 @@ export abstract class UserRepository {
     abstract receivedMessages(receiverId: string): Promise<Message[] | null>
     abstract getAllMessagesByUserId(userId: string): Promise<Message[] | null>
     abstract getAllUsers(): Promise<User[] | null>
+    abstract addNewFriend(userId: string, friendId: string): Promise<FriendOperationResult>
+    abstract sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult>
+    abstract getAllFriends(userId: string): Promise<User[] | []>
+    abstract getAllFriendsRequests(userId: string): Promise<User[] | []>
 }

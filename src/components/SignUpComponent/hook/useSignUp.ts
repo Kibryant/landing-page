@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import 'react-toastify/ReactToastify.css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SignUpSchemaInput, signUpSchema } from '@/schemas/signUp.schema'
-import { UserProps } from '@/types/UserProps'
+import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 
 const useSignUp = () => {
     const router = useRouter()
@@ -48,7 +48,7 @@ const useSignUp = () => {
                     password,
                 }),
             }).then(async (result) => {
-                const res: ResProps<UserProps> = await result.json()
+                const res: ResProps<UserMongooseDocument> = await result.json()
                 if (res.status !== HttpStatusCode.CREATED) {
                     setMessageFromApi({
                         error: res.message,

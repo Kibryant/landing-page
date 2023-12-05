@@ -3,7 +3,7 @@ import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { cookies } from 'next/headers'
 import { connectMongoDb } from '@/external/database/connections'
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
-import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import HashService from '@/external/security/hash/HashService'
 
 export async function POST(req: Request) {
@@ -42,8 +42,15 @@ export async function POST(req: Request) {
         cookies().set(
             'client-system',
             JSON.stringify({
+                _id: user._id,
                 username: user.username,
-                email: user.password,
+                email: user.email,
+                password: user.password,
+                tasks: user.tasks,
+                friends: user.friends,
+                friendsRequests: user.friendsRequests,
+                sentMessages: user.sentMessages,
+                receivedMessages: user.receivedMessages,
             }),
         )
 

@@ -1,22 +1,60 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { UserRepository } from '@/core/user/services/repository'
-import UserModel from '../../model/user/User'
-import { UserProps } from '@/types/UserProps'
+import UserModel from '../../model/user/UserModel'
+import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
 import Task from '@/core/tasks/model/Task'
 import Message from '@/core/messages/entity/Message'
 import type User from '@/core/user/entity/User'
-import { randomUUID } from 'crypto'
-
+import { FriendOperationResult } from '@/types/res/FriendOperation'
+import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
 // Define a set of fields that can be updated in a user profile
-interface UpdateFieldsProps {
-    email?: string
-    username?: string
-    password?: string
-}
 
 // Create a class that extends the UserRepository
 export class RepositoryUserMongo extends UserRepository {
+    async addNewFriend(userId: string, friendId: string): Promise<FriendOperationResult> {
+        const user = await this.getUserById(userId)
+        const friend = await this.getUserById(friendId)
+
+        if (!user || !friend) {
+            return {
+                success: false,
+                error: 'User or friend not found',
+            }
+        }
+
+        user.friends?.push({
+            username: friend.username,
+            email: friend.email,
+        })
+
+        friend.friends?.push({
+            username: user.username,
+            email: user.email,
+        })
+
+        await this.updateUser(userId, { friends: user.friends })
+        await this.updateUser(friendId, { friends: friend.friends })
+
+        return {
+            success: true,
+            friend,
+        }
+    }
+
+    sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllFriends(userId: string): Promise<User[] | []> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllFriendsRequests(userId: string): Promise<User[] | []> {
+        throw new Error('Method not implemented.')
+    }
+
     async sentMessageToAnotherUser(senderId: string, receiverId: string, content: string): Promise<boolean> {
         try {
             const sender = await UserModel.findById(senderId)
@@ -87,7 +125,6 @@ export class RepositoryUserMongo extends UserRepository {
         throw new Error('Method not implemented.')
     }
 
-    // Retrieve a user by their email
     async getUserByEmail(email: string): Promise<User | null> {
         try {
             return (await UserModel.findOne({ email })) ?? null
@@ -96,7 +133,6 @@ export class RepositoryUserMongo extends UserRepository {
         }
     }
 
-    // Retrieve a user by their username
     async getUserByUsername(username: string): Promise<User | null> {
         try {
             return (await UserModel.findOne({ username })) ?? null
@@ -105,14 +141,22 @@ export class RepositoryUserMongo extends UserRepository {
         }
     }
 
-    // Create a new user
-    async createNewUser({ email, password, username, tasks }: CreateUserDto): Promise<UserProps> {
+    async createNewUser({
+        email,
+        password,
+        username,
+        tasks,
+        receivedMessages,
+        sentMessages,
+    }: CreateUserDto): Promise<UserMongooseDocument> {
         try {
-            const newUser: UserProps = new UserModel({
+            const newUser: UserMongooseDocument = new UserModel({
                 email,
                 username,
                 password,
                 tasks,
+                sentMessages,
+                receivedMessages,
             })
 
             await newUser.save()
@@ -123,8 +167,7 @@ export class RepositoryUserMongo extends UserRepository {
         }
     }
 
-    // Update an existing user's profile
-    async updateUser(userId: string, updatedFields: UpdateFieldsProps): Promise<User | null> {
+    async updateUser(userId: string, updatedFields: UpdateUserDto): Promise<User | null> {
         try {
             return (await UserModel.findByIdAndUpdate(userId, updatedFields, { new: true })) ?? null
         } catch (error) {

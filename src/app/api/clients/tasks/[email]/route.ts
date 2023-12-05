@@ -2,7 +2,7 @@ import connect from '@/core/db'
 import { authHeader } from '@/lib/auth'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'
-import UserModel from '@/external/database/model/user/User'
+import UserModel from '@/external/database/model/user/UserModel'
 import { TasksProps } from '@/types/TasksProps'
 
 export async function POST(req: Request, { params: { email } }: { params: { email: string } }) {

@@ -5,30 +5,10 @@ import { HttpStatusCode } from '@/types/HttpStatusCode'
 import User from '../entity/User'
 import UpdateUserDto from '../dtos/UpdateUserDto'
 
-export class UpdateUser implements UseCases<UpdateUserDto, Promise<Response<User | null>>> {
+export class UpdateUser implements UseCases<[string, UpdateUserDto], Promise<Response<User | null>>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
-    async exec({ id: userId, email, password, username }: UpdateUserDto): Promise<Response<User | null>> {
-        if (userId.length === 0) {
-            return new Response(null, 'Id not provide!', HttpStatusCode.BAD_REQUEST)
-        }
-
-        const updatedFieldsUser: UpdateUserDto = {
-            id: userId,
-        }
-
-        if (email) {
-            updatedFieldsUser.email = email
-        }
-
-        if (username) {
-            updatedFieldsUser.username = username
-        }
-
-        if (password) {
-            updatedFieldsUser.password = password
-        }
-
+    async exec([userId, updatedFieldsUser]: [string, UpdateUserDto]): Promise<Response<User | null>> {
         const updatedUser = await this.userRepository.updateUser(userId, updatedFieldsUser)
 
         if (!updatedUser) {

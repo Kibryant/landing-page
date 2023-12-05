@@ -1,7 +1,7 @@
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
 import { UpdateUser } from '@/core/user/services/UpdateUser'
 import { connectMongoDb } from '@/external/database/connections'
-import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongo'
+import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import HashService from '@/external/security/hash/HashService'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'

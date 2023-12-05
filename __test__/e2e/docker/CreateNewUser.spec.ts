@@ -72,8 +72,6 @@ describe('CreateNewUser', () => {
         const createNewUser = new CreateNewUser(repositoryUserPrisma)
 
         const response = await createNewUser.exec(user)
-        console.log(response)
-
         expect(response.data).toHaveProperty('id')
     })
 })

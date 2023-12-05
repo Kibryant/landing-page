@@ -17,5 +17,6 @@
         "user": "robot",
         "http": "serverless",
         "ia": "robot",
+        "friends": "jinja",
     }
 }

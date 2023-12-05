@@ -10,14 +10,14 @@ export class CreateNewUser implements UseCases<User, Response<User | null>> {
     constructor(private userRepository: UserRepository) { }
 
     async exec({ email, username, password }: CreateUserDto): Promise<Response<User | null>> {
-        const emailExists = await this.userRepository.getUserByEmail(email)
-        const usernameExists = await this.userRepository.getUserByUsername(username)
+        const userEmailExists = await this.userRepository.getUserByEmail(email)
+        const userUsernameExists = await this.userRepository.getUserByUsername(username)
 
-        if (emailExists?.email) {
+        if (userEmailExists) {
             return new Response(null, 'This email exists! try another or sign in!', HttpStatusCode.CONFLICT)
         }
 
-        if (usernameExists) {
+        if (userUsernameExists) {
             return new Response(null, 'This username exists! try another or sign in!', HttpStatusCode.CONFLICT)
         }
 
@@ -29,6 +29,8 @@ export class CreateNewUser implements UseCases<User, Response<User | null>> {
             sentMessages: [],
             receivedMessages: [],
         })
+
+        if (!newUser) return new Response(null, 'Error creating user!', HttpStatusCode.INTERNAL_SERVER_ERROR)
 
         return new Response(newUser, 'User Created!', HttpStatusCode.CREATED)
     }

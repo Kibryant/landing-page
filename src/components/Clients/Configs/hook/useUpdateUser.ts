@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { UserProps } from '@/types/UserProps'
+import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UpdateUserSchemaInput, updateUserSchema } from '@/schemas/updateUserSchema'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
@@ -12,7 +12,7 @@ const useUpdateUser = () => {
         sucess: null,
     })
 
-    let user: UserProps | null = null
+    let user: UserMongooseDocument | null = null
 
     if (userStorage) {
         user = JSON.parse(userStorage)

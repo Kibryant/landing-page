@@ -1,12 +1,13 @@
 'use client'
 
-import axios, { AxiosError } from 'axios'
 import { FC, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { getUserLocalStorage } from '@/utils'
+import { Input } from '@/components/ui/input'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
 
 export const addFriendValidator = z.object({
     email: z.string().email(),
@@ -15,6 +16,7 @@ type FormData = z.infer<typeof addFriendValidator>
 
 const AddFriendButton: FC = () => {
     const [showSuccessState, setShowSuccessState] = useState<boolean>(false)
+    const [errorMessages, setErrorMessages] = useState<string>('')
     const user = getUserLocalStorage()
 
     const {
@@ -29,9 +31,8 @@ const AddFriendButton: FC = () => {
     const addFriend = async (email: string) => {
         try {
             const validatedEmail = addFriendValidator.parse({ email })
-            console.log('validatedEmail', validatedEmail.email)
 
-            await fetch('/api/clients/friends/add', {
+            const req = await fetch('/api/clients/friends/add', {
                 method: 'POST',
                 body: JSON.stringify({
                     email: validatedEmail.email,
@@ -43,13 +44,18 @@ const AddFriendButton: FC = () => {
                 },
             })
 
+            const res = await req.json()
+
+            if (res.status !== HttpStatusCode.OK) {
+                setErrorMessages(res.message)
+                return
+            }
+
             // await axios.post('/api/clients/friends/add', {
             //     email: validatedEmail,
             //     senderId: user?._id as string,
             //     senderEmail: user?.email as string,
             // })
-
-            console.log('friend request sent')
 
             setShowSuccessState(true)
         } catch (error) {
@@ -59,8 +65,8 @@ const AddFriendButton: FC = () => {
                 return
             }
 
-            if (error instanceof AxiosError) {
-                setError('email', { message: error.response?.data })
+            if (error instanceof Error) {
+                setError('email', { message: error.message })
                 return
             }
 
@@ -74,20 +80,16 @@ const AddFriendButton: FC = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="email" className="block text-lg font-medium leading-6">
                 Add friend by E-Mail
             </label>
 
             <div className="mt-2 flex gap-4">
-                <input
-                    {...register('email')}
-                    type="text"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="you@example.com"
-                />
+                <Input {...register('email')} type="text" className="" placeholder="you@example.com" />
                 <Button type="submit">Add</Button>
             </div>
             <p className="mt-1 text-sm text-red-600">{errors.email?.message}</p>
+            <p className="mt-1 text-sm text-red-600">{errorMessages.length > 0 && errorMessages}</p>
             {showSuccessState ? <p className="mt-1 text-sm text-green-600">Friend request sent!</p> : null}
         </form>
     )

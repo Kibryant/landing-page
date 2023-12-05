@@ -1,6 +1,11 @@
+import Task from '@/core/tasks/model/Task'
+import { UserFriend } from '../entity/User'
+
 export default interface UpdateUserDto {
-    id: string
     email?: string
     username?: string
     password?: string
+    friends?: UserFriend[]
+    friendsRequests?: UserFriend[]
+    tasks?: Task[]
 }

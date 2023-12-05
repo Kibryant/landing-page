@@ -38,7 +38,8 @@
         ".next/types/**/*.ts",
         "jest.config.js",
         "jest.config.js",
-        "__test__/rules/admin/GetAdminByAccessCode.accessCodets"
+        "__test__/rules/admin/GetAdminByAccessCode.accessCodets",
+        "src/types/UserMongooseDocumentts"
     ],
     "exclude": [
         "node_modules"

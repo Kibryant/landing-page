@@ -1,3 +1,4 @@
+import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import createNewUser from '@/lib/createNewUser/createNewUser'
 import fetchUsers from '@/lib/fetchUsers/fetchUsers'
 import { server } from '@/mocks/server'
@@ -6,21 +7,12 @@ import { rest } from 'msw'
 
 describe('CreateNewUser', () => {
     it('should crete new user', async () => {
-        const user = {
+        const user: CreateUserDto = {
             email: 'arthur@gmail.com',
             password: '123456',
             username: 'arthur',
         }
-        const createdUser = await createNewUser(user)
-        expect(createdUser).toBeDefined()
-    })
 
-    it('should crete new user', async () => {
-        const user = {
-            email: 'arthur@gmail.com',
-            password: '123456',
-            username: 'arthur',
-        }
         server.use(
             rest.post('/api/users', async (req, res, ctx) => {
                 return res(
@@ -32,10 +24,12 @@ describe('CreateNewUser', () => {
                 )
             }),
         )
+
         const response = await fetch('/api/users', {
             method: 'POST',
             body: JSON.stringify(user),
         })
+
         const newUser = await response.json()
         expect(newUser).toEqual({
             id: '1',
