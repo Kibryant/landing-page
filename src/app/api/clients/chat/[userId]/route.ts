@@ -1,4 +1,4 @@
-import Message from '@/core/messages/entity/Message'
+import Message from '@/core/message/entity/Message'
 import GetAllMessagesByUserId from '@/core/user/services/GetAllMessagesByUserId'
 import { connectMongoDb } from '@/external/database/connections'
 import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'

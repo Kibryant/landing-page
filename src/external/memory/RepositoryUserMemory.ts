@@ -1,34 +1,55 @@
-import Message from '@/core/messages/entity/Message'
-import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
-import Task from '@/core/tasks/model/Task'
+import Message from '@/core/message/entity/Message'
+import CreateTaskDto from '@/core/task/dtos/CreateTaskDto'
+import Task from '@/core/task/entity/Task'
+import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
-import User from '@/core/user/entity/User'
+import User, { UserFriend } from '@/core/user/entity/User'
 import { UserRepository } from '@/core/user/services/repository'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { Response } from '@/types/class/Response'
 import { FriendOperationResult } from '@/types/res/FriendOperation'
+import MessageOperationResult from '@/types/res/MessageOperation'
 import { randomUUID } from 'node:crypto'
 
 export default class RepositoryUserMemory implements UserRepository {
     private readonly users: User[] = []
 
-    async createNewUser(user: User): Promise<User> {
-        const newUser: User = {
-            ...user,
-            friends: [],
-            tasks: [],
-            friendsRequests: [],
-            id: randomUUID(),
-            _id: randomUUID(),
-            createdAt: new Date(),
-            receivedMessages: [],
-            sentMessages: [],
+    async createNewUser({ email, password, username }: CreateUserDto): Promise<Response<User | null>> {
+        const userEmailExists = await this.getUserByEmail(email)
+        const userUsernameExists = await this.getUserByUsername(username)
+
+        if (userEmailExists) {
+            return new Response(null, 'Email already exists', HttpStatusCode.CONFLICT)
         }
 
-        this.users.push(newUser)
-        return newUser
+        if (userUsernameExists) {
+            return new Response(null, 'Username already exists', HttpStatusCode.CONFLICT)
+        }
+
+        const newUser: User = {
+            _id: randomUUID(),
+            email,
+            password,
+            username,
+            createdAt: new Date(),
+            friends: [],
+            friendsRequests: [],
+            receivedMessages: [],
+            sentMessages: [],
+            tasks: [],
+        }
+
+        const result = this.users.push(newUser)
+
+        if (result === -1) {
+            return new Response(null, 'User not created', HttpStatusCode.INTERNAL_SERVER_ERROR)
+        }
+
+        return new Response(newUser, 'User created', HttpStatusCode.CREATED)
     }
 
     async updateUser(userId: string, updatedFields: UpdateUserDto): Promise<User | null> {
-        const index = this.users.findIndex((user) => user.id === userId)
+        const index = this.users.findIndex((user) => user._id === userId)
         if (index === -1) return null
         const updatedUser = { ...this.users[index], ...updatedFields }
         this.users[index] = updatedUser
@@ -36,7 +57,8 @@ export default class RepositoryUserMemory implements UserRepository {
     }
 
     async getAllTasksByUserId(userId: string): Promise<Task[] | null> {
-        const user = this.users.find((user) => user.id === userId)
+        const user = this.users.find((user) => user._id === userId)
+
         if (!user) {
             return null
         }
@@ -49,8 +71,8 @@ export default class RepositoryUserMemory implements UserRepository {
         return user ?? null
     }
 
-    async getUserById(id: string): Promise<User | null> {
-        const user = this.users.find((user) => user.id === id)
+    async getUserById(_id: string): Promise<User | null> {
+        const user = this.users.find((user) => user._id === _id)
         return user ?? null
     }
 
@@ -60,30 +82,41 @@ export default class RepositoryUserMemory implements UserRepository {
     }
 
     async addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {
-        const userIndex = this.users.findIndex((user) => user.id === userId)
+        const userIndex = this.users.findIndex((user) => user._id === userId)
 
         if (userIndex === -1) {
             return null
         }
 
-        const newTask = { ...task, _id: randomUUID() }
+        const newTask = new Task({ ...task })
 
         this.users[userIndex].tasks?.push(newTask)
 
         return newTask
     }
 
-    async getAllMessagesByUserId(userId: string): Promise<Message[] | null> {
-        const user = this.users.find((user) => user.id === userId)
-        return user?.receivedMessages ?? null
+    async getAllMessagesByUserId(userId: string): Promise<MessageOperationResult> {
+        const user = this.users.find((user) => user._id === userId)
+        return {
+            success: true,
+            message: (user?.sentMessages as Message[]) ?? null,
+        }
     }
 
-    async sentMessageToAnotherUser(senderId: string, receiverId: string, content: string): Promise<boolean> {
-        const sender = this.users.find((user) => user.id === senderId)
-        const receiver = this.users.find((user) => user.id === receiverId)
+    async sentMessageToAnotherUser(
+        senderId: string,
+        receiverId: string,
+        content: string,
+    ): Promise<MessageOperationResult> {
+        const sender = this.users.find((user) => user._id === senderId)
+        const receiver = this.users.find((user) => user._id === receiverId)
 
-        if (!sender || !receiver) {
-            return false
+        if (!sender) {
+            return { success: false, error: 'Sender not found' }
+        }
+
+        if (!receiver) {
+            return { success: false, error: 'Receiver not found' }
         }
 
         const message = new Message({
@@ -94,31 +127,31 @@ export default class RepositoryUserMemory implements UserRepository {
         })
 
         sender.sentMessages?.push(message)
-
-        console.log(sender)
-
         receiver.receivedMessages?.push(message)
 
-        return true
+        return { success: true, message }
     }
 
-    async receivedMessages(receiverId: string): Promise<Message[] | null> {
-        const user = this.users.find((user) => user.id === receiverId)
-        return user?.receivedMessages ?? null
+    async receivedMessages(receiverId: string): Promise<MessageOperationResult> {
+        const user = this.users.find((user) => user._id === receiverId)
+        return {
+            success: true,
+            message: (user?.receivedMessages as Message[]) ?? null,
+        }
     }
 
-    async getAllUsers(): Promise<User[] | null> {
+    async getAllUsers(): Promise<User[] | []> {
         const users = this.users
         return users ?? null
     }
 
     async addNewFriend(userId: string, friendId: string): Promise<FriendOperationResult> {
-        const friend = this.users.find((user) => user.id === friendId)
-        const user = this.users.find((user) => user.id === userId)
+        const friend = this.users.find((user) => user._id === friendId)
+        const user = this.users.find((user) => user._id === userId)
 
         if (!user || !friend) return { success: false, error: 'User not found' }
 
-        const isFriend = user.friends?.find((friend) => friend.id === friendId)
+        const isFriend = user.friends?.find((friend) => friend._id === friendId)
 
         if (isFriend) return { success: false, error: 'User is already your friend' }
 
@@ -127,27 +160,27 @@ export default class RepositoryUserMemory implements UserRepository {
         return { success: true, friend }
     }
 
-    async getAllFriends(userId: string): Promise<User[] | []> {
-        const user = this.users.find((user) => user.id === userId)
+    async getAllFriends(userId: string): Promise<UserFriend[] | []> {
+        const user = this.users.find((user) => user._id === userId)
         return user?.friends ?? []
     }
 
-    async getAllFriendsRequests(userId: string): Promise<User[] | []> {
-        const user = this.users.find((user) => user.id === userId)
-        return user?.friendsRequests ?? []
+    async getAllFriendsRequests(userId: string): Promise<UserFriend[] | []> {
+        const user = this.users.find((user) => user._id === userId)
+        return user?.friendsRequests || []
     }
 
     async sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult> {
-        const sender = this.users.find((user) => user.id === senderId)
-        const receiver = this.users.find((user) => user.id === receiverId)
+        const sender = this.users.find((user) => user._id === senderId)
+        const receiver = this.users.find((user) => user._id === receiverId)
 
         if (!sender || !receiver) return { success: false, error: 'User not found' }
 
-        const isFriend = sender.friends?.find((friend) => friend.id === receiverId)
+        const isFriend = sender.friends?.find((friend) => friend._id === receiverId)
 
         if (isFriend) return { success: false, error: 'User is already your friend' }
 
-        const isFriendRequest = sender.friendsRequests?.find((friend) => friend.id === receiverId)
+        const isFriendRequest = sender.friendsRequests?.find((friend) => friend._id === receiverId)
 
         if (isFriendRequest) return { success: false, error: 'User already sent a friend request' }
 

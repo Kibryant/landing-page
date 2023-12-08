@@ -14,12 +14,11 @@ describe('UpdateUser', () => {
             password: 'any_password',
         })
 
-        const user = await updateUser.exec({
-            id: data?.id ?? '',
-            email: 'any_email_updated',
-            username: 'any_user_updated',
-            password: 'any_password_updated',
-        })
+        const user = await updateUser.exec([
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            data!._id!,
+            { email: 'any_email_updated', username: 'any_user_updated', password: 'any_password_updated' },
+        ])
 
         expect(user?.data?.email).toBe('any_email_updated')
         expect(user?.data?.username).toBe('any_user_updated')
@@ -30,12 +29,10 @@ describe('UpdateUser', () => {
         const repositoryUserMemory = new RepositoryUserMemory()
         const updateUser = new UpdateUser(repositoryUserMemory)
 
-        const user = await updateUser.exec({
-            id: 'any_id',
-            email: 'any_email_updated',
-            username: 'any_user_updated',
-            password: 'any_password_updated',
-        })
+        const user = await updateUser.exec([
+            'any-id',
+            { email: 'any_email_updated', username: 'any_user_updated', password: 'any_password_updated' },
+        ])
 
         expect(user?.data).toBe(null)
         expect(user?.message).toBe('User not exits')
@@ -45,12 +42,10 @@ describe('UpdateUser', () => {
         const repositoryUserMemory = new RepositoryUserMemory()
         const updateUser = new UpdateUser(repositoryUserMemory)
 
-        const user = await updateUser.exec({
-            id: '',
-            email: 'any_email_updated',
-            username: 'any_user_updated',
-            password: 'any_password_updated',
-        })
+        const user = await updateUser.exec([
+            null as unknown as string,
+            { email: 'any_email_updated', username: 'any_user_updated', password: 'any_password_updated' },
+        ])
 
         expect(user?.data).toBe(null)
         expect(user?.message).toBe('Id not provide!')

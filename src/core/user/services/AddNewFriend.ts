@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import UseCases from '@/core/shared/UseCases'
+import UseCase from '@/core/shared/UseCase'
 import { UserRepository } from './repository'
 import { FriendOperationResult } from '@/types/res/FriendOperation'
 
@@ -8,7 +8,7 @@ interface Input {
     friendId: string
 }
 
-export default class AddNewFriend implements UseCases<Input, Promise<FriendOperationResult>> {
+export default class AddNewFriend implements UseCase<Input, Promise<FriendOperationResult>> {
     constructor(private userRepository: UserRepository) { }
     async exec(input: Input): Promise<FriendOperationResult> {
         const { userId, friendId } = input

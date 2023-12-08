@@ -11,17 +11,14 @@ describe('CreateNewUser', () => {
         const userToCreate: CreateUserDto = {
             email: 'novousuario@example.com',
             username: 'novousuario',
-            tasks: [],
-            password: 'senhasegura',
-            receivedMessages: [],
-            sentMessages: [],
+            password: 'password',
         }
 
         const response = await createNewUser.exec(userToCreate)
 
         expect(response.status).toBe(HttpStatusCode.CREATED)
         expect(response.data).toEqual(expect.objectContaining(userToCreate))
-        expect(response.data?.id).toBeDefined()
+        expect(response.data?._id).toBeDefined()
     })
 
     it('Must return error when email already exists', async () => {
@@ -32,7 +29,7 @@ describe('CreateNewUser', () => {
             email: 'novousuario@example.com',
             username: 'novousuario',
             tasks: [],
-            password: 'senhasegura',
+            password: 'password',
             receivedMessages: [],
             sentMessages: [],
         }
@@ -43,6 +40,54 @@ describe('CreateNewUser', () => {
 
         expect(response.status).toBe(HttpStatusCode.CONFLICT)
         expect(response.data).toBeNull()
-        expect(response.message).toBe('This email exists! try another or sign in!')
+        expect(response.message).toBe('Email already exists')
+    })
+
+    it('Must return error when username already exists', async () => {
+        const userRepositoryMemory = new RepositoryUserMemory()
+        const createNewUser = new CreateNewUser(userRepositoryMemory)
+
+        const userToCreate3: CreateUserDto = {
+            email: 'novonvonovnov@gmail.com',
+            username: 'novousuario',
+            password: 'password',
+        }
+
+        const userToCreate4: CreateUserDto = {
+            email: 'dfjniofndiosndfonodsnfondsof@gmail.com',
+            username: 'novousuario',
+            password: 'password',
+        }
+
+        await createNewUser.exec(userToCreate4)
+        const response = await createNewUser.exec(userToCreate3)
+        console.log(response)
+
+        expect(response.status).toBe(HttpStatusCode.CONFLICT)
+        expect(response.data).toBeNull()
+        expect(response.message).toBe('Username already exists')
+    })
+
+    it('Must return error when user not created', async () => {
+        const userRepositoryMemory = new RepositoryUserMemory()
+        const createNewUser = new CreateNewUser(userRepositoryMemory)
+
+        jest.spyOn(createNewUser, 'exec').mockImplementation(() => Promise.reject(new Error('Error creating user!')))
+
+        const userToCreate4: CreateUserDto = {
+            email: 'arthur@gmail.com',
+            username: 'arthur',
+            password: 'password',
+        }
+
+        let error: unknown
+        try {
+            await createNewUser.exec(userToCreate4)
+        } catch (e) {
+            error = e
+        }
+
+        expect(error).toBeDefined()
+        expect(error).toBeTruthy()
     })
 })

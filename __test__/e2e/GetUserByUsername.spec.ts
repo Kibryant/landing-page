@@ -38,7 +38,6 @@ describe('RepositoryUserMongo', () => {
             email: 'arthur@gmail.com',
             password: '123456789',
             username: 'arthurneymar',
-            tasks: [],
         }
         const { data } = await createNewUser.exec(userDto)
         const { data: user } = await getUserByUsername.exec(data?.username ?? '')

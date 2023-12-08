@@ -1,16 +1,14 @@
-import Message from '@/core/messages/entity/Message'
-import Task from '@/core/tasks/model/Task'
+import Message from '@/core/message/entity/Message'
+import Task from '@/core/task/entity/Task'
 
 export interface UserFriend {
     _id?: string
-    id?: string
     username: string
     email: string
 }
 
 export default interface User {
     _id?: string
-    id?: string
     username: string
     email: string
     password: string

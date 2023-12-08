@@ -15,26 +15,25 @@ describe('JwtService', () => {
         const token = await jwtService.createToken()
 
         expect(token).toBeDefined()
+        expect(token).toContain('.')
+        expect(token.split('.').length).toBe(3)
     })
 
     it('should verify a valid JWT token', async () => {
         const jwtService = new JwtService(SECRET_KEY, EXPIRATION_TIME, ALG)
         const token = await jwtService.createToken()
 
-        const payload = jwtService.verifyToken(token)
+        const payload = await jwtService.verifyToken(token)
 
         expect(payload).toBeDefined()
+        expect(payload.exp).toBeDefined()
+        expect(payload.iat).toBeDefined()
     })
 
-    // it('should throw an exception when verifying an invalid JWT token', async () => {
-    //     const jwtService = new JwtService(SECRET_KEY, EXPIRATION_TIME, ALG)
-    //     const token = 'invalid_token'
+    it('should throw an exception when verifying an invalid JWT token', async () => {
+        const jwtService = new JwtService(SECRET_KEY, EXPIRATION_TIME, ALG)
+        const token = 'invalid_token'
 
-    //     try {
-    //         jwtService.verifyToken(token)
-    //         // If it doesn't throw an exception, the test will fail
-    //     } catch (error) {
-    //         expect(error).toContain('Jwt has expired')
-    //     }
-    // })
+        await expect(jwtService.verifyToken(token)).rejects.toThrow()
+    })
 })

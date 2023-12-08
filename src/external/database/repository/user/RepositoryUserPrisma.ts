@@ -1,11 +1,13 @@
-import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
-import Task from '@/core/tasks/model/Task'
+import CreateTaskDto from '@/core/task/dtos/CreateTaskDto'
+import Task from '@/core/task/entity/Task'
 import { UserRepository } from '@/core/user/services/repository'
 import { PrismaClient } from '../../../../../prisma/generated/client1'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import User from '@/core/user/entity/User'
 import { DeepMockProxy } from 'jest-mock-extended'
+import { Response } from '@/types/class/Response'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
 
 export type MockContext = DeepMockProxy<PrismaClient>
 
@@ -52,7 +54,7 @@ export default class RepositoryUserPrisma extends UserRepository {
         })
     }
 
-    async createNewUser(user: CreateUserDto): Promise<User | null> {
+    async createNewUser(user: CreateUserDto): Promise<Response<User | null>> {
         const newUser = await this.prisma.user.create({
             data: {
                 ...user,
@@ -62,7 +64,7 @@ export default class RepositoryUserPrisma extends UserRepository {
             },
         })
 
-        return newUser
+        return new Response(newUser, 'User created', HttpStatusCode.CREATED)
     }
 
     async updateUser(id: string, user: UpdateUserDto): Promise<User | null> {

@@ -1,6 +1,6 @@
 'use client'
 
-import Message from '@/core/messages/entity/Message'
+import Message from '@/core/message/entity/Message'
 import { pusherClient } from '@/lib/pusher'
 import { cn, toPusherKey } from '@/utils'
 import { format } from 'date-fns'

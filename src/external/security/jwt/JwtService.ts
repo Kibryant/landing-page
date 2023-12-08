@@ -1,10 +1,5 @@
 import * as jose from 'jose'
 
-interface AdminJwtPayload {
-    jti?: string
-    iat?: string
-}
-
 export default class JwtService {
     private readonly SECRET_KEY: string
     private readonly expirationTime: number
@@ -29,7 +24,7 @@ export default class JwtService {
     async verifyToken(token: string) {
         try {
             const verified = await jose.jwtVerify(token, new TextEncoder().encode(this.SECRET_KEY))
-            return verified.payload as AdminJwtPayload
+            return verified.payload
         } catch (error) {
             throw new Error(`Your Jwt has expired ${error}`)
         }

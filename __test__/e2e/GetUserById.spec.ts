@@ -31,18 +31,23 @@ describe('RepositoryUserMongo', () => {
         }
     })
 
-    test('should return a user catched by email', async () => {
+    test('should return a user catched by ID', async () => {
         const createNewUser = new CreateNewUser(repository)
         const getUserById = new GetUserById(repository)
+
         const userDto: CreateUserDto = {
             email: 'arthur@gmail.com',
             password: '123456789',
             username: 'arthurneymar',
-            tasks: [],
         }
-        const { data } = await createNewUser.exec(userDto)
-        const user = await getUserById.exec(data?.id ?? '')
 
-        expect(user?.id).toBeDefined()
+        const { data } = await createNewUser.exec(userDto)
+        const { data: user } = await getUserById.exec(data?._id ?? '')
+
+        expect(user?._id).toBeDefined()
+        expect(user?.email).toBe(userDto.email)
+        expect(user?.password).toBe(userDto.password)
+        expect(user?.username).toBe(userDto.username)
+        expect(user?.tasks).toEqual([])
     })
 })

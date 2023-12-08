@@ -1,24 +1,24 @@
 import { NextResponse } from 'next/server'
-import { RepositoryProductsMongo } from '@/external/database/repository/products/RepositoryProductsMongo'
-import { CreateNewProduct } from '@/core/products/services/CreateNewProduct'
-import { GetProductByName } from '@/core/products/services/GetProductByName'
 import { connectMongoDb } from '@/external/database/connections'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import CreateProductDto from '@/core/products/dtos/CreateProduct.dto'
+import CreateProductDto from '@/core/product/dtos/CreateProduct.dto'
+import GetProductByName from '@/core/product/services/GetProductByName'
+import CreateNewProduct from '@/core/product/services/CreateNewProduct'
+import { RepositoryProductMongo } from '@/external/database/repository/products/RepositoryProductMongo'
 
 export async function POST(req: Request) {
     try {
         await connectMongoDb()
 
-        const repositoryProducts = new RepositoryProductsMongo()
+        const repositoryProducts = new RepositoryProductMongo()
         const createNewProduct = new CreateNewProduct(repositoryProducts)
         const getProductByName = new GetProductByName(repositoryProducts)
 
         const body = await req.json()
 
-        const { id, product, description, price }: CreateProductDto = body
+        const { name, description, price }: CreateProductDto = body
 
-        const productExists = await getProductByName.exec(product)
+        const productExists = await getProductByName.exec(name)
 
         if (productExists)
             return NextResponse.json({
@@ -28,8 +28,7 @@ export async function POST(req: Request) {
             })
 
         const newProduct = await createNewProduct.exec({
-            id,
-            product,
+            name,
             description,
             price,
         })

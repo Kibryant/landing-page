@@ -1,10 +1,13 @@
 import { UserRepository } from '@/core/user/services/repository'
 import { Db, MongoClient, Collection } from 'mongodb'
-import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
-import Task from '@/core/tasks/model/Task'
+import CreateTaskDto from '@/core/task/dtos/CreateTaskDto'
+import Task from '@/core/task/entity/Task'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
-import User from '@/core/user/entities/User'
+import User, { UserFriend } from '@/core/user/entity/User'
+import { Response } from '@/types/class/Response'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { FriendOperationResult } from '@/types/res/FriendOperation'
 import { randomUUID } from 'crypto'
 
 export class RepositoryUserMongo extends UserRepository {
@@ -29,7 +32,7 @@ export class RepositoryUserMongo extends UserRepository {
     }
 
     async getUserById(id: string): Promise<User | null> {
-        const user = this.collection.findOne({ id })
+        const user = this.collection.findOne({ _id: id })
 
         if (!user) {
             return null
@@ -48,37 +51,104 @@ export class RepositoryUserMongo extends UserRepository {
         return user
     }
 
-    async createNewUser(user: CreateUserDto): Promise<User | null> {
-        const result = await this.collection.insertOne({ ...user, id: randomUUID() })
+    async createNewUser({ email, password, username }: CreateUserDto): Promise<Response<User | null>> {
+        const userEmailExists = await this.getUserByEmail(email)
 
-        // Verifique se a inserção foi bem-sucedida
-        if (!result.acknowledged) {
-            return null
+        if (userEmailExists) {
+            return new Response(null, 'User email exists', HttpStatusCode.CONFLICT)
         }
-        // Obtenha o ID gerado durante a inserção
+
+        const userUsernameExists = await this.getUserByUsername(username)
+
+        if (userUsernameExists) {
+            return new Response(null, 'User username exists', HttpStatusCode.CONFLICT)
+        }
+
+        const result = await this.collection.insertOne({
+            _id: randomUUID(),
+            email,
+            password,
+            username,
+            createdAt: new Date(),
+            tasks: [],
+            friends: [],
+            sentMessages: [],
+            receivedMessages: [],
+        })
+
+        if (!result.acknowledged) {
+            return new Response(null, 'Error on create new user', HttpStatusCode.INTERNAL_SERVER_ERROR)
+        }
+
         const userId = result.insertedId
 
-        // Busque o usuário recém-criado usando o ID
         const newUser = await this.collection.findOne({ _id: userId })
 
         if (!newUser) {
-            return null
+            return new Response(null, 'Error on create new user', HttpStatusCode.INTERNAL_SERVER_ERROR)
         }
 
-        return newUser
+        return new Response(newUser, 'User created with success', HttpStatusCode.CREATED)
     }
 
     async updateUser(userId: string, updatedFields: UpdateUserDto): Promise<User | null> {
-        const updatedUser = await this.collection.findOneAndUpdate({ id: userId }, { $set: updatedFields })
+        const updatedUser = await this.collection.findOneAndUpdate({ _id: userId }, { $set: updatedFields })
 
         return updatedUser
     }
 
-    addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {
+    async addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return null
+        }
+
+        const newTask = Task.create({ ...task })
+
+        const result = await this.collection.findOneAndUpdate({ _id: userId }, { $push: { tasks: newTask } })
+
+        if (!result) {
+            return null
+        }
+
+        return newTask
+    }
+
+    async getAllTasksByUserId(userId: string): Promise<Task[] | null> {
+        console.log(userId)
+        return Promise.resolve(null)
+    }
+
+    sentMessageToAnotherUser(senderId: string, receiverId: string, content: string): Promise<any> {
         throw new Error('Method not implemented.')
     }
 
-    getAllTasksByUserId(userId: string): Promise<Task[] | null> {
+    receivedMessages(receiverId: string): Promise<any> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllMessagesByUserId(userId: string): Promise<any> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllUsers(): Promise<User[]> {
+        throw new Error('Method not implemented.')
+    }
+
+    addNewFriend(userId: string, friendId: string): Promise<FriendOperationResult> {
+        throw new Error('Method not implemented.')
+    }
+
+    sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllFriends(userId: string): Promise<UserFriend[] | []> {
+        throw new Error('Method not implemented.')
+    }
+
+    getAllFriendsRequests(userId: string): Promise<UserFriend[] | []> {
         throw new Error('Method not implemented.')
     }
 }

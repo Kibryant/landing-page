@@ -16,6 +16,7 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     tasks     Task[]
+    Posts     Posts[]
 
     @@map("users")
 }
@@ -26,7 +27,7 @@ model Task {
     userId             String
     task               String
     dayToFinishTheTask DateTime
-    description        String
+    content            String
     howMuchTimeIsLeft  DateTime
 
     @@map("tasks")
@@ -39,6 +40,8 @@ model Posts {
     category    String   @default("")
     published   Boolean  @default(false)
     createdAt   DateTime @default(now())
-    author      String
+    updatedAt   DateTime @updatedAt
+    author      User     @relation(fields: [authorId], references: [id])
+    authorId    String
     content     String
 }

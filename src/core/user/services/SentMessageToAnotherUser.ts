@@ -1,30 +1,25 @@
-import NewMessageDto from '@/core/messages/dtos/NewMessageDto'
-import UseCases from '@/core/shared/UseCases'
+import NewMessageDto from '@/core/message/dtos/NewMessageDto'
+import UseCase from '@/core/shared/UseCase'
 import { UserRepository } from './repository'
-import Message from '@/core/messages/entity/Message'
+import type MessageOperationResult from '@/types/res/MessageOperation'
+import Message from '@/core/message/entity/Message'
 
-export default class SentMessageToAnotherUser implements UseCases<NewMessageDto, Promise<boolean>> {
+export default class SentMessageToAnotherUser
+    implements UseCase<NewMessageDto, Promise<MessageOperationResult<Message>>>
+{
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
+    async exec({ senderId, content, receiverId }: NewMessageDto): Promise<MessageOperationResult<Message>> {
+        const { success, error, message } = await this.userRepository.sentMessageToAnotherUser(
+            senderId,
+            receiverId,
+            content,
+        )
 
-    async exec({ senderId, receiverId, content }: NewMessageDto): Promise<boolean> {
-        const sender = await this.userRepository.getUserById(senderId)
-
-        if (!sender) {
-            return false
+        return {
+            success,
+            error,
+            message,
         }
-
-        const receiver = await this.userRepository.getUserById(receiverId)
-
-        if (!receiver) {
-            return false
-        }
-
-        const message = new Message({ content, senderId, receiverId, createdAt: new Date() })
-
-        sender.sentMessages?.push(message)
-        receiver.receivedMessages?.push(message)
-
-        return true
     }
 }

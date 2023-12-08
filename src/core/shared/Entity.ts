@@ -1,10 +1,10 @@
-import crypto from 'crypto'
+import { randomUUID } from 'crypto'
 
 export default abstract class Entity {
     protected _id: string
 
     constructor(id?: string) {
-        this._id = id ?? crypto.randomUUID()
+        this._id = id ?? randomUUID()
     }
 
     get id(): string {

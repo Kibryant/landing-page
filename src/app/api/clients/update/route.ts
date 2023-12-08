@@ -45,12 +45,14 @@ export async function PUT(req: Request) {
             data,
             message: messageFromUpdate,
             status: statusFromUpdate,
-        } = await updateUser.exec({
-            id: user.id || '',
-            email: newEmail,
-            password: newPassword,
-            username: newUsername,
-        })
+        } = await updateUser.exec([
+            user.id ?? '',
+            {
+                email: newEmail,
+                username: newUsername,
+                password: newPassword,
+            },
+        ])
 
         if (!data) {
             return NextResponse.json({

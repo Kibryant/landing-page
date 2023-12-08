@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { RepositoryProductsMongo } from '@/external/database/repository/products/RepositoryProductsMongo'
-import { GetProductById } from '@/core/products/services/GetProductById'
+import { RepositoryProductsMongo } from '@/external/database/repository/products/RepositoryProductMongo'
+import { GetProductById } from '@/core/product/services/GetProductById'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import mongoose from 'mongoose'
 

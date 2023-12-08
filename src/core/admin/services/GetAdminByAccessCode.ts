@@ -1,8 +1,8 @@
-import UseCases from '@/core/shared/UseCases'
+import UseCase from '@/core/shared/UseCase'
 import { AdminRepository } from './repository'
 import Admin from '../model/Admin'
 
-export class GetAdminByAccessCode implements UseCases<string, Promise<Admin | null>> {
+export class GetAdminByAccessCode implements UseCase<string, Promise<Admin | null>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private adminRepository: AdminRepository) { }
     async exec(accesCode: string): Promise<Admin | null> {

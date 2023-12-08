@@ -1,17 +1,17 @@
-import UseCases from '@/core/shared/UseCases'
+import UseCase from '@/core/shared/UseCase'
 import { UserRepository } from './repository'
-import Message from '@/core/messages/entity/Message'
+import MessageOperationResult from '@/types/res/MessageOperation'
 
-export default class GetAllMessagesByUserId implements UseCases<string, Promise<Message[] | null>> {
+export default class GetAllMessagesByUserId implements UseCase<string, Promise<MessageOperationResult>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
-    async exec(userId: string): Promise<Message[] | null> {
-        const user = await this.userRepository.getUserById(userId)
+    async exec(userId: string): Promise<MessageOperationResult> {
+        const { success, message, error } = await this.userRepository.getAllMessagesByUserId(userId)
 
-        if (!user) {
-            return null
+        return {
+            success,
+            message,
+            error,
         }
-
-        return user?.receivedMessages ?? null
     }
 }

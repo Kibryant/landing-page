@@ -1,4 +1,4 @@
-import UseCases from '@/core/shared/UseCases'
+import UseCase from '@/core/shared/UseCase'
 import { AdminRepository } from './repository'
 import Admin from '../model/Admin'
 
@@ -11,7 +11,7 @@ interface UpdateAdminProps {
     }
 }
 
-export class UpdateAdmin implements UseCases<UpdateAdminProps, Promise<Admin | null>> {
+export class UpdateAdmin implements UseCase<UpdateAdminProps, Promise<Admin | null>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private adminRepository: AdminRepository) { }
     async exec({ adminId, updateFields }: UpdateAdminProps): Promise<Admin | null> {

@@ -1,13 +1,14 @@
 {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "material-icon-theme.folders.associations": {
         "adapters": "pipe",
         "external": "tools",
         "memory": "archive",
         "repository": "supabase",
+        "product": "job",
         "products": "job",
         "dtos": "contract",
         "clients": "base",
@@ -18,5 +19,7 @@
         "http": "serverless",
         "ia": "robot",
         "friends": "jinja",
+        "task": "tasks",
+        "message": "messages",
     }
 }

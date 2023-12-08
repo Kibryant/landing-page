@@ -1,5 +1,5 @@
-import Message from '@/core/messages/entity/Message'
-import Task from '@/core/tasks/model/Task'
+import Message from '@/core/message/entity/Message'
+import Task from '@/core/task/entity/Task'
 
 export default interface CreateUserDto {
     email: string

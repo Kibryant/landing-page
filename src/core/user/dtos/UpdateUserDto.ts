@@ -1,4 +1,4 @@
-import Task from '@/core/tasks/model/Task'
+import Task from '@/core/task/entity/Task'
 import { UserFriend } from '../entity/User'
 
 export default interface UpdateUserDto {

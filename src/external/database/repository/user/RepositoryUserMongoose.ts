@@ -3,12 +3,14 @@ import { UserRepository } from '@/core/user/services/repository'
 import UserModel from '../../model/user/UserModel'
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
-import CreateTaskDto from '@/core/tasks/dtos/CreateTaskDto'
-import Task from '@/core/tasks/model/Task'
-import Message from '@/core/messages/entity/Message'
+import CreateTaskDto from '@/core/task/dtos/CreateTaskDto'
+import Task from '@/core/task/entity/Task'
+import Message from '@/core/message/entity/Message'
 import type User from '@/core/user/entity/User'
 import { FriendOperationResult } from '@/types/res/FriendOperation'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
+import { Response } from '@/types/class/Response'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
 // Define a set of fields that can be updated in a user profile
 
 // Create a class that extends the UserRepository
@@ -101,7 +103,7 @@ export class RepositoryUserMongo extends UserRepository {
         }
     }
 
-    async getAllUsers(): Promise<User[] | null> {
+    async getAllUsers(): Promise<User[]> {
         try {
             return await UserModel.find()
         } catch (error) {
@@ -141,27 +143,34 @@ export class RepositoryUserMongo extends UserRepository {
         }
     }
 
-    async createNewUser({
-        email,
-        password,
-        username,
-        tasks,
-        receivedMessages,
-        sentMessages,
-    }: CreateUserDto): Promise<UserMongooseDocument> {
+    async createNewUser({ email, password, username }: CreateUserDto): Promise<Response<UserMongooseDocument | null>> {
         try {
+            const userEmailExists = await this.getUserByEmail(email)
+
+            if (userEmailExists) {
+                return new Response(null, 'User email exists', HttpStatusCode.CONFLICT)
+            }
+
+            const userUsernameExists = await this.getUserByUsername(username)
+
+            if (userUsernameExists) {
+                return new Response(null, 'User username exists', HttpStatusCode.CONFLICT)
+            }
+
             const newUser: UserMongooseDocument = new UserModel({
                 email,
                 username,
                 password,
-                tasks,
-                sentMessages,
-                receivedMessages,
+                tasks: [],
+                sentMessages: [],
+                receivedMessages: [],
+                friends: [],
+                friendsRequests: [],
             })
 
             await newUser.save()
 
-            return newUser
+            return new Response(newUser, 'User created', HttpStatusCode.CREATED)
         } catch (error) {
             throw new Error('Error creating a new user: ' + error)
         }

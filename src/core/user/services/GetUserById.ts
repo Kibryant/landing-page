@@ -1,19 +1,20 @@
-import UseCases from '@/core/shared/UseCases'
+import UseCase from '@/core/shared/UseCase'
 import User from '../entity/User'
 import { UserRepository } from './repository'
+import { Response } from '@/types/class/Response'
 
 type userId = string
 
-export default class GetUserById implements UseCases<userId, Promise<User | null>> {
+export default class GetUserById implements UseCase<userId, Promise<Response<User | null>>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
-    async exec(userId: string): Promise<User | null> {
+    async exec(userId: string): Promise<Response<User | null>> {
         const user = await this.userRepository.getUserById(userId)
 
         if (!user) {
-            return null
+            return new Response(null, 'User not found', 404)
         }
 
-        return user
+        return new Response(user, 'User found', 200)
     }
 }

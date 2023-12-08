@@ -58,7 +58,6 @@ describe('CreateNewUser', () => {
             email: 'arthurgus@gmail.com',
             username: 'arthurgus',
             password: '123456',
-            tasks: [],
         }
 
         prisma.user.create.mockResolvedValue({

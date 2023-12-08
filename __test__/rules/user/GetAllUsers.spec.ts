@@ -12,19 +12,22 @@ describe('GetAllUsers', () => {
             username: 'John Doe',
             email: 'johndoe@gmail.com',
             password: '123456',
-            tasks: [
-                {
-                    id: '1',
-                    task: 'Create a new project',
-                    description: 'Create a new project using NodeJS and TypeScript',
-                    howMuchTimeIsLeft: new Date(),
-                    dayToFinishTheTask: new Date(),
-                },
-            ],
         })
 
         const users = await getAllUsers.exec()
         expect(users).toBeDefined()
         expect(users?.length).toBe(1)
+        expect(users?.[0].username).toBe('John Doe')
+        expect(users?.[0].email).toBe('johndoe@gmail.com')
+        expect(users?.[0].password).toBe('123456')
+    })
+
+    it('should return a empty array if no users are found', async () => {
+        const userRepository = new RepositoryUserMemory()
+        const getAllUsers = new GetAllUsers(userRepository)
+
+        const users = await getAllUsers.exec()
+        expect(users).toStrictEqual([])
+        expect(users?.length).toBe(0)
     })
 })
