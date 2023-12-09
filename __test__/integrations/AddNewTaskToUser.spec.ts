@@ -12,7 +12,7 @@ describe('AddNewTaskToUser', () => {
 
         const newUser: CreateUserDto = {
             username: 'any_name',
-            email: 'any_email',
+            email: 'anyemail@gmail.com',
             password: 'any_password',
             tasks: [],
         }
@@ -21,7 +21,7 @@ describe('AddNewTaskToUser', () => {
 
         const task: CreateTaskDto = {
             task: 'any_task',
-            authorId: data?.id ?? '',
+            authorId: data?._id ?? '',
             dayToFinishTheTask: new Date(),
             content: 'any_description',
             howMuchTimeIsLeft: new Date(),

@@ -12,7 +12,7 @@ describe('GetAllTasksByUserId', () => {
 
         const newUser = {
             username: 'any_name',
-            email: 'any_email',
+            email: 'anyemail@gmail.com',
             password: 'any_password',
             tasks: [],
         }
@@ -21,7 +21,7 @@ describe('GetAllTasksByUserId', () => {
 
         const task = {
             task: 'any_task',
-            authorId: data?.id || '',
+            authorId: data?._id || '',
             dayToFinishTheTask: new Date(),
             content: 'any_description',
             howMuchTimeIsLeft: new Date(),
@@ -29,7 +29,7 @@ describe('GetAllTasksByUserId', () => {
 
         const task2 = {
             task: 'any_task_2',
-            authorId: data?.id || '',
+            authorId: data?._id || '',
             dayToFinishTheTask: new Date(),
             content: 'any_description_2',
             howMuchTimeIsLeft: new Date(),

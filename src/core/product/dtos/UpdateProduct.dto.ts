@@ -1,5 +1,5 @@
 export interface UpdateProductDto {
-    product?: string
+    name?: string
     description?: string
     price?: string
 }

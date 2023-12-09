@@ -42,4 +42,15 @@ describe('ReceivedMessages', () => {
         expect(message).toBeDefined()
         expect(error).toBeUndefined()
     })
+
+    it('should not be defined if user not exists', async () => {
+        const userRepository = new RepositoryUserMemory()
+        const receivedMessages = new ReceivedMessages(userRepository)
+
+        const { success, message, error } = await receivedMessages.exec('anyid')
+
+        expect(success).toBeFalsy()
+        expect(message).toBeUndefined()
+        expect(error).toBeDefined()
+    })
 })

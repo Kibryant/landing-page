@@ -4,7 +4,7 @@ import { Response } from '@/types/class/Response'
 import User from '../entity/User'
 import CreateUserDto from '../dtos/CreateUserDto'
 
-export class CreateNewUser implements UseCase<User, Response<User | null>> {
+export class CreateNewUser implements UseCase<CreateUserDto, Response<User | null>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
 

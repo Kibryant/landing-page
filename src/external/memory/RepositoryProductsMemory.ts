@@ -1,59 +1,64 @@
 import CreateProductDto from '@/core/product/dtos/CreateProduct.dto'
 import { UpdateProductDto } from '@/core/product/dtos/UpdateProduct.dto'
-import Products from '@/core/product/entity/Product'
-import { ProductsRepository } from '@/core/product/services/repository'
+import Product from '@/core/product/entity/Product'
+import ProductRepository from '@/core/product/services/repository'
 
-export default class RepositoryProductsMemory implements ProductsRepository {
-    private readonly products: Products[] = []
+export default class RepositoryProductsMemory implements ProductRepository {
+    private readonly products: Product[] = []
 
-    constructor() {
-        this.createProducts()
+    getProducts(): Promise<Product[]> {
+        return Promise.resolve(this.products)
     }
 
-    private createProducts() {
-        for (let i = 1; i <= 10; i++) {
-            const product: Products = {
-                id: `product_${i}`,
-                product: `Product ${i}`,
-                description: `Description for Product ${i}`,
-                price: `${i * 10}`,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            }
+    async createNewProduct(product: CreateProductDto): Promise<Product | null> {
+        const productExists = await this.getProductByName(product.name)
 
-            this.products.push(product)
-        }
-    }
-
-    async createProduct(product: CreateProductDto): Promise<Products> {
-        this.products.push(product)
-        return product
-    }
-
-    async getProductById(id: string): Promise<Products | null> {
-        return this.products.find((product) => product.id === id) || null
-    }
-
-    async getProductByName(name: string): Promise<Products | null> {
-        return this.products.find((product) => product.product === name) || null
-    }
-
-    async getAllProducts(): Promise<Products[]> {
-        return this.products
-    }
-
-    async updateProduct(id: string, updates: UpdateProductDto): Promise<Products | null> {
-        const index = this.products.findIndex((product) => product.id === id)
-        if (index === -1) {
+        if (productExists) {
             return null
         }
 
-        this.products[index] = {
-            ...this.products[index],
-            ...updates,
-            updatedAt: new Date(),
+        const newProduct = Product.create(product)
+        this.products.push(newProduct)
+        return Promise.resolve(newProduct)
+    }
+
+    deleteProduct(productId: string): Promise<Product | null> {
+        const productIndex = this.products.findIndex((product) => product.id === productId)
+        const product = this.products[productIndex]
+        this.products.splice(productIndex, 1)
+        return Promise.resolve(product)
+    }
+
+    getProductById(productId: string): Promise<Product | null> {
+        const product = this.products.find((product) => product.id === productId)
+        return Promise.resolve(product ?? null)
+    }
+
+    getProductByName(productName: string): Promise<Product | null> {
+        const product = this.products.find((product) => product.name === productName)
+        return Promise.resolve(product ?? null)
+    }
+
+    updateProduct(productId: string, { description, name, price }: UpdateProductDto): Promise<Product | null> {
+        const productIndex = this.products.findIndex((product) => product.id === productId)
+
+        if (productIndex === -1) {
+            return Promise.resolve(null)
         }
 
-        return this.products[index]
+        const product = this.products[productIndex]
+
+        const updatedProduct = Product.create(
+            {
+                description: description ?? product.description,
+                name: name ?? product.name,
+                price: price ?? product.price,
+            },
+            product.id,
+        )
+
+        this.products[productIndex] = updatedProduct
+
+        return Promise.resolve(updatedProduct)
     }
 }

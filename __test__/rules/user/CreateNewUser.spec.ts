@@ -90,4 +90,38 @@ describe('CreateNewUser', () => {
         expect(error).toBeDefined()
         expect(error).toBeTruthy()
     })
+
+    it('Must return error when missing fields', async () => {
+        const userRepositoryMemory = new RepositoryUserMemory()
+        const createNewUser = new CreateNewUser(userRepositoryMemory)
+
+        const userToCreate4: CreateUserDto = {
+            email: null as unknown as string,
+            username: null as unknown as string,
+            password: null as unknown as string,
+        }
+
+        const response = await createNewUser.exec(userToCreate4)
+
+        expect(response.status).toBe(HttpStatusCode.BAD_REQUEST)
+        expect(response.data).toBeNull()
+        expect(response.message).toBe('Missing fields')
+    })
+
+    it('should return error when invalid email', async () => {
+        const userRepositoryMemory = new RepositoryUserMemory()
+        const createNewUser = new CreateNewUser(userRepositoryMemory)
+
+        const userToCreate4: CreateUserDto = {
+            email: 'emailinvalido',
+            username: 'arthur',
+            password: 'password',
+        }
+
+        const response = await createNewUser.exec(userToCreate4)
+
+        expect(response.status).toBe(HttpStatusCode.BAD_REQUEST)
+        expect(response.data).toBeNull()
+        expect(response.message).toBe('Invalid email')
+    })
 })

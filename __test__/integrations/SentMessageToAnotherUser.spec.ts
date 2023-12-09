@@ -39,4 +39,55 @@ describe('SentMessageToAnotherUser', () => {
         expect(sentUserWithMessages?.sentMessages).toHaveLength(1)
         expect(receiverUserWithMessages?.receivedMessages).toHaveLength(1)
     })
+
+    it('should not sent a message to another user if sender not exists', async () => {
+        const userRepository = new RepositoryUserMemory()
+        const sentMessageToAnotherUser = new SentMessageToAnotherUser(userRepository)
+        const createNewUser = new CreateNewUser(userRepository)
+
+        const { data: receiverUser } = await createNewUser.exec({
+            username: 'Jane Doe',
+            email: 'janeDoegmail.com',
+            password: '123456',
+        })
+
+        const result = await sentMessageToAnotherUser.exec({
+            senderId: '123',
+            receiverId: receiverUser?._id ?? '',
+            content: 'Hello World',
+        })
+
+        expect(result.error).toBeTruthy()
+        expect(result.success).toBeFalsy()
+        expect(result.message).toBeUndefined()
+    })
+
+    it('should not to be able sent a message to another user if receiver not exists', async () => {
+        const userRepository = new RepositoryUserMemory()
+        const sentMessageToAnotherUser = new SentMessageToAnotherUser(userRepository)
+        const createNewUser = new CreateNewUser(userRepository)
+
+        const { data: sentUser } = await createNewUser.exec({
+            username: 'John Doe',
+            email: 'johndoe@gmail.com',
+            password: 'johndoe',
+        })
+
+        const mockFriend = {
+            _id: '1390812948901824124',
+            username: 'blablbabla',
+            email: 'blblabllblalblalbla@gmail.com',
+            password: 'blablablabla',
+        }
+
+        const result = await sentMessageToAnotherUser.exec({
+            senderId: sentUser?._id ?? '',
+            receiverId: mockFriend._id,
+            content: 'Hello World',
+        })
+
+        expect(result.success).toBeFalsy()
+        expect(result.message).toBeUndefined()
+        expect(result.error).toBe('Receiver not found')
+    })
 })

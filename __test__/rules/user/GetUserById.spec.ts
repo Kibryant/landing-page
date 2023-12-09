@@ -11,7 +11,7 @@ describe('GetUserById', () => {
 
         const { data } = await createNewUser.exec({
             username: 'any_user',
-            email: 'any_email',
+            email: 'anyemail@gmail.com',
             password: 'any_password',
         })
 
@@ -19,7 +19,7 @@ describe('GetUserById', () => {
 
         expect(user).toBeDefined()
         expect(user?.username).toBe('any_user')
-        expect(user?.email).toBe('any_email')
+        expect(user?.email).toBe('anyemail@gmail.com')
         expect(user?.password).toBe('any_password')
         expect(user?._id).toBeTruthy()
         expect(message).toBe('User found')

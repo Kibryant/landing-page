@@ -6,6 +6,7 @@ import Task from '@/core/task/entity/Task'
 import { FriendOperationResult } from '@/types/res/FriendOperation'
 import type MessageOperationResult from '@/types/res/MessageOperation'
 import { Response } from '@/types/class/Response'
+import Message from '@/core/message/entity/Message'
 
 export abstract class UserRepository {
     abstract getUserByEmail(email: string): Promise<User | null>
@@ -19,13 +20,13 @@ export abstract class UserRepository {
         senderId: string,
         receiverId: string,
         content: string,
-    ): Promise<MessageOperationResult>
+    ): Promise<MessageOperationResult<Message>>
 
-    abstract receivedMessages(receiverId: string): Promise<MessageOperationResult>
-    abstract getAllMessagesByUserId(userId: string): Promise<MessageOperationResult>
+    abstract receivedMessages(receiverId: string): Promise<MessageOperationResult<Message[]>>
+    abstract getAllSentMessagesByUserId(userId: string): Promise<MessageOperationResult<Message[]>>
     abstract getAllUsers(): Promise<User[]>
     abstract addNewFriend(userId: string, friendId: string): Promise<FriendOperationResult>
     abstract sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult>
-    abstract getAllFriends(userId: string): Promise<UserFriend[] | []>
-    abstract getAllFriendsRequests(userId: string): Promise<UserFriend[] | []>
+    abstract getAllFriends(userId: string): Promise<UserFriend[] | null>
+    abstract getAllFriendsRequest(userId: string): Promise<UserFriend[] | null>
 }

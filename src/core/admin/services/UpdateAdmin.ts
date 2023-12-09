@@ -1,14 +1,11 @@
 import UseCase from '@/core/shared/UseCase'
 import { AdminRepository } from './repository'
 import Admin from '../model/Admin'
+import { UpdateAdminDto } from '../dtos/UpdateAdminDto'
 
 interface UpdateAdminProps {
     adminId: string
-    updateFields: {
-        token?: string
-        email?: string
-        password?: string
-    }
+    updateFields: UpdateAdminDto
 }
 
 export class UpdateAdmin implements UseCase<UpdateAdminProps, Promise<Admin | null>> {

@@ -6,6 +6,8 @@ export default class Product extends Entity {
     private _name: string
     private _description: string
     private _price: string
+    private readonly _createdAt: Date = new Date()
+    private _updatedAt: Date = new Date()
 
     constructor({ name, description, price }: CreateProductDto, id?: string) {
         super(id)
@@ -28,5 +30,13 @@ export default class Product extends Entity {
 
     get price(): string {
         return this._price
+    }
+
+    get createdAt(): Date {
+        return this._createdAt
+    }
+
+    get updatedAt(): Date {
+        return this._updatedAt
     }
 }

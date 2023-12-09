@@ -9,7 +9,7 @@ describe('GetUserByUsername', () => {
         const getUserByUsername = new GetUserByUsername(repositoryUserMemory)
         const { data } = await createNewUser.exec({
             username: 'any_user',
-            email: 'any_email',
+            email: 'anyemail@gmail.com',
             password: 'any_password',
         })
         const { data: user } = await getUserByUsername.exec(data?.username ?? '')

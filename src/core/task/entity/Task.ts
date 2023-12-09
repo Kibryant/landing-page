@@ -1,5 +1,6 @@
 import Entity from '@/core/shared/Entity'
 import CreateTaskDto from '../dtos/CreateTaskDto'
+import StringValidator from '@/core/shared/StringValidator'
 
 export default class Task extends Entity {
     private _task: string
@@ -10,8 +11,8 @@ export default class Task extends Entity {
 
     constructor({ task, content, dayToFinishTheTask, howMuchTimeIsLeft, authorId }: CreateTaskDto, id?: string) {
         super(id)
-        this._task = task
-        this._content = content
+        this._task = new StringValidator(task).input
+        this._content = new StringValidator(content).input
         this._authorId = authorId
         this._dayToFinishTheTask = dayToFinishTheTask
         this._howMuchTimeIsLeft = howMuchTimeIsLeft
