@@ -24,7 +24,6 @@ describe('GetAllTasksByUserId', () => {
             authorId: data?._id || '',
             dayToFinishTheTask: new Date(),
             content: 'any_description',
-            howMuchTimeIsLeft: new Date(),
         }
 
         const task2 = {
@@ -32,7 +31,6 @@ describe('GetAllTasksByUserId', () => {
             authorId: data?._id || '',
             dayToFinishTheTask: new Date(),
             content: 'any_description_2',
-            howMuchTimeIsLeft: new Date(),
         }
 
         await addNewTaskToUser.exec([data?._id || '', task])

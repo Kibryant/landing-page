@@ -1,5 +1,5 @@
-/* eslint-disable prettier/prettier */
 'use client'
+
 import { ModeToggle } from '@/components/DropdownTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -19,60 +19,69 @@ const Navbar = () => {
                 onClick={toggleNavbar}
             >
                 <div
+                    // eslint-disable-next-line prettier/prettier
                     className={`w-full h-[2px] bg-primary rounded duration-300  ${showNavbar && 'absolute -rotate-45 top-2/4 translate-y-[-50%]'
+                        // eslint-disable-next-line prettier/prettier
                         }`}
                 ></div>
                 <div
                     className={`w-full h-[2px] bg-primary rounded duration-300  ${showNavbar && 'rotate-0 opacity-0'}`}
                 ></div>
                 <div
+                    // eslint-disable-next-line prettier/prettier
                     className={`w-full h-[2px] bg-primary rounded duration-300  ${showNavbar && 'absolute rotate-45 bottom-2/4 translate-y-[50%]'
+                        // eslint-disable-next-line prettier/prettier
                         }`}
                 ></div>
-            </div >
+            </div>
             <ul
-                className={`min-h-screen bg-muted duration-300 absolute w-screen flex-col top-0 flex justify-center items-center gap-4 sm:flex-row sm:relative sm:w-full sm:bg-transparent sm:transform-none sm:min-h-full sm:justify-start sm:px-8 ${showNavbar ? "translate-x-0" : "translate-x-full"}`}
+                // eslint-disable-next-line prettier/prettier
+                className={`min-h-screen bg-muted duration-300 absolute w-screen flex-col top-0 flex justify-center items-center gap-4 sm:flex-row sm:relative sm:w-full sm:bg-transparent sm:transform-none sm:min-h-full sm:justify-start sm:px-8 ${showNavbar ? 'translate-x-0' : 'translate-x-full'
+                    // eslint-disable-next-line prettier/prettier
+                    }`}
             >
                 <li>
-                    <Link href="/" className={`hover:text-primary text-lg ${userPath === "/" && "text-primary"}`}>
+                    <Link href="/" className={`hover:text-primary text-lg ${userPath === '/' && 'text-primary'}`}>
                         Home
                     </Link>
                 </li>
                 <li>
-                    <Link href="/dashboard" className="hover:text-primary text-lg">
+                    <Link
+                        href="/dashboard"
+                        className={`hover:text-primary text-lg ${userPath === '/dashboard' && 'text-primary'}`}
+                    >
                         Dashboard
                     </Link>
                 </li>
                 <li>
-                    <Link href="/products" className="hover:text-primary text-lg">
+                    <Link
+                        href="/products"
+                        className={`hover:text-primary text-lg ${userPath === '/products' && 'text-primary'}`}
+                    >
                         Products
                     </Link>
                 </li>
                 <li>
-                    <Link href="/chat" className="text=gray=900 hover:text-primary text-lg rounded-md">
+                    <Link
+                        href="/chat/ia"
+                        className={`hover:text-primary text-lg ${userPath === '/chat/ia' && 'text-primary'}`}
+                    >
                         ChatAi
                     </Link>
                 </li>
-                <li className='md:hidden py-2 px-4 hover:bg-primary/90 transition bg-primary rounded-md'>
-                    <Link
-                        href="/accounts/sign-up"
-                        className="font-bold"
-                    >
+                <li className="md:hidden py-2 px-4 hover:bg-primary/90 transition bg-primary rounded-md">
+                    <Link href="/accounts/sign-up" className="font-bold">
                         Sign Up
                     </Link>
-
                 </li>
-                <li className='md:hidden py-2 px-4 bg-primary-foreground shadow-lg rounded-md'>
-                    <Link
-                        href="/accounts/sign-in"
-                        className="font-bold"
-                    >
+                <li className="md:hidden py-2 px-4 bg-primary-foreground shadow-lg rounded-md">
+                    <Link href="/accounts/sign-in" className="font-bold">
                         Sign In
                     </Link>
                 </li>
             </ul>
 
-            <div className='hidden sm:block sm:absolute sm:right-60'>
+            <div className="hidden sm:block sm:absolute sm:right-60">
                 <ModeToggle />
             </div>
 
@@ -88,7 +97,7 @@ const Navbar = () => {
             >
                 Sign Up
             </Link>
-        </nav >
+        </nav>
     )
 }
 

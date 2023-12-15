@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { ProductSchemaProps } from '@/schemas/productSchema'
+import { Button } from '@/components/ui/button'
+import Product from '@/core/product/entity/Product'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,7 +16,7 @@ export async function generateStaticParams() {
 const colorVariants = ['black', 'pink', 'white', 'blue'] as const
 const sizeVariants = ['xs', 's', 'l', 'xl'] as const
 
-const Product = async ({
+const Page = async ({
     params,
     searchParams,
 }: {
@@ -26,31 +27,35 @@ const Product = async ({
     const protocal = process.env.NODE_ENV === 'development' ? 'http' : 'https'
     const req = await fetch(`${protocal}://${host}/api/products/${params.id}`, { next: { revalidate: 100 } })
     const res = await req.json()
-    const product: ProductSchemaProps = res.data
-
+    const product: Product = res.data
     const selectedColor = (searchParams.color || 'black') as string
     const selectedSize = (searchParams.size || 'xs') as string
 
     return (
-        <main className="min-h-screen flex justify-center items-center">
+        <main className="min-h-screen flex flex-col justify-center items-center">
+            <h1 className='text-5xl text-primary font-bold tracking-widest mb-4'>Product</h1>
             <section className="w-full flex justify-center items-center">
-                <div className="w-full max-w-7xl gap-6 bg-gray-100 rounded-3xl flex items-center justify-center shadow-lg min-h-[75vh]">
+                <div className="w-full max-w-5xl gap-6 bg-primary-foreground rounded-3xl border border-primary flex items-center justify-center shadow-lg min-h-[70vh]">
                     <div className="flex justify-center">
                         <div className="shadow-lg rounded-3xl flex justify-center items-center w-[622px] h-[550px]">
                             <Image
                                 quality={100}
                                 width={551.7}
                                 height={467.68}
-                                src="/images/dashboard-picture.png"
+                                src="/images/illustrations/dashboard.png"
                                 alt="Product Image"
                             />
                         </div>
                     </div>
                     <div className="flex flex-col gap-3 justify-start">
-                        <div className="flex flex-col gap-2">
-                            <h1 className="text-3xl text-[#7C1DC9] font-semibold">{product.product}</h1>
-                            <div className="bg-[#7C1DC9] flex justify-center max-w-[120px] py-2 px-1 rounded-full mt-3 mb-10">
+                        <div className="flex flex-col gap-y-2">
+                            <h1 className="text-3xl text-primary font-bold">{product.name}</h1>
+                            <div className="bg-primary flex justify-center max-w-[120px] py-2 px-1 rounded-lg hover:bg-primary/90">
                                 <span className="text-white font-medium">${product.price} USD</span>
+                            </div>
+                            <div className='my-3'>
+                                <h2 className="text-2xl text-primary font-semibold">Description</h2>
+                                <p className="text-sm">{product.description}</p>
                             </div>
                         </div>
                         <div className="flex flex-col justify-start gap-2">
@@ -63,7 +68,7 @@ const Product = async ({
                                             size: selectedSize,
                                         })}`}
                                         key={color}
-                                        className={`bg-white shadow px-4 py-1 rounded-full border-2 capitalize font-medium duration-200 ${selectedColor === color && 'border-[#7C1DC9]'
+                                        className={`bg-white shadow px-4 py-1 rounded-full border-2 capitalize font-medium duration-200 hover:bg-primary/90 hover:text-white ${selectedColor === color && 'border-primary'
                                             }`}
                                     >
                                         {color}
@@ -81,12 +86,24 @@ const Product = async ({
                                         size,
                                     })}`}
                                     key={size}
-                                    className={`bg-white shadow px-4 py-1 rounded-full border-2 uppercase font-medium duration-300 ${selectedSize === size && 'border-[#7C1DC9]'
+                                    className={`bg-white shadow px-3 py-1 rounded-full border-2 uppercase font-medium duration-300 hover:bg-primary/90 hover:text-white ${selectedSize === size && 'border-primary'
                                         }`}
                                 >
                                     {size}
                                 </Link>
                             ))}
+                        </div>
+                        <div className='flex gap-x-4'>
+                            <Button className="bg-primary text-white font-medium rounded-lg">
+                                <Link href={`/products/${product.id}?color=${selectedColor}&size=${selectedSize}`}>
+                                    Buy
+                                </Link>
+                            </Button>
+                            <Button className="bg-red-600 text-white font-medium rounded-lg hover:bg-red-700">
+                                <Link href={`/products/${product.id}?color=${selectedColor}&size=${selectedSize}`}>
+                                    Cancel
+                                </Link>
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -95,4 +112,4 @@ const Product = async ({
     )
 }
 
-export default Product
+export default Page

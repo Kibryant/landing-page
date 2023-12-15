@@ -8,9 +8,11 @@ describe('Delete Product', () => {
         const deleteProduct = new DeleteProduct(productRepository)
         const createNewProduct = new CreateNewProduct(productRepository)
         const product = await createNewProduct.exec({
+            myProductId: 'my-product-id',
             description: 'Product description',
             name: 'Product name',
             price: '10',
+            category: 'Product category',
         })
         const deletedProduct = await deleteProduct.exec(product?.id as string)
         expect(deletedProduct).toBeTruthy()

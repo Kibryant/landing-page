@@ -1,21 +1,21 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { ProductsList } from '@/components/ProductsList'
-import { CartContext, Product } from '@/contexts/Cart/CartContext'
+import { CartContext } from '@/contexts/Cart/CartContext'
 import userEvent from '@testing-library/user-event'
+import Product from '@/core/product/entity/Product'
+
+const product = new Product({
+    name: 'Sample Product',
+    description: 'Sample Description',
+    price: '100',
+    category: 'Sample Category',
+    myProductId: 'myProductId',
+})
 
 const useCart = {
     cart: {
-        product: [
-            {
-                id: '',
-                product: '',
-                description: '',
-                price: '',
-                totalQuantiyOfProduct: 0,
-                totalPriceOfProduct: 0,
-            },
-        ],
+        product: [product],
         totalCartQuantity: 0,
         totalCartPrice: 0,
     },
@@ -23,16 +23,7 @@ const useCart = {
     removeProductToCart: jest.fn(),
 }
 
-const sampleProducts: Product[] = [
-    {
-        id: '1',
-        product: 'Sample Product',
-        description: 'Sample description',
-        price: '20.0',
-        totalQuantiyOfProduct: 0,
-        totalPriceOfProduct: 0,
-    },
-]
+const sampleProducts: Product[] = [product]
 
 describe('Products List', () => {
     beforeEach(() => {

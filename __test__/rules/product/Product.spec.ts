@@ -6,6 +6,8 @@ describe('Product', () => {
             name: 'product',
             description: 'description',
             price: 'price',
+            category: 'category',
+            myProductId: 'my-product-id',
         })
 
         expect(product).toBeInstanceOf(Product)
@@ -23,6 +25,8 @@ describe('Product', () => {
                 name: 'product',
                 description: 'description',
                 price: 'price',
+                category: 'category',
+                myProductId: 'my-product-id',
             },
             '1234',
         )
@@ -40,6 +44,8 @@ describe('Product', () => {
                 name: 'product',
                 description: 'description',
                 price: 'price',
+                category: 'category',
+                myProductId: 'my-product-id',
             },
             '1234',
         )
@@ -58,6 +64,8 @@ describe('Product', () => {
                 name: 'pr',
                 description: 'description',
                 price: 'price',
+                category: 'category',
+                myProductId: 'my-product-id',
             })
         }).toThrowError('The string must have more than 2 letters')
     })
@@ -69,6 +77,8 @@ describe('Product', () => {
                 name: 'product',
                 description: 'de',
                 price: 'price',
+                category: 'category',
+                myProductId: 'my-product-id',
             })
         }).toThrowError('The string must have more than 2 letters')
     })

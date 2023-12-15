@@ -1,12 +1,12 @@
 import Message from '@/core/message/entity/Message'
-import GetAllMessagesByUserId from '@/core/user/services/GetAllMessagesByUserId'
 import { connectMongoDb } from '@/external/database/connections'
 import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'
-import UserModel from '@/external/database/model/user/UserModel'
+import UserModel from '@/external/database/models/user/UserModel'
 import { pusherServer } from '@/lib/pusher'
 import { toPusherKey } from '@/utils/toPusherKey'
+import GetAllSentMessagesByUserId from '@/core/user/services/GetAllSentMessagesByUserId'
 
 export async function POST(req: Request) {
     // await connectMongoDb()
@@ -63,8 +63,8 @@ export async function POST(req: Request) {
         senderName: sender.username,
     })
 
-    sender.sentMessages.push(message)
-    receiver.receivedMessages.push(message)
+    sender?.sentMessages?.push(message)
+    receiver?.receivedMessages?.push(message)
 
     await sender.updateOne(sender)
     await receiver.updateOne(receiver)
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
 export async function GET(req: Request, { params: { userId } }: { params: { userId: string } }) {
     await connectMongoDb()
     const userRepository = new RepositoryUserMongo()
-    const getAllMessagesByUserId = new GetAllMessagesByUserId(userRepository)
+    const getAllMessagesByUserId = new GetAllSentMessagesByUserId(userRepository)
     const message = await getAllMessagesByUserId.exec(userId)
     console.log('message', message)
 

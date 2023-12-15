@@ -1,8 +1,8 @@
-import { Chat as ChatComponent } from '@/components/Chat'
-export default function Chat() {
+import { Chat } from '@/components/Chat'
+export default function Page() {
     return (
         <div className="flex gap-20 flex-col">
-            <ChatComponent />
+            <Chat />
         </div>
     )
 }

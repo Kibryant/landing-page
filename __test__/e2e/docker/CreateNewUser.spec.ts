@@ -1,7 +1,7 @@
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
-import RepositoryUserPrismaTest from '../../../src/external/database/repository/test/RepositoryUserPrismaTest'
 import { prismaMock as prisma } from '../../../singletonTest'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
+import RepositoryUserPrismaTest from '../../db/test/RepositoryUserPrismaTest'
 
 beforeAll(async () => {
     const userMock = [

@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
         const token = await jwtService.createToken()
 
-        const adminUpdated = await updateAdmin.exec({ adminId: admin.id ?? '', updateFields: { token } })
+        const adminUpdated = await updateAdmin.exec({ adminId: admin._id ?? '', updateFields: { token } })
 
         if (!adminUpdated) {
             return NextResponse.json({

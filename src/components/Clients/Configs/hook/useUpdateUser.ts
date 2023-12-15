@@ -4,9 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UpdateUserSchemaInput, updateUserSchema } from '@/schemas/updateUserSchema'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { useState } from 'react'
+import { localstorage } from '@/utils'
 
 const useUpdateUser = () => {
-    const userStorage = localStorage.getItem('client-system')
+    const userStorage = localstorage?.getItem('client-system')
     const [messageFromApi, setMessageFromApi] = useState<{ error: null | string; sucess: null | string }>({
         error: null,
         sucess: null,

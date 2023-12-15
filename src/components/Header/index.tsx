@@ -23,6 +23,14 @@ const Header = ({ isAdm, showContent }: HeaderProps) => {
             {isAdm ||
                 (showContent && (
                     <>
+                        <Image
+                            alt="Cloud"
+                            quality={100}
+                            width={300}
+                            height={300}
+                            src="/images/cloud.png"
+                            className="-right-32 rotate-180 top-[700px] absolute z-[-999]"
+                        />
                         <div className="w-full items-center max-w-7xl flex flex-col gap-10">
                             <div className="flex flex-col justify-center items-center gap-2 px-2">
                                 <MiniBox text="Arthur's" Icon={StarIcon} />

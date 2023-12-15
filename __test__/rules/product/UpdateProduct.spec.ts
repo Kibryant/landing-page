@@ -11,6 +11,8 @@ describe('Update Product', () => {
             description: 'Product description',
             name: 'Product name',
             price: '10',
+            category: 'Product category',
+            myProductId: 'my-product-id',
         })
 
         const updatedProduct = await updateProduct.exec([
@@ -19,6 +21,8 @@ describe('Update Product', () => {
                 description: 'Updated description',
                 name: 'Updated name',
                 price: '20',
+                category: 'Updated category',
+                myProductId: 'my-updated-product-id',
             },
         ])
 
@@ -38,6 +42,8 @@ describe('Update Product', () => {
                 description: 'Updated description',
                 name: 'Updated name',
                 price: '20',
+                category: 'Updated category',
+                myProductId: 'my-updated-product-id',
             },
         ])
         expect(updatedProduct).toEqual(null)

@@ -1,29 +1,25 @@
 import { Section } from '@/components/Section'
 import { headers } from 'next/headers'
 import { ProductsList } from '@/components/ProductsList'
-import { Product } from '@/contexts/Cart/CartContext'
+import { HttpStatusCode } from '@/types/HttpStatusCode'
+import Product from '@/core/product/entity/Product'
 
-const Products = async () => {
+const Page = async () => {
     const host = headers().get('host')
     const protocal = process.env.NODE_ENV === 'development' ? 'http' : 'https'
-    const req = await fetch(`${protocal}://${host}/api/products`, { next: { revalidate: 100 } })
+    const req = await fetch(`${protocal}://${host}/api/products`, { next: { revalidate: 10 } })
 
-    if (req.status !== 200) {
-        console.log(req)
+    if (req.status !== HttpStatusCode.OK) {
         return <div>Error in Fetch products</div>
     }
 
     const res: { data: Product[] } = await req.json()
-    const products = res.data.map(({ id, description, price, product }) => {
-        return {
-            id,
-            description,
-            price,
-            product,
-            totalPriceOfProduct: +price,
-            totalQuantiyOfProduct: 1,
-        }
-    })
+
+    if (!res.data) {
+        return <div>No Products</div>
+    }
+
+    const products: Product[] = res.data
 
     return (
         <>
@@ -34,4 +30,4 @@ const Products = async () => {
     )
 }
 
-export default Products
+export default Page

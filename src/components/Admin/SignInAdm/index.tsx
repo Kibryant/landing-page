@@ -1,128 +1,115 @@
 'use client'
 
-import { AdmProps } from '@/types/AdmProps'
-import { useState } from 'react'
-import { type HandleChangeProps } from '@/types/HandleChangeProps'
-import { type HandleSubmitProps } from '@/types/HandleSubmitProps'
-import { CommandLineIcon, EnvelopeIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
-import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import Header from '@/components/Header'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
+import { useRouter } from 'next/navigation'
 
-type SignInAdmProps = Pick<AdmProps, 'accessCode' | 'email' | 'password'>
+const formSchema = z.object({
+    accessCode: z.string().min(2, {
+        message: 'Username must be at least 2 characters.',
+    }),
+    email: z.string().email({
+        message: 'Invalid email address.',
+    }),
+    password: z.string().min(8, {
+        message: 'Password must be at least 8 characters.',
+    }),
+})
 
-const SignInAdm = () => {
-    const [formAdm, setFormAdm] = useState<SignInAdmProps>({
-        accessCode: '',
-        email: '',
-        password: '',
+export function SignInAdm() {
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            accessCode: '',
+        },
     })
 
     const router = useRouter()
 
-    const [isFormSubmitting, setFormSubmitting] = useState(false)
-    const [messageError, setMessageError] = useState('')
-
-    const handleChangeInputs: HandleChangeProps = (e) => {
-        setFormAdm({
-            ...formAdm,
-            [e.target.name]: e.target.value,
+    const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async ({ accessCode, email, password }) => {
+        const req = await fetch('/api/auth/admin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ accessCode, email, password }),
         })
-    }
 
-    const handleSubmit: HandleSubmitProps = async (e) => {
-        e.preventDefault()
-        setFormSubmitting(true)
-        setMessageError('')
+        const res = await req.json()
 
-        try {
-            await fetch('/api/auth/admin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    accessCode: formAdm.accessCode,
-                    email: formAdm.email,
-                    password: formAdm.password,
-                }),
-            }).then(async (res) => {
-                const result = await res.json()
-                console.log(result)
-
-                if (result.status !== HttpStatusCode.OK) {
-                    setMessageError(result.message)
-                    setFormSubmitting(false)
-                    return
-                }
-
-                setFormSubmitting(false)
-                localStorage.setItem('arthur-adm-system', formAdm.email)
-                router.push('/adm')
-            })
-        } catch (error) {
-            setFormSubmitting(false)
-            setMessageError(`Error: ${error}`)
+        if (res.status !== HttpStatusCode.OK) {
+            console.error(res)
+            return
         }
+
+        router.push('/admin')
     }
 
     return (
-        <main className="min-h-screen w-full flex justify-center items-center">
-            <form
-                className="flex max-w-xl flex-col justify-center items-center gap-4 w-full rounded-md border p-4"
-                onSubmit={handleSubmit}
-            >
-                <h2 className="text-3xl font-bold">Acessar Painel</h2>
-                {!!messageError && <span className="text-red-500 text-center">{messageError}</span>}
-                <div className="w-full flex gap-1 flex-col justify-start">
-                    <label htmlFor="accessCode" className="flex items-end gap-2">
-                        <CommandLineIcon className="h-8 w-8" />
-                        <span className="text-xs">Digite seu código de acesso...</span>
-                    </label>
-                    <input
-                        onChange={handleChangeInputs}
-                        name="accessCode"
-                        id="accessCode"
-                        type="password"
-                        className="bg-transparent outline-none p-2 rounded-md border w-full"
-                    />
-                </div>
-                <div className="w-full flex gap-1 flex-col justify-start">
-                    <label htmlFor="email" className="flex items-end gap-2">
-                        <EnvelopeIcon className="h-8 w-8 " />
-                        <span className="text-xs ">Digite seu email..</span>
-                    </label>
-                    <input
-                        onChange={handleChangeInputs}
-                        type="text"
-                        name="email"
-                        id="email"
-                        className="bg-transparent outline-none  p-2 rounded-md border  w-full"
-                    />
-                </div>
-                <div className="w-full flex gap-1 flex-col justify-start">
-                    <label htmlFor="password" className="flex items-end gap-2">
-                        <ShieldCheckIcon className="h-8 w-8 " />
-                        <span className="text-xs ">Digite sua senha...</span>
-                    </label>
-                    <input
-                        onChange={handleChangeInputs}
-                        type="password"
-                        name="password"
-                        id="password"
-                        className="bg-transparent outline-none  p-2 rounded-md border  w-full"
-                    />
-                </div>
-                <div className="w-full">
-                    <button
-                        type="submit"
-                        className="uppercase w-full font-medium tracking-widest text-primary-foreground bg-primary py-2 px-4 rounded-md text-center"
+        <>
+            <Header />
+            <main className="w-full flex flex-col justify-center h-[95vh] items-center">
+                <h1 className="text-3xl">Dashboard Admin</h1>
+                <p className="text-primary text-sm">Sign in to your account.</p>
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8 p-4 w-full max-w-sm border border-primary-foreground rounded-lg"
                     >
-                        Acessar
-                    </button>
-                </div>
-            </form>
-        </main>
+                        <FormField
+                            control={form.control}
+                            name="accessCode"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Access Code</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" placeholder="Secret!" {...field} />
+                                    </FormControl>
+                                    <FormDescription>This is your access code.</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="example@gmail.com" {...field} />
+                                    </FormControl>
+                                    <FormDescription>This is your email.</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" placeholder="Secret!" {...field} />
+                                    </FormControl>
+                                    <FormDescription>This is your password.</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button className="w-full" type="submit">
+                            Submit
+                        </Button>
+                    </form>
+                </Form>
+            </main>
+        </>
     )
 }
-
-export { SignInAdm }

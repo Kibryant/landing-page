@@ -24,7 +24,6 @@ describe('AddNewTaskToUser', () => {
             authorId: data?._id ?? '',
             dayToFinishTheTask: new Date(),
             content: 'any_description',
-            howMuchTimeIsLeft: new Date(),
         }
 
         const taskData = await addNewTaskToUser.exec([data?._id ?? '', task])
@@ -32,8 +31,7 @@ describe('AddNewTaskToUser', () => {
         expect(taskData?.task).toBe(task.task)
         expect(taskData?.authorId).toBe(task.authorId)
         expect(taskData?.content).toBe(task.content)
-        expect(taskData?.dayToFinishTheTask).toBe(task.dayToFinishTheTask)
-        expect(taskData?.howMuchTimeIsLeft).toBe(task.howMuchTimeIsLeft)
+        expect(taskData?.dayToFinishTheTask).toStrictEqual(task.dayToFinishTheTask)
     })
 
     it('Must return null when user not exists', async () => {
@@ -45,7 +43,6 @@ describe('AddNewTaskToUser', () => {
             authorId: 'any_author_id',
             dayToFinishTheTask: new Date(),
             content: 'any_description',
-            howMuchTimeIsLeft: new Date(),
         }
 
         const taskData = await addNewTaskToUser.exec(['any_user_id', task])

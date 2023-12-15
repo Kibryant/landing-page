@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UserRepository } from '@/core/user/services/repository'
-import UserModel from '../../model/user/UserModel'
+import UserModel from '../../models/user/UserModel'
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import CreateTaskDto from '@/core/task/dtos/CreateTaskDto'
@@ -11,10 +11,37 @@ import { FriendOperationResult } from '@/types/res/FriendOperation'
 import UpdateUserDto from '@/core/user/dtos/UpdateUserDto'
 import { Response } from '@/types/class/Response'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-// Define a set of fields that can be updated in a user profile
+import { UserFriend } from '@/core/user/entity/User'
+import MessageOperationResult from '@/types/res/MessageOperation'
+import TaskOperationResult from '@/types/res/TaskOperation'
 
-// Create a class that extends the UserRepository
 export class RepositoryUserMongo extends UserRepository {
+    async getAllSentMessagesByUserId(userId: string): Promise<MessageOperationResult<Message[]>> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return {
+                success: false,
+                error: 'User not found',
+            }
+        }
+
+        return {
+            success: true,
+            message: user.sentMessages || [],
+        }
+    }
+
+    async getAllFriendsRequest(userId: string): Promise<UserFriend[] | null> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return null
+        }
+
+        return user.friendsRequests || []
+    }
+
     async addNewFriend(userId: string, friendId: string): Promise<FriendOperationResult> {
         const user = await this.getUserById(userId)
         const friend = await this.getUserById(friendId)
@@ -45,102 +72,218 @@ export class RepositoryUserMongo extends UserRepository {
         }
     }
 
-    sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult> {
-        throw new Error('Method not implemented.')
+    async sentFriendRequest(senderId: string, receiverId: string): Promise<FriendOperationResult> {
+        const sender = await this.getUserById(senderId)
+        const receiver = await this.getUserById(receiverId)
+
+        if (!sender || !receiver) {
+            return {
+                success: false,
+                error: 'Sender or receiver not found',
+            }
+        }
+
+        sender.friendsRequests?.push({
+            username: receiver.username,
+            email: receiver.email,
+        })
+
+        receiver.friendsRequests?.push({
+            username: sender.username,
+            email: sender.email,
+        })
+
+        await this.updateUser(senderId, { friendsRequests: sender.friendsRequests })
+        await this.updateUser(receiverId, { friendsRequests: receiver.friendsRequests })
+
+        return {
+            success: true,
+            friend: receiver,
+        }
     }
 
-    getAllFriends(userId: string): Promise<User[] | []> {
-        throw new Error('Method not implemented.')
+    async getAllFriends(userId: string): Promise<UserFriend[] | []> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return []
+        }
+
+        return user.friends || []
     }
 
-    getAllFriendsRequests(userId: string): Promise<User[] | []> {
-        throw new Error('Method not implemented.')
+    async getAllFriendsRequests(userId: string): Promise<UserFriend[] | []> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return []
+        }
+
+        return user.friendsRequests || []
     }
 
-    async sentMessageToAnotherUser(senderId: string, receiverId: string, content: string): Promise<boolean> {
+    async sentMessageToAnotherUser(
+        senderId: string,
+        receiverId: string,
+        content: string,
+    ): Promise<MessageOperationResult<Message>> {
         try {
-            const sender = await UserModel.findById(senderId)
+            const sender = await this.getUserById(senderId)
 
             if (!sender) {
-                return false
+                return {
+                    success: false,
+                    error: 'Sender not found',
+                }
             }
 
-            const receiver = await UserModel.findById(receiverId)
+            const receiver = await this.getUserById(receiverId)
 
             if (!receiver) {
-                return false
+                return {
+                    success: false,
+                    error: 'Receiver not found',
+                }
             }
 
             const message = new Message({ senderId, receiverId, content, createdAt: new Date() })
 
-            sender.sentMessages.push(message)
-            receiver.receivedMessages.push(message)
+            sender?.sentMessages?.push(message)
+            receiver?.receivedMessages?.push(message)
 
             await sender.updateOne(sender)
             await receiver.updateOne(receiver)
 
-            return true
+            return {
+                success: true,
+                message,
+            }
         } catch (error) {
-            throw new Error('Error sending message to another user: ' + error)
+            return {
+                success: false,
+                error: 'Error sending message to another user',
+            }
         }
     }
 
-    receivedMessages(receiverId: string): Promise<Message[] | null> {
-        throw new Error('Method not implemented.')
-    }
-
-    async getAllMessagesByUserId(userId: string): Promise<Message[] | null> {
+    async receivedMessages(receiverId: string): Promise<MessageOperationResult<Message[]>> {
         try {
-            const user = await UserModel.findById(userId)
+            const receiver = await this.getUserById(receiverId)
 
-            if (!user) {
-                return null
+            if (!receiver) {
+                return {
+                    success: false,
+                    error: 'Receiver not found',
+                }
             }
 
-            return user.receivedMessages
+            return {
+                success: true,
+                message: receiver.receivedMessages,
+            }
         } catch (error) {
-            throw new Error('Error fetching all messages by user id: ' + error)
+            return {
+                success: false,
+                error: 'Error getting received messages',
+            }
+        }
+    }
+
+    async getAllMessagesByUserId(userId: string): Promise<MessageOperationResult<Message[]>> {
+        try {
+            const user = await this.getUserById(userId)
+
+            if (!user) {
+                return {
+                    success: false,
+                    error: 'User not found',
+                }
+            }
+
+            return {
+                success: true,
+                message: user.sentMessages,
+            }
+        } catch (error) {
+            return {
+                success: false,
+                error: 'Error getting messages',
+            }
         }
     }
 
     async getAllUsers(): Promise<User[]> {
-        try {
-            return await UserModel.find()
-        } catch (error) {
-            throw new Error('Error fetching all users: ' + error)
+        const users = await UserModel.find()
+
+        return users
+    }
+
+    async getUserById(id: string): Promise<UserMongooseDocument | null> {
+        const user = await UserModel.findById(id)
+
+        if (!user) {
+            return null
+        }
+
+        return user
+    }
+
+    async addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<TaskOperationResult<Task>> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return {
+                success: false,
+                error: 'User not found',
+            }
+        }
+
+        const newTask = new Task(task).toObject() as unknown as Task
+
+        user.tasks?.push(newTask)
+
+        await user.updateOne(user)
+
+        return {
+            success: true,
+            task: newTask,
         }
     }
 
-    async getUserById(id: string): Promise<User | null> {
-        try {
-            return await UserModel.findById(id)
-        } catch (error) {
-            throw new Error('Error fetching user by id: ' + error)
+    async getAllTasksByUserId(userId: string): Promise<TaskOperationResult<Task[]>> {
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return {
+                success: false,
+                error: 'User not found',
+            }
         }
-    }
 
-    addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {
-        throw new Error('Method not implemented.')
-    }
-
-    getAllTasksByUserId(userId: string): Promise<Task[] | null> {
-        throw new Error('Method not implemented.')
+        return {
+            success: true,
+            task: user.tasks,
+        }
     }
 
     async getUserByEmail(email: string): Promise<User | null> {
-        try {
-            return (await UserModel.findOne({ email })) ?? null
-        } catch (error) {
-            throw new Error('Error fetching user by email: ' + error)
+        const user = await UserModel.findOne({ email })
+
+        if (!user) {
+            return null
         }
+
+        return user
     }
 
     async getUserByUsername(username: string): Promise<User | null> {
-        try {
-            return (await UserModel.findOne({ username })) ?? null
-        } catch (error) {
-            throw new Error('Error fetching user by username: ' + error)
+        const user = await UserModel.findOne({ username })
+
+        if (!user) {
+            return null
         }
+
+        return user
     }
 
     async createNewUser({ email, password, username }: CreateUserDto): Promise<Response<UserMongooseDocument | null>> {
@@ -177,10 +320,14 @@ export class RepositoryUserMongo extends UserRepository {
     }
 
     async updateUser(userId: string, updatedFields: UpdateUserDto): Promise<User | null> {
-        try {
-            return (await UserModel.findByIdAndUpdate(userId, updatedFields, { new: true })) ?? null
-        } catch (error) {
-            throw new Error('Error updating user: ' + error)
+        const user = await this.getUserById(userId)
+
+        if (!user) {
+            return null
         }
+
+        user.updateOne(updatedFields)
+
+        return user
     }
 }

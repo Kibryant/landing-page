@@ -1,7 +1,7 @@
-import RepositoryUserPrisma from '@/external/database/repository/user/RepositoryUserPrisma'
 import { prismaMock } from '../../../singleton'
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
+import RepositoryUserPrisma from '../../db/test/RepositoryUserPrisma'
 
 describe('CreateNewUser', () => {
     it('should create a new user', async () => {

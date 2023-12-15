@@ -1,19 +1,20 @@
 import UseCase from '@/core/shared/UseCase'
 import Task from '../../task/entity/Task'
 import { UserRepository } from '@/core/user/services/repository'
+import TaskOperationResult from '@/types/res/TaskOperation'
 
 type userId = string
 
-export default class GetAllTasksByUserId implements UseCase<userId, Promise<Task[] | null>> {
+export default class GetAllTasksByUserId implements UseCase<userId, Promise<TaskOperationResult<Task[]>>> {
     // eslint-disable-next-line prettier/prettier
     constructor(private userRepository: UserRepository) { }
-    async exec(userId: userId): Promise<Task[] | null> {
-        const tasks = await this.userRepository.getAllTasksByUserId(userId)
+    async exec(userId: userId): Promise<TaskOperationResult<Task[]>> {
+        const { success, error, task } = await this.userRepository.getAllTasksByUserId(userId)
 
-        if (!tasks) {
-            return null
+        return {
+            success,
+            error,
+            task,
         }
-
-        return tasks
     }
 }

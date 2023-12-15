@@ -1,6 +1,6 @@
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
-import RepositoryUserPrisma from '@/external/database/repository/user/RepositoryUserPrisma'
 import { prismaMock } from '../../../singleton'
+import RepositoryUserPrisma from '../../db/test/RepositoryUserPrisma'
 
 describe('GetUserByEmail', () => {
     it('should return a user by email', async () => {

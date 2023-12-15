@@ -4,7 +4,6 @@ import { useSignIn } from './hook/useSignIn'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
-import Image from 'next/image'
 import Logo from '../Logo'
 const SignInComponent = () => {
     const { errors, handleSignIn, isLoading, messageFromApi, register, handleSubmit } = useSignIn()

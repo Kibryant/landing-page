@@ -2,6 +2,8 @@ import Image from 'next/image'
 import Footer from '../Footer'
 import Header from '../Header'
 import { Section } from '../Section'
+import MiniCard from '../MiniCard'
+import { AppleIcon, CodeIcon, HeartIcon, RatIcon } from 'lucide-react'
 
 const Home = async () => {
     return (
@@ -25,7 +27,7 @@ const Home = async () => {
 
             <Header showContent={true} isAdm={false} />
 
-            <main>
+            <main className="relative">
                 <Section>
                     <div className="mx-auto sm:text-center max-w-2xl">
                         <h2 className="font-extrabold sm:text-center text-left text-4xl">
@@ -79,6 +81,49 @@ const Home = async () => {
                             className="bg-white rounded-lg p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10"
                         />
                     </div>
+                </Section>
+                <Section>
+                    <div className="mx-auto sm:text-center max-w-2xl">
+                        <h2 className="font-extrabold sm:text-center text-left text-4xl">
+                            Hello <span className="text-primary">World!</span>
+                        </h2>
+                        <p className="mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+                    </div>
+
+                    <Image
+                        alt="Cloud"
+                        quality={100}
+                        width={300}
+                        height={300}
+                        src="/images/cloud.png"
+                        className="-left-24 top-[600px] absolute z-[-999]"
+                    />
+
+                    <div className="flex justify-center z-50 items-center">
+                        <Image
+                            alt="Illustration"
+                            src="/images/illustrations/1.png"
+                            quality={100}
+                            width={800}
+                            height={800}
+                            className="rounded-lg p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10"
+                        />
+                        <div className="w-full flex flex-col gap-y-5">
+                            <MiniCard Icon={HeartIcon} mainText="Lorem ipsur dolor" topText="Hello, World" />
+                            <MiniCard Icon={RatIcon} mainText="Lorem ipsur dolor" topText="Hello, World" />
+                            <MiniCard Icon={CodeIcon} mainText="Lorem ipsur dolor" topText="Hello, World" />
+                            <MiniCard Icon={AppleIcon} mainText="Lorem ipsur dolor" topText="Hello, World" />
+                        </div>
+                    </div>
+
+                    <Image
+                        alt="Cloud"
+                        quality={100}
+                        width={300}
+                        height={300}
+                        src="/images/cloud.png"
+                        className="-right-24 rotate-180 top-[1000px] absolute z-[-999]"
+                    />
                 </Section>
             </main>
             <Footer />

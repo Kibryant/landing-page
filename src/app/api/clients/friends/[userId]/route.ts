@@ -9,7 +9,7 @@ export async function GET(req: Request, { params: { userId } }: { params: { user
     const userRepository = new RepositoryUserMongo()
     const getUserById = new GetUserById(userRepository)
 
-    const user = await getUserById.exec(userId)
+    const { data: user } = await getUserById.exec(userId)
 
     if (!user) {
         return NextResponse.json({

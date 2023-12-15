@@ -4,18 +4,10 @@
 
 import { createContext, useContext } from 'react'
 import { useCartContext } from './useCartContext'
+import Product from '@/core/product/entity/Product'
 
 interface CartProviderProps {
     children: React.ReactNode
-}
-
-export interface Product {
-    id: string
-    product: string
-    description: string
-    price: string
-    totalQuantiyOfProduct: number
-    totalPriceOfProduct: number
 }
 
 export interface Cart {
@@ -30,25 +22,7 @@ interface CartContextProps {
     removeProductToCart: (productToRemove: Product) => void
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function, prettier/prettier
-const defaultValues = {
-    cart: {
-        product: [
-            {
-                id: "",
-                product: "",
-                description: "",
-                price: "",
-                totalQuantiyOfProduct: 0,
-                totalPriceOfProduct: 0,
-            }
-        ],
-        totalCartQuantity: 0,
-        totalCartPrice: 0
-    }, addProductToCart: () => { }, removeProductToCart: () => { }
-}
-
-export const CartContext = createContext<CartContextProps>(defaultValues)
+export const CartContext = createContext<CartContextProps>({} as CartContextProps)
 
 const useCart = () => {
     return useContext(CartContext)

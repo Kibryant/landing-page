@@ -1,7 +1,7 @@
 'use client'
 
-import { Configs as ConfigsComponent } from '@/components/Clients/Configs'
+import { Configs } from '@/components/Clients/Configs'
 
-export default function Configs() {
-    return <ConfigsComponent />
+export default function Page() {
+    return <Configs />
 }

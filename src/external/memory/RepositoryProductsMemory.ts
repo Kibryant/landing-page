@@ -39,7 +39,10 @@ export default class RepositoryProductsMemory implements ProductRepository {
         return Promise.resolve(product ?? null)
     }
 
-    updateProduct(productId: string, { description, name, price }: UpdateProductDto): Promise<Product | null> {
+    updateProduct(
+        productId: string,
+        { description, name, price, category, myProductId }: UpdateProductDto,
+    ): Promise<Product | null> {
         const productIndex = this.products.findIndex((product) => product.id === productId)
 
         if (productIndex === -1) {
@@ -53,6 +56,8 @@ export default class RepositoryProductsMemory implements ProductRepository {
                 description: description ?? product.description,
                 name: name ?? product.name,
                 price: price ?? product.price,
+                category: category ?? product.category,
+                myProductId: myProductId ?? product.myProductId,
             },
             product.id,
         )

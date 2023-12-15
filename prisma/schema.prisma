@@ -23,8 +23,8 @@ model User {
 
 model Task {
     id                 String   @id @default(uuid())
-    user               User     @relation(fields: [userId], references: [id])
-    userId             String
+    user               User     @relation(fields: [authorId], references: [id])
+    authorId           String
     task               String
     dayToFinishTheTask DateTime
     content            String
@@ -44,4 +44,15 @@ model Posts {
     author      User     @relation(fields: [authorId], references: [id])
     authorId    String
     content     String
+}
+
+model Product {
+    id          String   @id @unique @default(uuid())
+    myProductId String   @unique @default(uuid())
+    name        String   @unique
+    description String
+    price       String
+    category    String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }

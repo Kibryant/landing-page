@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import UseCase from '@/core/shared/UseCase'
-import User, { UserFriend } from '../entity/User'
+import { UserFriend } from '../entity/User'
 import { UserRepository } from './repository'
 
 type userId = string

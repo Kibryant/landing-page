@@ -6,10 +6,10 @@
 
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoClient } from 'mongodb'
-import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongodb'
 import CreateUserDto from '@/core/user/dtos/CreateUserDto'
 import { CreateNewUser } from '@/core/user/services/CreateNewUser'
 import { GetUserByEmail } from '@/core/user/services/GetUserByEmail'
+import { RepositoryUserMongo } from '../db/test/RepositoryUserMongodb'
 
 describe('RepositoryUserMongo', () => {
     let client: MongoClient

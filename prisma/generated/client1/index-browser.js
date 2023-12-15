@@ -118,10 +118,10 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  authorId: 'authorId',
   task: 'task',
   dayToFinishTheTask: 'dayToFinishTheTask',
-  description: 'description',
+  content: 'content',
   howMuchTimeIsLeft: 'howMuchTimeIsLeft'
 };
 
@@ -132,8 +132,20 @@ exports.Prisma.PostsScalarFieldEnum = {
   category: 'category',
   published: 'published',
   createdAt: 'createdAt',
-  author: 'author',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId',
   content: 'content'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  myProductId: 'myProductId',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -150,7 +162,8 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   User: 'User',
   Task: 'Task',
-  Posts: 'Posts'
+  Posts: 'Posts',
+  Product: 'Product'
 };
 
 /**

@@ -2,9 +2,7 @@
 
 import ChatInput from '@/components/ChatInput'
 import Messages from '@/components/Messages'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import Message from '@/core/message/entity/Message'
 import User from '@/core/user/entity/User'
 import { capitalizeFirstLetter, getUserLocalStorage } from '@/utils'

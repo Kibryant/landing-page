@@ -46,7 +46,7 @@ export async function PUT(req: Request) {
             message: messageFromUpdate,
             status: statusFromUpdate,
         } = await updateUser.exec([
-            user.id ?? '',
+            user._id ?? '',
             {
                 email: newEmail,
                 username: newUsername,

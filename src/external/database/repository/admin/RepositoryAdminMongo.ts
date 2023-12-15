@@ -1,5 +1,5 @@
 import Admin from '@/core/admin/model/Admin'
-import AdminModel from '../../model/admin/Adm'
+import AdminModel from '../../models/admin/Adm'
 import { AdminRepository } from '@/core/admin/services/repository'
 
 interface UpdateFieldsProps {

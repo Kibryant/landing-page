@@ -1,35 +1,23 @@
 import { NextResponse } from 'next/server'
-import { connectMongoDb } from '@/external/database/connections'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import CreateProductDto from '@/core/product/dtos/CreateProduct.dto'
-import GetProductByName from '@/core/product/services/GetProductByName'
 import CreateNewProduct from '@/core/product/services/CreateNewProduct'
-import { RepositoryProductMongo } from '@/external/database/repository/products/RepositoryProductMongo'
+import RepositoryProductPrisma from '@/external/database/repository/products/RepositoryProductPrisma'
 
 export async function POST(req: Request) {
     try {
-        await connectMongoDb()
-
-        const repositoryProducts = new RepositoryProductMongo()
+        const repositoryProducts = new RepositoryProductPrisma()
         const createNewProduct = new CreateNewProduct(repositoryProducts)
-        const getProductByName = new GetProductByName(repositoryProducts)
 
         const body = await req.json()
 
-        const { name, description, price }: CreateProductDto = body
-
-        const productExists = await getProductByName.exec(name)
-
-        if (productExists)
-            return NextResponse.json({
-                message: 'This products already. Try another or change it.',
-                error: true,
-                status: HttpStatusCode.CONFLICT,
-            })
+        const { name, description, price, category, myProductId }: CreateProductDto = body
 
         const newProduct = await createNewProduct.exec({
+            myProductId,
             name,
             description,
+            category,
             price,
         })
 
@@ -43,7 +31,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             message: 'Product successfully registered!',
-            status: 201,
+            status: HttpStatusCode.CREATED,
             error: false,
         })
     } catch (error) {

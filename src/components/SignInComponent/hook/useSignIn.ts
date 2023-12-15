@@ -44,7 +44,7 @@ const useSignIn = () => {
 
     const handleSignIn: SubmitHandler<SignInSchemaInput> = async ({ email, password, username }) => {
         try {
-            await fetch('/api/auth/login', {
+            await fetch('/api/auth/sign-in', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

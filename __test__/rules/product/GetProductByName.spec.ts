@@ -11,16 +11,22 @@ describe('Get Product By Name', () => {
             description: 'Product description 1',
             name: 'Product name 1',
             price: '10',
+            category: 'Category 1',
+            myProductId: 'my-product-id-1',
         })
         await createNewProduct.exec({
             description: 'Product description 2',
             name: 'Product name 2',
             price: '10',
+            category: 'Category 1',
+            myProductId: 'my-product-id-2',
         })
         await createNewProduct.exec({
             description: 'Product description 3',
             name: 'Product name 3',
             price: '10',
+            category: 'Category 1',
+            myProductId: 'my-product-id-3',
         })
 
         const product = await getProductByName.exec('Product name 2')

@@ -17,22 +17,22 @@ const Footer = () => {
                             deserunt tenetur culpa accusamus,
                         </p>
                         <div className="flex gap-2">
-                            <div className="p-3 border border-secondary-foreground rounded-full">
+                            <button className="p-3 border border-secondary-foreground rounded-full">
                                 <StarIcon className="w-6 h-6 " />
-                            </div>
-                            <div className="p-3 border border-secondary-foreground rounded-full">
+                            </button>
+                            <button className="p-3 border border-secondary-foreground rounded-full">
                                 <TvIcon className="w-6 h-6 " />
-                            </div>
-                            <div className="p-3 border border-secondary-foreground rounded-full">
+                            </button>
+                            <button className="p-3 border border-secondary-foreground rounded-full">
                                 <DogIcon className="w-6 h-6 " />
-                            </div>
-                            <div className="p-3 border border-secondary-foreground rounded-full">
+                            </button>
+                            <button className="p-3 border border-secondary-foreground rounded-full">
                                 <SunIcon className="w-6 h-6 " />
-                            </div>
+                            </button>
                         </div>
                     </div>
                     <div className="flex flex-col justify-start sm:w-fit w-full sm:justify-center gap-2">
-                        <h3 className="font-semi-bold">Resources</h3>
+                        <h3 className="font-semi-bold text-lg">Resources</h3>
                         <div className="flex flex-col gap-2 ">
                             <Link href="" className="text-sm">
                                 Home
@@ -49,7 +49,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-start sm:w-fit w-full sm:justify-center gap-2">
-                        <h3 className=" font-semibold">Useful Links</h3>
+                        <h3 className="font-semibold text-lg">Useful Links</h3>
                         <div className="flex flex-col gap-2 ">
                             <Link href="" className="text-sm">
                                 Home
@@ -66,7 +66,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-center gap-2">
-                        <h2 className="text-center">News Letter</h2>
+                        <h2 className="text-left">News Letter</h2>
                         <p className="sm:text-justify text-xs text-center">Sign-Up with you email!</p>
                         <div className="flex flex-col gap-1">
                             <Input className="bg-transparent border border-secondary-foreground outline-none" />

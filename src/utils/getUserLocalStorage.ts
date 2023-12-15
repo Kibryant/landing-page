@@ -1,9 +1,10 @@
 'use client'
 
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
+import { localstorage } from '.'
 
 export const getUserLocalStorage = () => {
-    const userStorage = localStorage.getItem('client-system')
+    const userStorage = localstorage?.getItem('client-system')
 
     let user: UserMongooseDocument | null = null
 

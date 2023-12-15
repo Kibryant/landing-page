@@ -9,7 +9,7 @@ import { getUserLocalStorage } from '@/utils'
 import { Input } from '@/components/ui/input'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 
-export const addFriendValidator = z.object({
+const addFriendValidator = z.object({
     email: z.string().email(),
 })
 type FormData = z.infer<typeof addFriendValidator>

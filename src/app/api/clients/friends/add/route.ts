@@ -15,8 +15,7 @@ export async function POST(req: Request) {
         const getUserByEmail = new GetUserByEmail(userRepository)
         const updateUser = new UpdateUser(userRepository)
 
-        const sender = await getUserById.exec(senderId)
-        console.log(sender)
+        const { data: sender } = await getUserById.exec(senderId)
         const { data: user } = await getUserByEmail.exec(email)
 
         if (!sender || !user) {

@@ -10,6 +10,8 @@ describe('CreateNewProduct', () => {
             name: 'My Product 1',
             description: 'Description 1',
             price: '10.00',
+            myProductId: 'my-product-id',
+            category: 'Category 1',
         })
 
         expect(product).toHaveProperty('id')
@@ -28,12 +30,16 @@ describe('CreateNewProduct', () => {
             name: 'Product 1',
             description: 'Description 1',
             price: '10.00',
+            category: 'Category 1',
+            myProductId: 'my-product-id',
         })
 
         const product2 = await createProduct.exec({
             name: 'Product 1',
             description: 'Description 1',
             price: '10.00',
+            category: 'Category 1',
+            myProductId: 'my-product-id',
         })
 
         expect(product1).toHaveProperty('id')

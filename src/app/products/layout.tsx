@@ -19,7 +19,7 @@ export default function ProductsLayout({ children }: { children: React.ReactNode
                         <Widgets.Template>
                             <div className="col-span-2 z-10 pe-8">
                                 <Widgets.Title>
-                                    Hello, <span className="text-primary">Arthur!</span>
+                                    Hello, <span className="text-primary">Customer!</span>
                                 </Widgets.Title>
                                 <Widgets.Subtitle
                                     subtitle="

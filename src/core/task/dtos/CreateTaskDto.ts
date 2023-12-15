@@ -3,5 +3,4 @@ export default interface CreateTaskDto {
     authorId: string
     content: string
     dayToFinishTheTask: Date
-    howMuchTimeIsLeft: Date
 }

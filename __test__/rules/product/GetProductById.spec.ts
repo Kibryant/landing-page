@@ -11,6 +11,8 @@ describe('Get Product By Id', () => {
             name: 'My Product 1',
             description: 'Description 1',
             price: '10.00',
+            myProductId: 'my-product-id',
+            category: 'Category 1',
         })
         const productFound = await getProductById.exec(product?.id as string)
         expect(productFound).toHaveProperty('id')

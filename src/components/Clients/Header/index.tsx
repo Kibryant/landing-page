@@ -5,11 +5,13 @@ import {
     ChatBubbleBottomCenterIcon,
     ChevronLeftIcon,
     CloudIcon,
+    Cog6ToothIcon,
     CommandLineIcon,
     HomeModernIcon,
     ShoppingCartIcon,
     StarIcon,
 } from '@heroicons/react/24/outline'
+import { ArrowRightFromLineIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -25,7 +27,7 @@ const Header = (props: { username: string }) => {
                     </span>
                     <h1
                         // eslint-disable-next-line prettier/prettier
-                        className={`text-primary font-semibold origin-left text-xl duration-300 ${!openMenu && 'scale-0'
+                        className={`text-secondary-foreground font-semibold origin-left text-xl duration-300 ${!openMenu && 'scale-0'
                             // eslint-disable-next-line prettier/prettier
                             }`}
                     >
@@ -42,7 +44,7 @@ const Header = (props: { username: string }) => {
                     <ul className="pt-6 space-y-2">
                         <li>
                             <Link href="/" className="my-custom-class">
-                                <HomeModernIcon className="h-5 w-5 text-primary" />
+                                <HomeModernIcon className="h-5 w-5 text-secondary-foreground" />
 
                                 <span
                                     className={`${!openMenu && 'hidden'
@@ -54,7 +56,7 @@ const Header = (props: { username: string }) => {
                         </li>
                         <li>
                             <Link href="/clients/tasks" className="my-custom-class">
-                                <CloudIcon className="h-5 w-5 text-primary" />
+                                <CloudIcon className="h-5 w-5 text-secondary-foreground" />
                                 <span
                                     className={`${!openMenu && 'hidden'
                                         } text-secondary-foreground origin-left duration-300`}
@@ -65,7 +67,7 @@ const Header = (props: { username: string }) => {
                         </li>
                         <li>
                             <Link href={`/clients/${props.username}`} className="my-custom-class">
-                                <StarIcon className="h-5 w-5 text-primary" />
+                                <StarIcon className="h-5 w-5 text-secondary-foreground" />
                                 <span
                                     className={`${!openMenu && 'hidden'
                                         } text-secondary-foreground origin-left duration-300`}
@@ -76,7 +78,7 @@ const Header = (props: { username: string }) => {
                         </li>
                         <li>
                             <Link href="/" className="my-custom-class">
-                                <ShoppingCartIcon className="h-5 w-5 text-primary" />
+                                <ShoppingCartIcon className="h-5 w-5 text-secondary-foreground" />
 
                                 <span
                                     className={`${!openMenu && 'hidden'
@@ -88,7 +90,7 @@ const Header = (props: { username: string }) => {
                         </li>
                         <li>
                             <Link href="/" className="my-custom-class">
-                                <StarIcon className="h-5 w-5 text-primary" />
+                                <StarIcon className="h-5 w-5 text-secondary-foreground" />
                                 <span
                                     className={`${!openMenu && 'hidden'
                                         } text-secondary-foreground origin-left duration-300`}
@@ -99,7 +101,7 @@ const Header = (props: { username: string }) => {
                         </li>
                         <li>
                             <Link href="/clients/chat" className="my-custom-class">
-                                <ChatBubbleBottomCenterIcon className="h-5 w-5 text-primary" />
+                                <ChatBubbleBottomCenterIcon className="h-5 w-5 text-secondary-foreground" />
                                 <span
                                     className={`${!openMenu && 'hidden'
                                         } text-secondary-foreground origin-left duration-300`}
@@ -108,8 +110,35 @@ const Header = (props: { username: string }) => {
                                 </span>
                             </Link>
                         </li>
+                        <li>
+                            <Link href="/clients/chat" className="my-custom-class">
+                                <Cog6ToothIcon className="h-5 w-5 text-secondary-foreground" />
+                                <span
+                                    className={`${!openMenu && 'hidden'
+                                        } text-secondary-foreground origin-left duration-300`}
+                                >
+                                    Configs
+                                </span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/clients/chat" className="my-custom-class">
+                                <ArrowRightFromLineIcon className="h-5 w-5 text-secondary-foreground" />
+                                <span
+                                    className={`${!openMenu && 'hidden'
+                                        } text-secondary-foreground origin-left duration-300`}
+                                >
+                                    Log-Out
+                                </span>
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
+                {openMenu && (
+                    <div className="absolute bottom-0 left-0 w-full flex justify-center items-center">
+                        <p className="text-secondary-foreground text-sm">© 2021, All Rights Reserved.</p>
+                    </div>
+                )}
             </aside>
         </header>
     )

@@ -1,4 +1,3 @@
-import GetAllMessagesByUserId from '@/core/user/services/GetAllMessagesByUserId'
 import GetUserById from '@/core/user/services/GetUserById'
 import { connectMongoDb } from '@/external/database/connections'
 import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
@@ -9,7 +8,7 @@ export async function GET(req: Request, { params: { userId } }: { params: { user
     await connectMongoDb()
     const userRepository = new RepositoryUserMongo()
     const getUserById = new GetUserById(userRepository)
-    const user = await getUserById.exec(userId)
+    const { data: user } = await getUserById.exec(userId)
 
     if (user === null) {
         return NextResponse.json({
@@ -23,6 +22,6 @@ export async function GET(req: Request, { params: { userId } }: { params: { user
         message: 'Messages fetched successfully',
         error: false,
         status: HttpStatusCode.OK,
-        data: user.sentMessages,
+        data: user?.sentMessages || [],
     })
 }
