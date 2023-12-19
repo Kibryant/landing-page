@@ -3,3 +3,4 @@ export const saltOrRounds = process.env.SALT_OR_ROUNDS ? +process.env.SALT_OR_RO
 export const THOUSAND_MILLISECONDS = 1000
 export const SECONDS_IN_A_HOUR = 3600
 export const HOURS_IN_A_DAY = 24
+export const { signal } = new AbortController()

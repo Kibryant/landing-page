@@ -10,6 +10,7 @@ import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { Response } from '@/types/class/Response'
 import { FriendOperationResult } from '@/types/res/FriendOperation'
 import MessageOperationResult from '@/types/res/MessageOperation'
+import TaskOperationResult from '@/types/res/TaskOperation'
 import { randomUUID } from 'node:crypto'
 
 export default class RepositoryUserMemory implements UserRepository {
@@ -62,14 +63,20 @@ export default class RepositoryUserMemory implements UserRepository {
         return updatedUser
     }
 
-    async getAllTasksByUserId(userId: string): Promise<Task[] | null> {
+    async getAllTasksByUserId(userId: string): Promise<TaskOperationResult<Task[]>> {
         const user = this.users.find((user) => user._id === userId)
 
         if (!user) {
-            return null
+            return {
+                success: false,
+                error: 'User not found',
+            }
         }
 
-        return user.tasks ?? null
+        return {
+            success: true,
+            task: user.tasks,
+        }
     }
 
     async getUserByEmail(email: string): Promise<User | null> {
@@ -87,18 +94,24 @@ export default class RepositoryUserMemory implements UserRepository {
         return user ?? null
     }
 
-    async addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<Task | null> {
+    async addNewTaskToUser(userId: string, task: CreateTaskDto): Promise<TaskOperationResult<Task>> {
         const userIndex = this.users.findIndex((user) => user._id === userId)
 
         if (userIndex === -1) {
-            return null
+            return {
+                success: false,
+                error: 'User not found',
+            }
         }
 
         const newTask = new Task({ ...task })
 
         this.users[userIndex].tasks?.push(newTask)
 
-        return newTask
+        return {
+            success: true,
+            task: newTask,
+        }
     }
 
     async getAllSentMessagesByUserId(userId: string): Promise<MessageOperationResult<Message[]>> {

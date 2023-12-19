@@ -50,7 +50,7 @@ describe('Task', () => {
             dayToFinishTheTask: new Date('2023-12-30'),
         })
 
-        expect(task.daysLeft).toBe(16)
+        expect(task.daysLeft).toBe(new Date(task.dayToFinishTheTask).getDate() - new Date().getDate() + 1)
     })
 
     it('should the task be done', () => {
@@ -64,5 +64,19 @@ describe('Task', () => {
         task.isDone = true
 
         expect(task.isDone).toBe(true)
+    })
+
+    it('should receive the object', () => {
+        const task = Task.create({
+            task: 'task',
+            content: 'description',
+            authorId: 'authorId',
+            dayToFinishTheTask: new Date('2023-12-30'),
+        })
+
+        const object = task.toObject()
+        expect(object.task).toBe('task')
+        expect(object.content).toBe('description')
+        expect(object.authorId).toBe('authorId')
     })
 })

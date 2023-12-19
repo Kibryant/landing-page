@@ -36,8 +36,10 @@ describe('GetAllTasksByUserId', () => {
         await addNewTaskToUser.exec([data?._id || '', task])
         await addNewTaskToUser.exec([data?._id || '', task2])
 
-        const tasks = await getAllTasksByUserId.exec(data?._id || '')
+        const { success, error, task: tasks } = await getAllTasksByUserId.exec(data?._id || '')
 
+        expect(success).toBe(true)
+        expect(error).toBe(undefined)
         expect(tasks?.length).toBe(2)
         expect(tasks?.[0].task).toBe('any_task')
         expect(tasks?.[1].task).toBe('any_task_2')
@@ -49,8 +51,10 @@ describe('GetAllTasksByUserId', () => {
         const repositoryUserMemory = new RepositoryUserMemory()
         const getAllTasksByUserId = new GetAllTasksByUserId(repositoryUserMemory)
 
-        const tasks = await getAllTasksByUserId.exec('any_id')
+        const { success, error, task: tasks } = await getAllTasksByUserId.exec('any_id')
 
-        expect(tasks).toBe(null)
+        expect(success).toBe(false)
+        expect(error).toBe('User not found')
+        expect(tasks).toBe(undefined)
     })
 })

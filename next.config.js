@@ -11,6 +11,12 @@ const nextConfig = {
                 port: '',
                 pathname: '/v0/b/landing-page-aad23.appspot.com/o/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'github.com',
+                port: '',
+                pathname: '/**',
+            },
         ],
     },
     // webpack: (config, { isServer }) => {

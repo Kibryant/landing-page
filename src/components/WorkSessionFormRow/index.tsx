@@ -50,7 +50,7 @@ const WorkSessionFormRow: React.FC<Props> = ({ account, session, onCancelClick }
                     <Input type="number" step="0.25" name="hours" defaultValue={session?.hours || undefined} />
                 </div>
                 <div className="flex flex-1 gap-1">
-                    <Button>{session ? 'Save' : 'Add'}</Button>
+                    <Button variant="outline">{session ? 'Save' : 'Add'}</Button>
                     {session ? (
                         <Button type="button" variant="secondary" onClick={onCancelClick}>
                             Cancel

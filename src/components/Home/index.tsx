@@ -4,6 +4,7 @@ import Header from '../Header'
 import { Section } from '../Section'
 import MiniCard from '../MiniCard'
 import { AppleIcon, CodeIcon, HeartIcon, RatIcon } from 'lucide-react'
+import FAQ from '../FAQ'
 
 const Home = async () => {
     return (
@@ -96,7 +97,7 @@ const Home = async () => {
                         width={300}
                         height={300}
                         src="/images/cloud.png"
-                        className="-left-24 top-[600px] absolute z-[-999]"
+                        className="-left-24 top-[600px] absolute z-[-999] dark:hidden"
                     />
 
                     <div className="flex justify-center z-50 items-center">
@@ -122,8 +123,15 @@ const Home = async () => {
                         width={300}
                         height={300}
                         src="/images/cloud.png"
-                        className="-right-24 rotate-180 top-[1000px] absolute z-[-999]"
+                        className="-right-24 rotate-180 top-[1000px] absolute z-[-999] dark:hidden"
                     />
+                </Section>
+                <Section>
+                    <div className="mx-auto sm:text-center max-w-2xl">
+                        <h2 className="font-extrabold sm:text-center text-primary text-left text-4xl">FAQ</h2>
+                        <p className="mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+                    </div>
+                    <FAQ />
                 </Section>
             </main>
             <Footer />

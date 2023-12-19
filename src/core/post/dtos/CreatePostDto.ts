@@ -3,4 +3,5 @@ export default interface CreatePostDto {
     content: string
     authorId: string
     comments: string[]
+    url?: string
 }

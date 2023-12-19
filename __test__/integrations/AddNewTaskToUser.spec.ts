@@ -26,7 +26,10 @@ describe('AddNewTaskToUser', () => {
             content: 'any_description',
         }
 
-        const taskData = await addNewTaskToUser.exec([data?._id ?? '', task])
+        const { success, error, task: taskData } = await addNewTaskToUser.exec([data?._id ?? '', task])
+
+        expect(success).toBe(true)
+        expect(error).toBe(undefined)
         expect(taskData).toBeTruthy()
         expect(taskData?.task).toBe(task.task)
         expect(taskData?.authorId).toBe(task.authorId)
@@ -45,7 +48,10 @@ describe('AddNewTaskToUser', () => {
             content: 'any_description',
         }
 
-        const taskData = await addNewTaskToUser.exec(['any_user_id', task])
-        expect(taskData).toBeNull()
+        const { success, error, task: taskData } = await addNewTaskToUser.exec(['any_user_id', task])
+
+        expect(taskData).toBe(undefined)
+        expect(success).toBe(false)
+        expect(error).toBe('User not found')
     })
 })

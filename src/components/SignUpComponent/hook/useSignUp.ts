@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import 'react-toastify/ReactToastify.css'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SignUpSchemaInput, signUpSchema } from '@/schemas/signUp.schema'
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
+import { SignUpSchemaInput, signUpSchema } from '@/schemas/zod/signUp.schema'
 
 const useSignUp = () => {
     const router = useRouter()

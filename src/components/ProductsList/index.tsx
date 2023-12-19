@@ -6,8 +6,10 @@ import { ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Toaster } from 'sonner'
-import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { Badge } from '@/components/Badge'
+import { SearchIcon } from 'lucide-react'
+import { TextField } from '@radix-ui/themes'
 
 interface ProductsListProps {
     products: Product[]
@@ -36,10 +38,19 @@ const ProductsList = ({ products }: ProductsListProps) => {
     return (
         <div className="flex flex-col justify-center gap-y-6 items-center">
             <Toaster richColors />
-            <div className="flex w-full items-center justify-center gap-x-3">
-                <span className="text-xl">Search for a Product</span>
-                <Input className="max-w-xs" placeholder="Search..." onChange={filterProducts} />
+            <div>
+                <TextField.Root className="flex w-full items-center justify-center gap-x-3">
+                    <TextField.Slot>
+                        <SearchIcon />
+                    </TextField.Slot>
+                    <TextField.Input
+                        onChange={filterProducts}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Search the docs…"
+                    />
+                </TextField.Root>
             </div>
+
             <h1 className="text-primary font-bold text-2xl text-center">R${cart.totalCartPrice}</h1>
             <div className="flex justify-center gap-6 flex-wrap">
                 {products.length === 0 && (
@@ -47,6 +58,8 @@ const ProductsList = ({ products }: ProductsListProps) => {
                 )}
                 {filteredProducts.map((product) => (
                     <label className="flex flex-col gap-2" key={product.id}>
+                        <Badge text="New" />
+
                         <input type="checkbox" className="absolute scale-0" id="my-checkbox" />
                         <article className="relative bg-primary-foreground my-perspective w-64 h-64 rounded-lg shadow">
                             <div

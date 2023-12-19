@@ -1,9 +1,9 @@
 import { ArrowLongRightIcon, StarIcon } from '@heroicons/react/24/outline'
 import Logo from '../Logo'
-import dynamic from 'next/dynamic'
 import { MiniBox } from '../MiniBox'
 import Link from 'next/link'
 import Image from 'next/image'
+import Navbar from './Navbar'
 
 interface HeaderProps {
     isAdm?: boolean
@@ -11,8 +11,6 @@ interface HeaderProps {
 }
 
 const Header = ({ isAdm, showContent }: HeaderProps) => {
-    const Navbar = !isAdm ? dynamic(() => import('./Navbar')) : dynamic(() => import('./NavbarAdm'))
-
     return (
         <header className="flex flex-col items-center gap-6 sm:px-2 py-4">
             <div className="flex w-full">
@@ -29,7 +27,7 @@ const Header = ({ isAdm, showContent }: HeaderProps) => {
                             width={300}
                             height={300}
                             src="/images/cloud.png"
-                            className="-right-32 rotate-180 top-[700px] absolute z-[-999]"
+                            className="-right-32 rotate-180 top-[700px] absolute z-[-999] dark:hidden"
                         />
                         <div className="w-full items-center max-w-7xl flex flex-col gap-10">
                             <div className="flex flex-col justify-center items-center gap-2 px-2">

@@ -16,8 +16,11 @@
 - [x] improve the implementation of message sending
 - [ ] enriching the entities
 - [x] improve tests
-- [ ] do the cores tests 100% coverage
+- [x] do the cores tests 100% coverage
+- [x] do the external memory tests 100% coverage
 - [x] fix the api/clients/tasks/
+- [ ] using vitest
+- [ ] using cypress
 
 ## Other versions
 - [x] use docker

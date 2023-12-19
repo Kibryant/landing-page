@@ -7,11 +7,13 @@ export default class Post extends Entity {
     private _content: string
     private _authorId: string
     private _comments: string[]
+    private _url?: string
 
-    constructor({ authorId, content, title, comments }: CreatePostDto, id?: string) {
+    constructor({ authorId, content, title, comments, url }: CreatePostDto, id?: string) {
         super(id)
         this._title = new StringValidator(title, 'title').input
         this._content = new StringValidator(content, 'content').input
+        this._url = url
 
         if (!authorId || authorId.length === 0) {
             throw new Error('The authorId is required.')
@@ -39,6 +41,10 @@ export default class Post extends Entity {
 
     get comments(): string[] {
         return this._comments
+    }
+
+    get url(): string | undefined {
+        return this._url
     }
 
     addComment(comment: string): void {

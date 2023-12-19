@@ -1,7 +1,7 @@
 import TaskList from '@/components/Clients/Tasks'
 import Task from '@/core/task/entity/Task'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { getUserCookies } from '@/utils'
+import { getUserCookies } from '@/utils/getUserCookies'
 import { headers } from 'next/headers'
 
 const Page = async () => {
@@ -22,8 +22,6 @@ const Page = async () => {
     if (!res.data) {
         return <div>No Tasks</div>
     }
-
-    console.log(res.data)
 
     const tasks: Task[] = res.data
     return <TaskList tasks={tasks} />

@@ -32,4 +32,22 @@ describe('DateValidator', () => {
 
         expect(response).toBe(false)
     })
+
+    it('Must return the date when date is valid', () => {
+        const date = new Date()
+        const dateValidator = new DateValidator(date)
+
+        const response = dateValidator.input
+
+        expect(response).toBe(date)
+    })
+
+    it('must return the date in string format', () => {
+        const date = new Date()
+        const dateValidator = new DateValidator(date)
+
+        const response = dateValidator.inputAsString
+
+        expect(response).toBe(date.toString())
+    })
 })

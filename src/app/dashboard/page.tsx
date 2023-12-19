@@ -9,7 +9,6 @@ import Image from 'next/image'
 import Footer from '@/components/Footer'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { XIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const Dashboard = () => {
@@ -75,7 +74,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </Section>
-                <section className="relative flex flex-col items-center justify-center mt-40">
+                <section className="relative flex flex-col items-center justify-center space-y-20 mt-40">
                     {/* <Image
                         alt="Cloud"
                         quality={100}
@@ -94,14 +93,17 @@ const Dashboard = () => {
                         </p>
                     </div>
                     <div className="flex w-full flex-col-reverse gap-y-4 sm:gap-y-0 sm:flex-row max-w-7xl items-center justify-between">
-                        <Image
-                            alt="Dashboard Picture"
-                            quality={100}
-                            width={650.68}
-                            height={600.68}
-                            src="/images/illustrations/dashboard-picture.png"
-                            className="rounded-lg p-2 sm:p-8 md:p-10 shadow-2xl ring-1 dark:ring-gray-200/10 ring-gray-900/10"
-                        />
+                        <div className="rounded-lg ring-1 ring-inset lg:rounded-xl">
+                            <Image
+                                alt="Dashboard Picture"
+                                quality={100}
+                                width={650.68}
+                                height={600.68}
+                                src="/images/illustrations/dashboard-picture-2.svg"
+                                className="rounded-lg p-2 sm:p-8 md:p-10 shadow-2xl ring-1 dark:ring-gray-200/10 ring-gray-900/10"
+                            />
+                        </div>
+
                         <div className="flex flex-col gap-y-6 z-50">
                             <h2 className="text-3xl text-left">I&apos;ts a Very Beautiful System</h2>
                             <div className="flex gap-4 border rounded-xl p-4 shadow w-full ">

@@ -4,10 +4,10 @@
 import {
     ChatBubbleBottomCenterIcon,
     ChevronLeftIcon,
-    CloudIcon,
+    ClipboardDocumentCheckIcon,
     Cog6ToothIcon,
     CommandLineIcon,
-    HomeModernIcon,
+    HomeIcon,
     ShoppingCartIcon,
     StarIcon,
 } from '@heroicons/react/24/outline'
@@ -20,7 +20,7 @@ const Header = (props: { username: string }) => {
 
     return (
         <header>
-            <aside className={`h-screen ${openMenu ? 'w-72' : 'w-20'} p-5 duration-300 bg-secondary relative`}>
+            <aside className={`h-screen ${openMenu ? 'w-72' : 'w-20'} p-5 duration-300 border-r relative`}>
                 <div className="flex items-center gap-x-2">
                     <span>
                         <CommandLineIcon className="text-secondary-foreground w-8 h-8" />
@@ -44,7 +44,7 @@ const Header = (props: { username: string }) => {
                     <ul className="pt-6 space-y-2">
                         <li>
                             <Link href="/" className="my-custom-class">
-                                <HomeModernIcon className="h-5 w-5 text-secondary-foreground" />
+                                <HomeIcon className="h-5 w-5 text-secondary-foreground" />
 
                                 <span
                                     className={`${!openMenu && 'hidden'
@@ -56,7 +56,7 @@ const Header = (props: { username: string }) => {
                         </li>
                         <li>
                             <Link href="/clients/tasks" className="my-custom-class">
-                                <CloudIcon className="h-5 w-5 text-secondary-foreground" />
+                                <ClipboardDocumentCheckIcon className="h-5 w-5 text-secondary-foreground" />
                                 <span
                                     className={`${!openMenu && 'hidden'
                                         } text-secondary-foreground origin-left duration-300`}

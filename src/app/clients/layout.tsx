@@ -22,9 +22,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <div className="flex">
             <Header username={user?.username ?? ''} />
             <main className="flex flex-col w-full">
-                <div className="w-full flex items-center justify-between p-2 border-b-2 border-b-secondary">
+                <div className="w-full flex items-center justify-between p-2 border-b">
                     <p className="text-xl text-secondary-foreground font-bold">
-                        Hi, {capitalizeFirstLetter(user?.username ?? '')}!
+                        Hello, {capitalizeFirstLetter(user?.username ?? '')} ☁️
                     </p>
                     <div className="flex gap-x-3">
                         <Button className="text-primary-foreground font-bold ms-4">

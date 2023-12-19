@@ -3,6 +3,17 @@ import CreateTaskDto from '../dtos/CreateTaskDto'
 import StringValidator from '@/core/shared/StringValidator'
 import { THOUSAND_MILLISECONDS, SECONDS_IN_A_HOUR, HOURS_IN_A_DAY } from '@/constants'
 
+interface TaskObject {
+    id: string
+    task: string
+    content: string
+    authorId: string
+    dayToFinishTheTask: Date
+    isDone: boolean
+    createdAt: Date
+    updatedAt: Date
+}
+
 export default class Task extends Entity {
     private _task: string
     private _content: string
@@ -63,13 +74,18 @@ export default class Task extends Entity {
         this._isDone = value
     }
 
-    toObject(): Record<string, keyof this> {
-        const obj: Record<string, keyof this> = {}
-        Object.keys(this).forEach((key) => {
-            const propName = key.replace(/^_/g, '') // Remove o prefixo "_"
-            const camelCasePropName = propName.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()) // Converte para camelCase
-            obj[camelCasePropName] = key as keyof this // Use a chave tipada
-        })
+    toObject(): TaskObject {
+        const obj: TaskObject = {
+            id: this._id,
+            task: this.task,
+            content: this.content,
+            authorId: this.authorId,
+            dayToFinishTheTask: this.dayToFinishTheTask,
+            isDone: this.isDone,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+        }
+
         return obj
     }
 }

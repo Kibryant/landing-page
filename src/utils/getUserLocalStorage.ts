@@ -1,5 +1,3 @@
-'use client'
-
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import { localstorage } from '.'
 

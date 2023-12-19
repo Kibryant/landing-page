@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { useChat } from 'ai/react'
 
 const Chat = () => {
-    const { messages, input, handleInputChange, handleSubmit } = useChat({
+    const { input, handleInputChange, handleSubmit } = useChat({
         api: '/api/chat',
     })
 
@@ -22,26 +22,20 @@ const Chat = () => {
                         <CardDescription>Open Ai intergrated with Vercel SDK</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        {messages.map((message) => (
-                            <div key={message.id} className="flex gap-2 items-start">
-                                {message.role === 'user' && (
-                                    <Avatar>
-                                        <AvatarFallback>AG</AvatarFallback>
-                                        <AvatarImage src="https://lh3.googleusercontent.com/Oq1xxMCJDMLkte6LyCHzesOetvI58TWzScblAt4c6uYF-Q7gjnJdCB5n2P-Or0vc8xVu5g8s7rPxYpVTf7LIcyWGfQ=s137" />
-                                    </Avatar>
-                                )}
-                                {message.role === 'assistant' && (
-                                    <Avatar>
-                                        <AvatarFallback>IA</AvatarFallback>
-                                        <AvatarImage src="https://lh3.googleusercontent.com/Oq1xxMCJDMLkte6LyCHzesOetvI58TWzScblAt4c6uYF-Q7gjnJdCB5n2P-Or0vc8xVu5g8s7rPxYpVTf7LIcyWGfQ=s137" />
-                                    </Avatar>
-                                )}
-                                <p className="text-xs leading-relaxed">
-                                    <span className="block font-bold">{message.role === 'user' ? 'Human' : 'Ai'}</span>
-                                    {message.content}
-                                </p>
-                            </div>
-                        ))}
+                        <div className="flex gap-2 items-start">
+                            {/* <Avatar>
+                                <AvatarFallback>AG</AvatarFallback>
+                                <AvatarImage src="https://lh3.googleusercontent.com/Oq1xxMCJDMLkte6LyCHzesOetvI58TWzScblAt4c6uYF-Q7gjnJdCB5n2P-Or0vc8xVu5g8s7rPxYpVTf7LIcyWGfQ=s137" />
+                            </Avatar> */}
+                            <Avatar>
+                                <AvatarFallback>IA</AvatarFallback>
+                                <AvatarImage src="https://lh3.googleusercontent.com/Oq1xxMCJDMLkte6LyCHzesOetvI58TWzScblAt4c6uYF-Q7gjnJdCB5n2P-Or0vc8xVu5g8s7rPxYpVTf7LIcyWGfQ=s137" />
+                            </Avatar>
+                            <p className="text-xs leading-relaxed">
+                                <span className="block font-bold">Ai</span>
+                                Hello, World!
+                            </p>
+                        </div>
                     </CardContent>
                     <CardFooter>
                         <form className="w-full flex gap-2" onSubmit={handleSubmit}>

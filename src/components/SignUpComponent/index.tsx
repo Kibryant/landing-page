@@ -1,6 +1,6 @@
 'use client'
 
-import { EnvelopeIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, UserIcon } from '@heroicons/react/24/outline'
+import { CheckIcon, EnvelopeIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, UserIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useSignUp } from './hook/useSignUp'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,6 +8,7 @@ import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icon
 import { useState } from 'react'
 import { Toaster } from 'sonner'
 import { signIn } from 'next-auth/react'
+import * as Checkbox from '@radix-ui/react-checkbox'
 
 const SignUpComponent = () => {
     const { errors, handleSignUp, isLoading, messageFromApi, register, handleSubmit } = useSignUp()
@@ -92,6 +93,21 @@ const SignUpComponent = () => {
                     <span className="text-red-500 text-xs">{errors.passwordConfirm.message}</span>
                 )}
 
+                <div className="flex items-center">
+                    <Checkbox.Root
+                        className="hover:bg-secondary/50 flex h-[20px] w-[20px] appearance-none items-center justify-center rounded-[4px] border outline-none focus:ring-2 focus:ring-primary transition"
+                        defaultChecked
+                        id="c1"
+                    >
+                        <Checkbox.Indicator className="text-primary">
+                            <CheckIcon className="h-4 w-4" />
+                        </Checkbox.Indicator>
+                    </Checkbox.Root>
+                    <label className="pl-[15px] text-[15px] leading-none" htmlFor="c1">
+                        Accept terms and conditions.
+                    </label>
+                </div>
+
                 <div className="flex gap-2">
                     <button
                         onClick={() => signIn('google')}
@@ -127,7 +143,7 @@ const SignUpComponent = () => {
                     <span className="font-medium text-xs">
                         Have a account?
                         <Link
-                            href="/signin"
+                            href="/accounts/sign-in"
                             className="uppercase hover:font-bold font-semibold underline text-primary ms-1"
                         >
                             Sign-In
