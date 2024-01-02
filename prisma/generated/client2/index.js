@@ -135,7 +135,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/arthurgustavo/Projects/landing-page/prisma/generated/client2",
+      "value": "/home/arthurgustavo/projects/landing-page/prisma/generated/client2",
       "fromEnvVar": null
     },
     "config": {
@@ -146,6 +146,10 @@ const config = {
         "fromEnvVar": null,
         "value": "debian-openssl-3.0.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-1.0.x"
       }
     ],
     "previewFeatures": [],
@@ -162,6 +166,7 @@ const config = {
     "db_docker"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db_docker": {
       "url": {
@@ -170,8 +175,9 @@ const config = {
       }
     }
   },
-  "inlineSchema": "Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwNCi8vIGxlYXJuIG1vcmUgYWJvdXQgaXQgaW4gdGhlIGRvY3M6IGh0dHBzOi8vcHJpcy5seS9kL3ByaXNtYS1zY2hlbWENCg0KZ2VuZXJhdG9yIGNsaWVudCB7DQogICAgcHJvdmlkZXIgPSAicHJpc21hLWNsaWVudC1qcyINCiAgICBvdXRwdXQgICA9ICIuL2dlbmVyYXRlZC9jbGllbnQyIg0KfQ0KDQpkYXRhc291cmNlIGRiX2RvY2tlciB7DQogICAgcHJvdmlkZXIgPSAicG9zdGdyZXNxbCINCiAgICB1cmwgICAgICA9IGVudigiREFUQUJBU0VfVVJMX0RPQ0tFUiIpDQp9DQoNCm1vZGVsIEFjY291bnQgew0KICAgIGlkICAgICAgICBTdHJpbmcgICBAaWQgQGRlZmF1bHQoY3VpZCgpKSBAZGJfZG9ja2VyLlZhckNoYXIoMzApDQogICAgbmFtZSAgICAgIFN0cmluZyAgIEBkYl9kb2NrZXIuVmFyQ2hhcig0MCkNCiAgICBjcmVhdGVkQXQgRGF0ZVRpbWUgQGRlZmF1bHQobm93KCkpDQogICAgdXBkYXRlZEF0IERhdGVUaW1lIEB1cGRhdGVkQXQNCg0KICAgIHdvcmtTZXNzaW9ucyBXb3JrU2Vzc2lvbltdDQoNCiAgICBAQGluZGV4KFtuYW1lXSkNCiAgICBAQG1hcCgiYWNjb3VudHMiKQ0KfQ0KDQptb2RlbCBXb3JrU2Vzc2lvbiB7DQogICAgaWQgICAgICAgICAgU3RyaW5nICAgIEBpZCBAZGVmYXVsdChjdWlkKCkpIEBkYl9kb2NrZXIuVmFyQ2hhcigzMCkNCiAgICBhY2NvdW50SWQgICBTdHJpbmcgICAgQGRiX2RvY2tlci5WYXJDaGFyKDMwKQ0KICAgIGFjY291bnQgICAgIEFjY291bnQgICBAcmVsYXRpb24oZmllbGRzOiBbYWNjb3VudElkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICBzdGFydHNPbiAgICBEYXRlVGltZT8gQGRiX2RvY2tlci5EYXRlDQogICAgZGVzY3JpcHRpb24gU3RyaW5nPyAgIEBkYl9kb2NrZXIuVmFyQ2hhcigxMjApDQogICAgaG91cnMgICAgICAgRmxvYXQ/DQogICAgY3JlYXRlZEF0ICAgRGF0ZVRpbWUgIEBkZWZhdWx0KG5vdygpKQ0KICAgIHVwZGF0ZWRBdCAgIERhdGVUaW1lICBAdXBkYXRlZEF0DQoNCiAgICBAQGluZGV4KFthY2NvdW50SWQsIHN0YXJ0c09uXSkNCiAgICBAQG1hcCgid29ya1Nlc3Npb25zIikNCn0NCg==",
-  "inlineSchemaHash": "57bf7c3056266f838a12c9efbd14511102c8a533c84147b09cb63eab9698e722"
+  "inlineSchema": "Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwNCi8vIGxlYXJuIG1vcmUgYWJvdXQgaXQgaW4gdGhlIGRvY3M6IGh0dHBzOi8vcHJpcy5seS9kL3ByaXNtYS1zY2hlbWENCg0KZ2VuZXJhdG9yIGNsaWVudCB7DQogICAgcHJvdmlkZXIgICAgICA9ICJwcmlzbWEtY2xpZW50LWpzIg0KICAgIG91dHB1dCAgICAgICAgPSAiLi9nZW5lcmF0ZWQvY2xpZW50MiINCiAgICBiaW5hcnlUYXJnZXRzID0gWyJuYXRpdmUiLCAicmhlbC1vcGVuc3NsLTEuMC54Il0NCn0NCg0KZGF0YXNvdXJjZSBkYl9kb2NrZXIgew0KICAgIHByb3ZpZGVyID0gInBvc3RncmVzcWwiDQogICAgdXJsICAgICAgPSBlbnYoIkRBVEFCQVNFX1VSTF9ET0NLRVIiKQ0KfQ0KDQptb2RlbCBBY2NvdW50IHsNCiAgICBpZCAgICAgICAgU3RyaW5nICAgQGlkIEBkZWZhdWx0KGN1aWQoKSkgQGRiX2RvY2tlci5WYXJDaGFyKDMwKQ0KICAgIG5hbWUgICAgICBTdHJpbmcgICBAZGJfZG9ja2VyLlZhckNoYXIoNDApDQogICAgY3JlYXRlZEF0IERhdGVUaW1lIEBkZWZhdWx0KG5vdygpKQ0KICAgIHVwZGF0ZWRBdCBEYXRlVGltZSBAdXBkYXRlZEF0DQoNCiAgICB3b3JrU2Vzc2lvbnMgV29ya1Nlc3Npb25bXQ0KDQogICAgQEBpbmRleChbbmFtZV0pDQogICAgQEBtYXAoImFjY291bnRzIikNCn0NCg0KbW9kZWwgV29ya1Nlc3Npb24gew0KICAgIGlkICAgICAgICAgIFN0cmluZyAgICBAaWQgQGRlZmF1bHQoY3VpZCgpKSBAZGJfZG9ja2VyLlZhckNoYXIoMzApDQogICAgYWNjb3VudElkICAgU3RyaW5nICAgIEBkYl9kb2NrZXIuVmFyQ2hhcigzMCkNCiAgICBhY2NvdW50ICAgICBBY2NvdW50ICAgQHJlbGF0aW9uKGZpZWxkczogW2FjY291bnRJZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgc3RhcnRzT24gICAgRGF0ZVRpbWU/IEBkYl9kb2NrZXIuRGF0ZQ0KICAgIGRlc2NyaXB0aW9uIFN0cmluZz8gICBAZGJfZG9ja2VyLlZhckNoYXIoMTIwKQ0KICAgIGhvdXJzICAgICAgIEZsb2F0Pw0KICAgIGNyZWF0ZWRBdCAgIERhdGVUaW1lICBAZGVmYXVsdChub3coKSkNCiAgICB1cGRhdGVkQXQgICBEYXRlVGltZSAgQHVwZGF0ZWRBdA0KDQogICAgQEBpbmRleChbYWNjb3VudElkLCBzdGFydHNPbl0pDQogICAgQEBtYXAoIndvcmtTZXNzaW9ucyIpDQp9DQo=",
+  "inlineSchemaHash": "bc63f5958aa2fc6a015b3e349cf29643a84c545221c2d218c6aa35454bea974d",
+  "noEngine": false
 }
 
 const fs = require('fs')
@@ -210,6 +216,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
 path.join(process.cwd(), "prisma/generated/client2/libquery_engine-debian-openssl-3.0.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-1.0.x.so.node");
+path.join(process.cwd(), "prisma/generated/client2/libquery_engine-rhel-openssl-1.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/generated/client2/schema.prisma")
