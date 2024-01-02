@@ -8,6 +8,8 @@ import { connectMongoDb } from '@/external/database/connections'
 import { ONE_WEEK_IN_MILLISECONDS, ONE_WEEK_IN_SECONDS, expirationTime } from '@/constants'
 import JwtService from '@/external/security/jwt/JwtService'
 import { getSecretKey } from '@/utils'
+import { resend } from '@/external/mail/client'
+import { Mail } from '@/components/Mail'
 
 export async function POST(req: Request) {
     try {
@@ -43,7 +45,7 @@ export async function POST(req: Request) {
         cookies().set(
             'client-system',
             JSON.stringify({
-                ...data,
+                data,
             }),
             {
                 httpOnly: true,
@@ -58,6 +60,14 @@ export async function POST(req: Request) {
             maxAge: ONE_WEEK_IN_SECONDS,
         })
 
+        await resend.emails.send({
+            from: 'Landing Page <noanswer@lp.dev>',
+            to: email,
+            subject: '[Landing Page]',
+            react: Mail({
+                userEmail: email,
+            }),
+        })
         return NextResponse.json({
             message,
             status,

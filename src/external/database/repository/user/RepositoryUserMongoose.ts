@@ -300,7 +300,7 @@ export class RepositoryUserMongo extends UserRepository {
                 return new Response(null, 'User username exists', HttpStatusCode.CONFLICT)
             }
 
-            const newUser: UserMongooseDocument = new UserModel({
+            const newUser = new UserModel({
                 email,
                 username,
                 password,

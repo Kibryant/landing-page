@@ -3,13 +3,13 @@ import { cookies } from 'next/headers'
 
 const getUserCookies = () => {
     const cookiesNext = cookies()
-    const user = cookiesNext.get('client-system')?.value
+    const data = cookiesNext.get('client-system')?.value
 
-    if (user === undefined) {
+    if (data === undefined) {
         return null
     }
 
-    return JSON.parse(user) as User
+    return JSON.parse(data).data as User
 }
 
 export { getUserCookies }
