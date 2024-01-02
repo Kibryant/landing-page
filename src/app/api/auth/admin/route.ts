@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import connect from '@/core/db'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import Admin from '@/core/admin/model/Admin'
 import { GetAdminByEmail } from '@/core/admin/services/GetAdminByEmail'
@@ -9,10 +8,11 @@ import JwtService from '@/external/security/jwt/JwtService'
 import { expirationTime } from '@/constants'
 import { UpdateAdmin } from '@/core/admin/services/UpdateAdmin'
 import { getSecretKey } from '@/utils'
+import { connectMongoDb } from '@/external/database/connections'
 
 export async function POST(req: Request) {
     try {
-        await connect()
+        await connectMongoDb()
 
         const SECRET_KEY = getSecretKey()
 
