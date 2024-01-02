@@ -7,11 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faApple, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useState } from 'react'
 import { Toaster } from 'sonner'
-import { signIn } from 'next-auth/react'
 import * as Checkbox from '@radix-ui/react-checkbox'
 
 const SignUpComponent = () => {
-    const { errors, handleSignUp, isLoading, messageFromApi, register, handleSubmit } = useSignUp()
+    const { errors, handleSignUp, isLoading, messageFromApi, register, handleSubmit, signInWithGoogle } = useSignUp()
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
     return (
@@ -110,7 +109,7 @@ const SignUpComponent = () => {
 
                 <div className="flex gap-2">
                     <button
-                        onClick={() => signIn('google')}
+                        onClick={signInWithGoogle}
                         className="flex group transition hover:border-primary items-center justify-center rounded-full p-2 border  hover:-translate-y-2"
                     >
                         <FontAwesomeIcon

@@ -6,10 +6,14 @@ export default class Post extends Entity {
     private _title: string
     private _content: string
     private _authorId: string
-    private _comments: string[]
+    private _comments: string[] = []
     private _url?: string
+    private readonly _createdAt!: {
+        seconds: number
+        nanoseconds: number
+    }
 
-    constructor({ authorId, content, title, comments, url }: CreatePostDto, id?: string) {
+    constructor({ authorId, content, title, url }: CreatePostDto, id?: string) {
         super(id)
         this._title = new StringValidator(title, 'title').input
         this._content = new StringValidator(content, 'content').input
@@ -20,7 +24,6 @@ export default class Post extends Entity {
         }
 
         this._authorId = authorId
-        this._comments = comments
     }
 
     static create(props: CreatePostDto, id?: string): Post {
@@ -45,6 +48,13 @@ export default class Post extends Entity {
 
     get url(): string | undefined {
         return this._url
+    }
+
+    get createdAt(): {
+        seconds: number
+        nanoseconds: number
+    } {
+        return this._createdAt
     }
 
     addComment(comment: string): void {
@@ -84,6 +94,7 @@ export default class Post extends Entity {
             content: this._content,
             authorId: this._authorId,
             comments: this._comments,
+            url: this._url,
         }
     }
 }

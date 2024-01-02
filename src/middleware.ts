@@ -6,39 +6,29 @@ import { expirationTime } from './constants'
 import { HttpStatusCode } from './types/HttpStatusCode'
 
 export async function middleware(req: NextRequest) {
-    const jwtService = new JwtService(getSecretKey(), expirationTime, 'HS256')
-
-    const token = req.cookies.get('auth_token')?.value
     const url = req.url
+    const jwtService = new JwtService(getSecretKey(), expirationTime, 'HS256')
+    const token = req.cookies.get('client-session-token')?.value
+    const isTokenValid = !!token && (await jwtService.verifyToken(token))
+    const response = NextResponse.next()
 
-    const verifiedToken = !!token && (await jwtService.verifyToken(token))
-    if (req.nextUrl.pathname.startsWith('/sign-in-adm') && !verifiedToken) {
-        return
+    if (req.nextUrl.pathname.startsWith('/clients') && !isTokenValid) {
+        return NextResponse.redirect(new URL('/accounts/sign-in', url))
     }
 
-    if (!verifiedToken) {
-        return NextResponse.redirect(new URL('/sign-in-adm', url))
+    if (req.nextUrl.pathname.startsWith('/api/clients')) {
+        console.log(token)
+        console.log(req.cookies.get('client-session-token'))
     }
 
-    if (!verifiedToken) {
-        if (req.nextUrl.pathname.startsWith('/api/admin')) {
-            NextResponse.json({
-                error: true,
-                message: 'authentication required',
-                status: HttpStatusCode.UNAUTHORIZED,
-            })
-        }
+    if (req.nextUrl.pathname.startsWith('/accounts/sign-up') && isTokenValid) {
+        return NextResponse.redirect(new URL('/clients', url))
     }
 
-    if (req.nextUrl.pathname.startsWith('/sign-in-adm') && verifiedToken) {
-        return NextResponse.redirect(new URL('/admin', url))
-    }
-
-    if (url.startsWith('/admin/products') && !verifiedToken) {
-        return NextResponse.redirect(new URL('/sign-in-adm', url))
+    if (req.nextUrl.pathname.startsWith('/accounts/sign-in') && isTokenValid) {
+        return NextResponse.redirect(new URL('/clients', url))
     }
 }
-
 export const config = {
-    matcher: ['/login-adm', '/admin'],
+    matcher: ['/clients/:path*', '/accounts/:path*', '/api/clients/:path*'],
 }

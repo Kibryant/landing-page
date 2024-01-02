@@ -5,6 +5,7 @@ export default interface CreateUserDto {
     email: string
     username: string
     password: string
+    photoURL?: string
     tasks?: Task[]
     sentMessages?: Message[]
     receivedMessages?: Message[]

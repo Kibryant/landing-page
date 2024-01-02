@@ -2,18 +2,17 @@
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { ResProps } from '@/types/ResProps'
 import { useState } from 'react'
-// import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import 'react-toastify/ReactToastify.css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import { SignUpSchemaInput, signUpSchema } from '@/schemas/zod/signUp.schema'
+import { auth, googleProvider } from '@/external/database/connections/firebase/config'
+import { signInWithPopup } from 'firebase/auth'
 
 const useSignUp = () => {
     const router = useRouter()
-    // const { data: session } = useSession()
-
     const [messageFromApi, setMessageFromApi] = useState({
         error: '',
         success: '',
@@ -35,9 +34,9 @@ const useSignUp = () => {
         },
     })
 
-    const handleSignUp: SubmitHandler<SignUpSchemaInput> = async ({ email, password, username }) => {
+    const handleSignUp: SubmitHandler<SignUpSchemaInput> = async ({ email, password, username, photoURL }) => {
         try {
-            await fetch('/api/auth/register', {
+            await fetch('/api/auth/sign-up', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,6 +45,7 @@ const useSignUp = () => {
                     email,
                     username,
                     password,
+                    photoURL,
                 }),
             }).then(async (result) => {
                 const res: ResProps<UserMongooseDocument> = await result.json()
@@ -64,6 +64,7 @@ const useSignUp = () => {
                 router.push('/clients')
             })
         } catch (error) {
+            console.log('error', error)
             if (error instanceof Error) {
                 setMessageFromApi({
                     error: `Error! ${error.message}`,
@@ -78,6 +79,30 @@ const useSignUp = () => {
         }
     }
 
+    const signInWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider)
+
+            if (!result.user) {
+                return console.log('Something went wrong!')
+            }
+
+            const { uid, displayName, email, photoURL } = result.user
+            handleSignUp({
+                email: email || '',
+                password: uid,
+                username: displayName || 'Google User',
+                passwordConfirm: uid,
+                photoURL: photoURL || '',
+            })
+        } catch (error) {
+            setMessageFromApi({
+                error: `Error! ${error}`,
+                success: '',
+            })
+        }
+    }
+
     return {
         errors,
         messageFromApi,
@@ -85,6 +110,7 @@ const useSignUp = () => {
         register,
         handleSubmit,
         handleSignUp,
+        signInWithGoogle,
     }
 }
 export { useSignUp }

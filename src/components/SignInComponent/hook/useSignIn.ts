@@ -56,7 +56,6 @@ const useSignIn = () => {
                 }),
             }).then(async (result) => {
                 const res: ResProps = await result.json()
-                console.log(res)
                 if (res.status !== HttpStatusCode.OK) {
                     setMessageFromApi({
                         error: res.message,
@@ -68,8 +67,6 @@ const useSignIn = () => {
                     error: '',
                     success: res.message,
                 })
-
-                console.log('aqui')
 
                 localStorage.setItem('client-system', JSON.stringify(res.data))
                 router.push('/clients')

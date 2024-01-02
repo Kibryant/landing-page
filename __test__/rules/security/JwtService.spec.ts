@@ -36,4 +36,31 @@ describe('JwtService', () => {
 
         await expect(jwtService.verifyToken(token)).rejects.toThrow()
     })
+
+    it('should throw an exception when creating a JWT token with invalid secret key', async () => {
+        expect(() => {
+            new JwtService('', EXPIRATION_TIME, ALG)
+        }).toThrowError('Secret key must be provided')
+    })
+
+    it('should throw an exception when creating a JWT token with invalid expiration time', async () => {
+        expect(() => {
+            new JwtService(SECRET_KEY, 0, ALG)
+        }).toThrowError('Expiration time must be provided')
+    })
+
+    it('should expires in 10 seconds', async () => {
+        const jwtService = new JwtService(SECRET_KEY, 10, ALG)
+        const token = await jwtService.createToken()
+
+        setTimeout(async () => {
+            await expect(jwtService.verifyToken(token)).rejects.toThrow('Token has expired')
+        }, 10000)
+
+        // const payload = await jwtService.verifyToken(token)
+
+        // expect(payload).toBeDefined()
+        // expect(payload.exp).toBeDefined()
+        // expect(payload.iat).toBeDefined()
+    })
 })

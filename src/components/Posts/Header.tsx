@@ -44,7 +44,7 @@ const Header = () => {
                             </MyLink>
                         </li>
                         <li>
-                            <Link href="/clients/chat" className="flex items-end gap-x-2">
+                            <Link href="/clients/posts/chat" className="flex items-end gap-x-2">
                                 <ChatBubbleBottomCenterIcon className="h-8 w-8 text-secondary-foreground" />
                                 <span className={` text-secondary-foreground origin-left duration-300`}>Chat</span>
                             </Link>

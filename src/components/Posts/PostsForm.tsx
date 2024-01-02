@@ -11,8 +11,9 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { getUserLocalStorage } from '@/utils'
+import Post from '@/core/post/entity/Post'
 
 const PostsForm = () => {
     const [progress, setProgress] = useState(0)
@@ -61,12 +62,13 @@ const PostsForm = () => {
                 },
                 async () => {
                     const url = await getDownloadURL(uploadTask.snapshot.ref)
+                    const newPost = new Post({ title, content, authorId, url })
+                    const post = newPost.toObject()
+
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const docRef = await addDoc(collection(db, 'posts'), {
-                        title,
-                        content,
-                        url,
-                        authorId,
+                        ...post,
+                        createdAt: serverTimestamp(),
                     })
 
                     setProgress(0)

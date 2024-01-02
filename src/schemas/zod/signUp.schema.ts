@@ -10,6 +10,7 @@ const signUpSchema = z
             .min(8, 'Password must be more than 8 characters')
             .max(32, 'Password must be less than 32 characters'),
         passwordConfirm: z.string().min(1, 'Please confirm your password'),
+        photoURL: z.string().optional(),
     })
     .refine((data) => data.password === data.passwordConfirm, {
         path: ['passwordConfirm'],

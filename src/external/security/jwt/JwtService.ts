@@ -6,7 +6,14 @@ export default class JwtService {
     private readonly ALG: string
 
     constructor(SECRET_KEY: string, expirationTime: number, ALG: string) {
+        if (!SECRET_KEY) {
+            throw new Error('Secret key must be provided')
+        }
         this.SECRET_KEY = SECRET_KEY
+
+        if (!expirationTime || expirationTime <= 0) {
+            throw new Error('Expiration time must be provided')
+        }
         this.expirationTime = expirationTime
         this.ALG = ALG
     }
@@ -26,7 +33,13 @@ export default class JwtService {
             const verified = await jose.jwtVerify(token, new TextEncoder().encode(this.SECRET_KEY))
             return verified.payload
         } catch (error) {
-            throw new Error(`Your Jwt has expired ${error}`)
+            if (error instanceof jose.errors.JWTExpired) {
+                return null
+            } else if (error instanceof jose.errors.JWTInvalid) {
+                return null
+            }
+
+            throw error
         }
     }
 }

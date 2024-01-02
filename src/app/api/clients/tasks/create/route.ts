@@ -1,4 +1,3 @@
-import { authHeader } from '@/lib/auth'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { NextResponse } from 'next/server'
 import { connectMongoDb } from '@/external/database/connections'
@@ -12,18 +11,7 @@ export async function POST(req: Request) {
     const repositoryUser = new RepositoryUserMongo()
     const addNewTaskToUser = new AddNewTaskToUser(repositoryUser)
 
-    const isAuth = authHeader()
-    if (!isAuth) {
-        return NextResponse.json({
-            error: true,
-            message: 'Unauthorized!',
-            status: HttpStatusCode.UNAUTHORIZED,
-            data: undefined,
-        })
-    }
-
     const body = await req.json()
-    console.log(body)
     const { authorId, content, dayToFinishTheTask, task }: CreateTaskDto = body
 
     const newTask = new Task({

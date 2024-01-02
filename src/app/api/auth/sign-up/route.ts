@@ -5,6 +5,9 @@ import { CreateNewUser } from '@/core/user/services/CreateNewUser'
 import { RepositoryUserMongo } from '@/external/database/repository/user/RepositoryUserMongoose'
 import PasswordService from '@/external/security/hash/HashService'
 import { connectMongoDb } from '@/external/database/connections'
+import { ONE_WEEK_IN_MILLISECONDS, ONE_WEEK_IN_SECONDS, expirationTime } from '@/constants'
+import JwtService from '@/external/security/jwt/JwtService'
+import { getSecretKey } from '@/utils'
 
 export async function POST(req: Request) {
     try {
@@ -13,25 +16,29 @@ export async function POST(req: Request) {
         const userRepository = new RepositoryUserMongo()
         const passwordService = new PasswordService()
         const createNewUser = new CreateNewUser(userRepository)
+        const SECRET_KEY = getSecretKey()
+        const jwtService = new JwtService(SECRET_KEY, expirationTime, 'HS256')
 
-        const { email, username, password } = await req.json()
+        const { email, username, password, photoURL } = await req.json()
 
         const hashedPassword = await passwordService.hashPassword(password)
-
-        // const newUser: UserMongooseDocument = new User({
-        //     email,
-        //     username,
-        //     password: hashedPassword,
-        //     tasks: [],
-        // })
-
-        // await newUser.save()
 
         const { data, message, status } = await createNewUser.exec({
             email,
             username,
             password: hashedPassword,
+            photoURL,
         })
+
+        if (status !== HttpStatusCode.CREATED) {
+            return NextResponse.json({
+                error: true,
+                status,
+                message,
+            })
+        }
+
+        const token = await jwtService.createToken()
 
         cookies().set(
             'client-system',
@@ -40,8 +47,16 @@ export async function POST(req: Request) {
             }),
             {
                 httpOnly: true,
+                expires: new Date(Date.now() + ONE_WEEK_IN_MILLISECONDS),
+                maxAge: ONE_WEEK_IN_SECONDS,
             },
         )
+
+        cookies().set('client-session-token', token, {
+            httpOnly: true,
+            expires: new Date(Date.now() + ONE_WEEK_IN_MILLISECONDS),
+            maxAge: ONE_WEEK_IN_SECONDS,
+        })
 
         return NextResponse.json({
             message,

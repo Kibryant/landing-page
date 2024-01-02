@@ -1,7 +1,6 @@
-import { ArrowLongRightIcon, StarIcon } from '@heroicons/react/24/outline'
+import { StarIcon } from '@heroicons/react/24/outline'
 import Logo from '../Logo'
 import { MiniBox } from '../MiniBox'
-import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from './Navbar'
 
@@ -12,8 +11,8 @@ interface HeaderProps {
 
 const Header = ({ isAdm, showContent }: HeaderProps) => {
     return (
-        <header className="flex flex-col items-center gap-6 sm:px-2 py-4">
-            <div className="flex w-full">
+        <header className="flex flex-col items-center justify-center w-full  gap-y-4 sm:gap-6 sm:py-4">
+            <div className="flex w-full justify-between">
                 <Logo />
                 <Navbar />
             </div>
@@ -30,30 +29,15 @@ const Header = ({ isAdm, showContent }: HeaderProps) => {
                             className="-right-32 rotate-180 top-[700px] absolute z-[-999] dark:hidden"
                         />
                         <div className="w-full items-center max-w-7xl flex flex-col gap-10">
-                            <div className="flex flex-col justify-center items-center gap-2 px-2">
+                            <div className="flex flex-col sm:justify-center items-start sm:items-center gap-2 px-2">
                                 <MiniBox text="Arthur's" Icon={StarIcon} />
-                                <h1 className="text-5xl font-bold">
+                                <h1 className="text-5xl font-bold text-left sm:text-center">
                                     This is my first <span className="text-primary">Portfolio</span>
                                 </h1>
-                                <p className="text-center max-w-xl">
+                                <p className="text-left sm:text-center max-w-xl">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, nam similique odit,
                                     aliquam repudiandae saepe
                                 </p>
-                                <div className="flex flex-col gap-2 w-full max-w-xs">
-                                    <Link
-                                        href="/accounts/sign-up"
-                                        className="w-full py-2 text-secondary hover:bg-primary/90 dark:text-white px-3 bg-primary font-bold uppercase rounded-xl"
-                                    >
-                                        Get started
-                                    </Link>
-                                    <Link
-                                        href="/accounts/sign-in"
-                                        className="text-primary bg-secondary hover:bg-primary/10 rounded-xl shadow-lg py-2 px-3 flex gap-1 font-bold"
-                                    >
-                                        <span>Explore</span>
-                                        <ArrowLongRightIcon className="w-6 h-6" />
-                                    </Link>
-                                </div>
                             </div>
                             <div className="-m-2 rounded-lg bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounde-xl lg:p-4">
                                 <Image

@@ -4,6 +4,7 @@ import { ChatBubbleLeftIcon, EllipsisHorizontalIcon, HeartIcon, PaperAirplaneIco
 import { SplitSquareVerticalIcon } from 'lucide-react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { format } from 'date-fns'
 
 interface PostsListProps {
     posts: Post[]
@@ -68,6 +69,12 @@ const PostsLists = ({ posts }: PostsListProps) => {
                             className="flex h-10 w-full rounded-md bg-transparent text-sm file:font-medium placeholder:text-secondary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="Add a comment..."
                         />
+                        <p>
+                            {format(
+                                new Date(post.createdAt.seconds * 1000 + post.createdAt.nanoseconds / 1000000),
+                                'dd/MM/yyyy HH:mm:ss',
+                            )}
+                        </p>
                     </div>
                 </div>
             ))}

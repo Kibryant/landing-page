@@ -21,13 +21,14 @@
 - [x] fix the api/clients/tasks/
 - [ ] using vitest
 - [ ] using cypress
+- [ ] refactoring everthing kkjjk fvkc
 
 ## Other versions
 - [x] use docker
 - [x] use LocalStorage
 - [ ] create an API with NestJS
 - [ ] use nginx?
-- [ ] animations
+- [x] animations
 - [ ] use graphql
 - [ ] microservices
 

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import connect from '@/core/db'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
-import { getSecretKey } from '@/lib/auth'
 import Admin from '@/core/admin/model/Admin'
 import { GetAdminByEmail } from '@/core/admin/services/GetAdminByEmail'
 import { RepositoryAdminMongo } from '@/external/database/repository/admin/RepositoryAdminMongo'
@@ -9,6 +8,7 @@ import PasswordService from '@/external/security/hash/HashService'
 import JwtService from '@/external/security/jwt/JwtService'
 import { expirationTime } from '@/constants'
 import { UpdateAdmin } from '@/core/admin/services/UpdateAdmin'
+import { getSecretKey } from '@/utils'
 
 export async function POST(req: Request) {
     try {

@@ -10,6 +10,7 @@ export interface UserFriend {
 export default interface User {
     _id?: string
     username: string
+    photoURL?: string
     email: string
     password: string
     tasks?: Task[]

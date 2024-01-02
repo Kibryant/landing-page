@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
     await connectMongoDb()
+
     const repositoryUser = new RepositoryUserMongo()
     const getAllUsers = new GetAllUsers(repositoryUser)
 
