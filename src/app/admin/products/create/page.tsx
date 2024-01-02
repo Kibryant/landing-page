@@ -1,7 +1,7 @@
 'use client'
 
 import { Section } from '@/components/Section'
-import { type ProductSchemaProps, productSchema } from '@/schemas/productSchema'
+import { type ProductSchemaProps, productSchema } from '@/schemas/zod/productSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'

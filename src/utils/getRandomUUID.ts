@@ -1,5 +1,5 @@
 import * as cryptoServer from 'crypto'
-import { randomUUID } from 'node:crypto'
+import { randomUUID } from 'crypto'
 
 function getRandomUUID() {
     if (typeof window === 'undefined') {

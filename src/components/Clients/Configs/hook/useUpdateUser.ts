@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { UserMongooseDocument } from '@/types/UserMongooseDocument'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UpdateUserSchemaInput, updateUserSchema } from '@/schemas/updateUserSchema'
+import { UpdateUserSchemaInput, updateUserSchema } from '@/schemas/zod/updateUserSchema'
 import { HttpStatusCode } from '@/types/HttpStatusCode'
 import { useState } from 'react'
 import { localstorage } from '@/utils'

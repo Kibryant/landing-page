@@ -3,14 +3,12 @@ import { NextResponse } from 'next/server'
 import JwtService from './external/security/jwt/JwtService'
 import { getSecretKey } from './utils'
 import { expirationTime } from './constants'
-import { HttpStatusCode } from './types/HttpStatusCode'
 
 export async function middleware(req: NextRequest) {
     const url = req.url
     const jwtService = new JwtService(getSecretKey(), expirationTime, 'HS256')
     const token = req.cookies.get('client-session-token')?.value
     const isTokenValid = !!token && (await jwtService.verifyToken(token))
-    const response = NextResponse.next()
 
     if (req.nextUrl.pathname.startsWith('/clients') && !isTokenValid) {
         return NextResponse.redirect(new URL('/accounts/sign-in', url))

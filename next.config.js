@@ -19,6 +19,14 @@ const nextConfig = {
             },
         ],
     },
+    // webpack: (config, { webpack }) => {
+    //     // Note: we provide webpack above so you should not `require` it
+    //     // Perform customizations to webpack config
+    //     config.plugins.push(new webpack.IgnorePlugin(/\/__test__\//))
+
+    //     // Important: return the modified config
+    //     return config
+    // },
     // webpack: (config, { isServer }) => {
     //     if (!isServer) {
     //         config.module.ignored = [...(config.module.ignored || []), /__test__/]
