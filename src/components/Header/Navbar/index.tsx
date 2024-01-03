@@ -1,6 +1,7 @@
 'use client'
 
 import { ModeToggle } from '@/components/DropdownTheme'
+import { MyLink } from '@/components/MyLink'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -8,7 +9,7 @@ import { useState } from 'react'
 
 const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false)
-    const userPath = usePathname()
+    const pathname = usePathname()
 
     function toggleNavbar() {
         setShowNavbar(!showNavbar)
@@ -16,10 +17,13 @@ const Navbar = () => {
     return (
         <div className="relative flex items-center ms-10 justify-end md:justify-between w-full">
             <div className="items-center justify-between hidden gap-8 md:flex">
-                <Link href="/">Product</Link>
-                <Link href="/">Features</Link>
-                <Link href="/">Pricing</Link>
-                <Link href="/">Company</Link>
+                <Link
+                    href="/about" // eslint-disable-next-line prettier/prettier
+                    className={`text-secondary-foreground origin-left duration-300 ${pathname === '/about' && 'text-secondary-foreground font-bold'
+                        // eslint-disable-next-line prettier/prettier
+                        }`}>
+                    About
+                </Link>
             </div>
             <div className="items-center hidden gap-3 md:flex">
                 <ModeToggle />
@@ -57,14 +61,14 @@ const Navbar = () => {
             >
                 <ul className="flex flex-col gap-y-3">
                     <li>
-                        <Link href="/" className={`hover:text-primary text-lg ${userPath === '/' && 'text-primary'}`}>
+                        <Link href="/" className={`hover:text-primary text-lg ${pathname === '/' && 'text-primary'}`}>
                             Home
                         </Link>
                     </li>
                     <li>
                         <Link
                             href="/dashboard"
-                            className={`hover:text-primary text-lg ${userPath === '/dashboard' && 'text-primary'}`}
+                            className={`hover:text-primary text-lg ${pathname === '/about' && 'text-primary'}`}
                         >
                             Dashboard
                         </Link>
@@ -72,7 +76,7 @@ const Navbar = () => {
                     <li>
                         <Link
                             href="/products"
-                            className={`hover:text-primary text-lg ${userPath === '/products' && 'text-primary'}`}
+                            className={`hover:text-primary text-lg ${pathname === '/products' && 'text-primary'}`}
                         >
                             Products
                         </Link>
@@ -80,7 +84,7 @@ const Navbar = () => {
                     <li>
                         <Link
                             href="/chat/ia"
-                            className={`hover:text-primary text-lg ${userPath === '/chat/ia' && 'text-primary'}`}
+                            className={`hover:text-primary text-lg ${pathname === '/chat/ia' && 'text-primary'}`}
                         >
                             ChatAi
                         </Link>
