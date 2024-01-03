@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "test": "jest",
-        "test:watch": "jest --watchAll --verbose --collectCoverage"
+        "test:watch": "jest --watchAll --verbose --collectCoverage",
+        "vercel-build": "prisma generate && prisma migrate deploy && next build"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.2",

@@ -1,44 +1,51 @@
-services:
-  app:
-    image: openai-demo-app
-    build:
-      context: ./
-      target: dev
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
-    environment:
-      MONGODB_URI: mongodb+srv://arthurgustavon:arthurgustavon@cluster1.mylyiaz.mongodb.net/auth?retryWrites=true&w=majority
-    env_file:
-      - .env
-      - .env.local
-    ports:
-      - "3000:3000"
-  postgres:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_USER: postgresql
-      POSTGRES_PASSWORD: postgresql
-      POSTGRES_DB: postgresql
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-  postgres_tests:
-    image: postgres:latest
-    restart: always
-    container_name: test_postgres
-    ports:
-      - "5455:5432"
-    environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: test
-      POSTGRES_DB: test
-    volumes:
-      - pgdata_tests:/var/lib/postgresql/data
-volumes:
-  pgdata:
-  pgdata_tests:
+# @TODO
+
+# services:
+#   app:
+#     image: openai-demo-app
+#     build:
+#       context: ./
+#       target: dev
+#       dockerfile: Dockerfile
+#     volumes:
+#       - .:/app
+#       - /app/node_modules
+#       - /app/.next
+#     environment:
+#       MONGODB_URI: mongodb+srv://arthurgustavon:arthurgustavon@cluster1.mylyiaz.mongodb.net/auth?retryWrites=true&w=majority
+#     env_file:
+#       - .env
+#       - .env.local
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - postgres
+#   postgres:
+#     image: postgres:15-alpine
+#     restart: always
+#     ports:
+#       - "5433:5432"
+#     environment:
+#       POSTGRES_USER: postgresql
+#       POSTGRES_PASSWORD: postgresql
+#       POSTGRES_DB: postgresql
+#       POSTGRES_HOST_AUTH_METHOD: trust
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#   postgres_tests:
+#     image: postgres:latest
+#     restart: always
+#     container_name: test_postgres
+#     ports:
+#       - "5455:5432"
+#     environment:
+#       POSTGRES_USER: test
+#       POSTGRES_PASSWORD: test
+#       POSTGRES_DB: test
+#     volumes:
+#       - pgdata_tests:/var/lib/postgresql/data
+# volumes:
+#   pgdata:
+#   pgdata_tests:
+
+
